@@ -41,6 +41,14 @@ public class @Control : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""DestroyObj"",
+                    ""type"": ""Button"",
+                    ""id"": ""6b35dd9d-fff2-4736-a91a-73fa84518ba1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -120,6 +128,17 @@ public class @Control : IInputActionCollection, IDisposable
                     ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad3ab7e4-7e8a-465d-a5a7-253f604e105a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DestroyObj"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -131,6 +150,7 @@ public class @Control : IInputActionCollection, IDisposable
         m_Player_MoveX = m_Player.FindAction("MoveX", throwIfNotFound: true);
         m_Player_MoveY = m_Player.FindAction("MoveY", throwIfNotFound: true);
         m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
+        m_Player_DestroyObj = m_Player.FindAction("DestroyObj", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,6 +203,7 @@ public class @Control : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_MoveX;
     private readonly InputAction m_Player_MoveY;
     private readonly InputAction m_Player_Mouse;
+    private readonly InputAction m_Player_DestroyObj;
     public struct PlayerActions
     {
         private @Control m_Wrapper;
@@ -190,6 +211,7 @@ public class @Control : IInputActionCollection, IDisposable
         public InputAction @MoveX => m_Wrapper.m_Player_MoveX;
         public InputAction @MoveY => m_Wrapper.m_Player_MoveY;
         public InputAction @Mouse => m_Wrapper.m_Player_Mouse;
+        public InputAction @DestroyObj => m_Wrapper.m_Player_DestroyObj;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -208,6 +230,9 @@ public class @Control : IInputActionCollection, IDisposable
                 @Mouse.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouse;
                 @Mouse.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouse;
                 @Mouse.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouse;
+                @DestroyObj.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDestroyObj;
+                @DestroyObj.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDestroyObj;
+                @DestroyObj.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDestroyObj;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -221,6 +246,9 @@ public class @Control : IInputActionCollection, IDisposable
                 @Mouse.started += instance.OnMouse;
                 @Mouse.performed += instance.OnMouse;
                 @Mouse.canceled += instance.OnMouse;
+                @DestroyObj.started += instance.OnDestroyObj;
+                @DestroyObj.performed += instance.OnDestroyObj;
+                @DestroyObj.canceled += instance.OnDestroyObj;
             }
         }
     }
@@ -230,5 +258,6 @@ public class @Control : IInputActionCollection, IDisposable
         void OnMoveX(InputAction.CallbackContext context);
         void OnMoveY(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
+        void OnDestroyObj(InputAction.CallbackContext context);
     }
 }
