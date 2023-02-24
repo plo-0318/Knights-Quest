@@ -33,7 +33,7 @@ public class PlayerDirectionArrow : MonoBehaviour
         float angle = AngleBetweenPoints(transform.position, mouseWorldPosition);
          
         //rotate object towards mouse
-        transform.rotation =  Quaternion.Euler (new Vector3(0f,0f,angle));
+        transform.rotation =  Quaternion.Euler (new Vector3(0f,0f,angle + 90));
     }
 
     float AngleBetweenPoints(Vector3 a, Vector3 b) {
