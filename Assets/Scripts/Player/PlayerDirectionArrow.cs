@@ -20,11 +20,23 @@ public class PlayerDirectionArrow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Debug.Log("mouse pos: " + Camera.main.ScreenToWorldPoint(gatherInput.mousePos));
+        Debug.Log("mouse pos: " + Camera.main.ScreenToWorldPoint(gatherInput.mousePos));
         // Debug.Log("player pos: " + playerTrans.position);
 
         Rotate();
     }
 
-    private void Rotate() { }
+    private void Rotate() { 
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(gatherInput.mousePos); //+ Vector3.forward * 10f);
+         
+        //angle between mouse position and object
+        float angle = AngleBetweenPoints(transform.position, mouseWorldPosition);
+         
+        //rotate object towards mouse
+        transform.rotation =  Quaternion.Euler (new Vector3(0f,0f,angle));
+    }
+
+    float AngleBetweenPoints(Vector3 a, Vector3 b) {
+        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+    }
 }
