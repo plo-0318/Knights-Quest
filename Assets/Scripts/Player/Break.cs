@@ -13,16 +13,10 @@ public class Break : MonoBehaviour
         Destroy(gameObject, 5);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnDestroy() {
         int random = UnityEngine.Random.Range(1, MaxValue);
         if (random == 1) {
-            Debug.Log("Potion should go off");
+            Debug.Log("Potion Spawn");
             GameObject newPotion = Instantiate(potion, transform.position, Quaternion.identity);
             newPotion.SetActive(true);
         }
