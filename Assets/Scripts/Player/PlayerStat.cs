@@ -9,18 +9,48 @@ public class PlayerStat : MonoBehaviour
         projectileSpeed,
         damage;
 
-    private List<Skill> skills;
+    private Dictionary<string, Skill> skills;
+    private const int NUM_SKILLS = 10;
+
+    private void Awake()
+    {
+        GameManager.RegisterPlayerStat(this);
+    }
 
     private void Start()
     {
-        skills = new List<Skill>();
+        skills = new Dictionary<string, Skill>();
     }
 
     private void Update()
     {
-        foreach (Skill skill in skills)
+        foreach (KeyValuePair<string, Skill> kvp in skills)
         {
-            skill.use();
+            kvp.Value.Use();
         }
     }
+
+    public void AssignSkill(Skill skillToAdd)
+    {
+        // If player has not learned this skill, add it
+        if (!skills.TryGetValue(skillToAdd.name, out Skill skill))
+        {
+            skills.Add(skillToAdd.name, skillToAdd);
+        }
+        // else level up this skill
+        else
+        {
+            skill.Upgrade();
+        }
+    }
+
+    public Dictionary<string, Skill> GetSkills()
+    {
+        return skills;
+    }
+
+    // public bool HasSkill(string name)
+    // {
+    //     return skills.ContainsKey(name);
+    // }
 }
