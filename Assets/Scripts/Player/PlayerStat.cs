@@ -26,7 +26,7 @@ public class PlayerStat : MonoBehaviour
     {
         foreach (KeyValuePair<string, Skill> kvp in skills)
         {
-            kvp.Value.use();
+            kvp.Value.Use();
         }
     }
 
@@ -40,7 +40,7 @@ public class PlayerStat : MonoBehaviour
         // else level up this skill
         else
         {
-            skill.upgrade();
+            skill.Upgrade();
         }
     }
 

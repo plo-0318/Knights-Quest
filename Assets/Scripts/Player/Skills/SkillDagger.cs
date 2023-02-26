@@ -28,9 +28,9 @@ public class SkillDagger : Skill
         speed = 8f;
     }
 
-    public override void upgrade()
+    public override void Upgrade()
     {
-        base.upgrade();
+        base.Upgrade();
 
         if (level == 2)
         {
@@ -54,7 +54,7 @@ public class SkillDagger : Skill
         }
     }
 
-    public override void use()
+    public override void Use()
     {
         if (cooldownTimer <= 0)
         {

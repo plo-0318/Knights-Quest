@@ -8,7 +8,7 @@ abstract public class Skill
 
     protected int level;
 
-    public virtual void upgrade()
+    public virtual void Upgrade()
     {
         if (level >= 5)
         {
@@ -18,7 +18,7 @@ abstract public class Skill
         level++;
     }
 
-    public virtual void use() { }
+    public virtual void Use() { }
 
     public int Level()
     {
