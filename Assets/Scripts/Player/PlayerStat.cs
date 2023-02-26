@@ -9,9 +9,14 @@ public class PlayerStat : MonoBehaviour
         projectileSpeed,
         damage;
 
-    private Skill[] skills;
+    private List<Skill> skills;
 
-    void Update()
+    private void Start()
+    {
+        skills = new List<Skill>();
+    }
+
+    private void Update()
     {
         foreach (Skill skill in skills)
         {
