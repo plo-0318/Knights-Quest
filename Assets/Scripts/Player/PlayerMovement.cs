@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
         {
             cd.Follow(transform);
         }
+
+        GameManager.RegisterPlayerMovement(this);
     }
 
     private void Start()
