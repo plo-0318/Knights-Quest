@@ -5,7 +5,7 @@ using UnityEngine;
 public class Break : MonoBehaviour
 {
     public GameObject potion;
-    public int MaxValue;
+    public int spawnChance;
 
     // Start is called before the first frame update
     void Start()
@@ -14,11 +14,11 @@ public class Break : MonoBehaviour
     }
 
     private void OnDestroy() {
-        int random = UnityEngine.Random.Range(1, MaxValue);
+        //Potion spawn chance is based on  1-spawnChance
+        int random = UnityEngine.Random.Range(1, spawnChance);
         if (random == 1) {
             Debug.Log("Potion Spawn");
-            GameObject newPotion = Instantiate(potion, transform.position, Quaternion.identity);
-            newPotion.SetActive(true);
+            Instantiate(potion, transform.position, Quaternion.identity);
         }
     }
    
