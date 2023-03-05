@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8138ac1a78effb147a75701ce3e0bc10, type: 3}
   m_Name: Test Level Detail
   m_EditorClassIdentifier: 
-  levelEnemyDetail: []
+  levelEnemyDetails:
+  - {fileID: 11400000, guid: d8f0e49404c91ee4890b254620d5363a, type: 2}
+  - {fileID: 11400000, guid: 9a4dbd6c90b2c2e4f8a2b061443243d3, type: 2}

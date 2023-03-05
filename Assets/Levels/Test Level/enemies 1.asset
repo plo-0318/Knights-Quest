@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42fe763970e8cf4b9cbc90ee500c925, type: 3}
   m_Name: enemies 1
   m_EditorClassIdentifier: 
-  timeToSpawn: 60
-  enemiesToSpawn: []
+  spawnDuration: 10
+  enemiesToSpawn:
+  - {fileID: 1993816840659276434, guid: b1fd296878f8b7540935d21ef1319205, type: 3}
