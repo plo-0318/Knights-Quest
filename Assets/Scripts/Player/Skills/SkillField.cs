@@ -23,6 +23,7 @@ public class SkillField : Skill
 
     }
 
+
     public override void Upgrade()
     {
         base.Upgrade();
@@ -36,13 +37,17 @@ public class SkillField : Skill
         if(level == 3)
         {
             damage = BASE_DAMAGE * 3f;
-           size = BASE_SIZE * 1.25f;
+           size = BASE_SIZE * 2f;
         }
 
         if(level == 4)
         {
             damage = BASE_DAMAGE * 4f;
-            size = BASE_SIZE * 1.25f;
+            size = BASE_SIZE * 3f;
     }
+}
+public void FieldMove(){
+    //Compare tags to get field to move with player
+
 }
 }
