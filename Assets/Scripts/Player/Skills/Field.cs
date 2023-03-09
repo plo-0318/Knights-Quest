@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Field : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+ 
+  private float damage;
+
+  private float size;
+
+   public void Init(float damage, float size)
     {
-        
+        this.damage = damage;
+        this.size = size;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
