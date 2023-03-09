@@ -7,6 +7,7 @@ public class Field : MonoBehaviour
  
   private float damage;
 
+[SerializeField]
   private float size;
 
    public void Init(float damage, float size)

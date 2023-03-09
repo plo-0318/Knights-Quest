@@ -5,6 +5,7 @@ using UnityEngine;
 public class SkillField : Skill
 {
     private GameObject Field;
+    [SerializeField] public GameObject Player;
     private const float BASE_DAMAGE = 1f;
     private  Vector2 BASE_SIZE = new Vector2(4f,4f);
     private float damage;
@@ -46,8 +47,11 @@ public class SkillField : Skill
             size = BASE_SIZE * 3f;
     }
 }
-public void FieldMove(){
-    //Compare tags to get field to move with player
-
+private void OnTriggerEnter2D(Collider2D other)
+{
+    if(other.CompareTag("Player"))
+    {
+        other.transform.parent = Player.transform;
+    }
 }
 }

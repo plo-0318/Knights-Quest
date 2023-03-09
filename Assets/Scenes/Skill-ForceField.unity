@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d22277f797168498076bc8aab53eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size: 0
 --- !u!114 &1287381658660179998
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1228,19 +1229,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4957177886446076868, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.8
+      value: 3.7183
       objectReference: {fileID: 0}
     - target: {fileID: 4957177886446076868, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 4
+      value: 3.7176
       objectReference: {fileID: 0}
     - target: {fileID: 4957177886446076868, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.9923
+      value: 9.0127
       objectReference: {fileID: 0}
     - target: {fileID: 4957177886446076868, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.6591
+      value: -10.7297
       objectReference: {fileID: 0}
     - target: {fileID: 4957177886446076868, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1273,6 +1274,22 @@ PrefabInstance:
     - target: {fileID: 4957177886446076868, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842382251251709447, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
+      propertyPath: m_Radius
+      value: 0.054885745
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842382251251709447, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0018615472
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842382251251709447, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.022326097
+      objectReference: {fileID: 0}
+    - target: {fileID: 8842382251251709447, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da55c3dc5dfcd6143bf2fdb64756de3e, type: 3}
