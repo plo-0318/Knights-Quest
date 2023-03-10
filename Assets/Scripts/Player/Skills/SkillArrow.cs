@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillArrow : MonoBehaviour
+public class SkillArrow : Skill
 {
     private GameObject arrow;
     private float cooldownTimer;

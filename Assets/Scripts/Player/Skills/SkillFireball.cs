@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillFireball : MonoBehaviour
+public class SkillFireball : Skill
 {
     private GameObject fireball;
     private float cooldownTimer;

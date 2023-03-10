@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillRepellentField : MonoBehaviour
+public class SkillRepellentField : Skill
 {
     private GameObject repellent;
     private float cooldownTimer;

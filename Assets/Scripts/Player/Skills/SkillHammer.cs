@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillHammer : MonoBehaviour
+public class SkillHammer : Skill
 {
     private GameObject hammer;
     private float cooldownTimer;
