@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillRepellentField : MonoBehaviour
 {
-    private GameObject fireball;
+    private GameObject repellent;
     private float cooldownTimer;
     private float cooldownTime;
 
@@ -14,10 +14,10 @@ public class SkillRepellentField : MonoBehaviour
     private float damage,
         speed;
 
-    public SkillDagger()
+    public SkillRepellentField()
     {
-        name = "Fireball";
-        dagger = Resources.Load<GameObject>("fireball");
+        name = "RepellentField";
+        repellent = Resources.Load<GameObject>("repellentField");
 
         level = 1;
 
@@ -71,33 +71,33 @@ public class SkillRepellentField : MonoBehaviour
         float playerPosXOffset = .6f,
             playerPosYOffset = .6f;
 
-        SpawnFireball(new Vector2(0, playerPosYOffset), 0, Vector2.up);
-        SpawnFireball(new Vector2(-playerPosXOffset, 0), 90, Vector2.left);
-        SpawnFireball(new Vector2(0, -playerPosYOffset), 180, Vector2.down);
-        SpawnFireball(new Vector2(playerPosXOffset, 0), 270, Vector2.right);
+        SpawnRepellentField(new Vector2(0, playerPosYOffset), 0, Vector2.up);
+        SpawnRepellentField(new Vector2(-playerPosXOffset, 0), 90, Vector2.left);
+        SpawnRepellentField(new Vector2(0, -playerPosYOffset), 180, Vector2.down);
+        SpawnRepellentField(new Vector2(playerPosXOffset, 0), 270, Vector2.right);
 
         if (level == 5)
         {
             // Top left
-            SpawnFireball(
+            SpawnRepellentField(
                 new Vector2(-playerPosXOffset, playerPosYOffset),
                 45,
                 (Vector2.up + Vector2.left).normalized
             );
             // Bottom left
-            SpawnFireball(
+            SpawnRepellentField(
                 new Vector2(-playerPosXOffset, -playerPosYOffset),
                 135,
                 (Vector2.down + Vector2.left).normalized
             );
             // Bottom right
-            SpawnFireball(
+            SpawnRepellentField(
                 new Vector2(playerPosXOffset, -playerPosYOffset),
                 225,
                 (Vector2.down + Vector2.right).normalized
             );
             // Top right
-            SpawnFireball(
+            SpawnRepellentField(
                 new Vector2(playerPosXOffset, playerPosYOffset),
                 315,
                 (Vector2.up + Vector2.right).normalized
@@ -107,25 +107,25 @@ public class SkillRepellentField : MonoBehaviour
         cooldownTimer = cooldownTime;
     }
 
-    private GameObject SpawnFireball(Vector2 offset, float zRotation, Vector2 velocity)
+    private GameObject SpawnRepellentField(Vector2 offset, float zRotation, Vector2 velocity)
     {
         Vector2 playerPos = GameManager.PlayerMovement().transform.position;
 
         float playerPosBaseOffset = -.2f;
         playerPos.y += playerPosBaseOffset;
 
-        GameObject spawnedFireball = GameObject.Instantiate(
-            fireball,
+        GameObject spawnedRepellentField = GameObject.Instantiate(
+            repellent,
             new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
             Quaternion.identity
         );
 
         float baseRotation = 45f;
 
-        spawnedFireball.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
+        spawnedRepellentField.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
 
-        spawnedFireball.GetComponent<Fireball>().Init(damage, velocity * speed);
+        spawnedRepellentField.GetComponent<RepellentField>().Init(damage, velocity * speed);
 
-        return spawnedFireball;
+        return spawnedRepellentField;
     }
 }
