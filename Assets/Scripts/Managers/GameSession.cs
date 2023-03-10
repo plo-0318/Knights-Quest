@@ -18,13 +18,20 @@ public class GameSession : MonoBehaviour
     ////////////// Spawning Enemy //////////////
     [Header("Enemy")]
     [SerializeField]
-    private int maxEnemyCount = 50;
-    public event Action<Enemy> SpawnEnemy;
+    private int maxEnemyPerWave = 30;
+
+    [SerializeField]
+    private int maxEnemyTotal = 100;
+
+    [SerializeField]
+    private float timeBetweenWaves = 15f;
+    public event Action<Enemy> OnSpawnEnemy;
     public event Action OnKillAllEnemies;
     private int enemyCount;
     private bool canSpawnEnemy;
 
-    private float enemySpawnTimer;
+    private float enemySpawnTimer,
+        spawnWaveTimer;
     private int currentEnemyListIndex,
         currentEnemyIndex;
 
@@ -41,6 +48,7 @@ public class GameSession : MonoBehaviour
     private void Start()
     {
         timer = enemySpawnTimer = 0f;
+        spawnWaveTimer = timeBetweenWaves;
         enemyCount = 0;
         canSpawnEnemy = false;
         currentEnemyListIndex = currentEnemyIndex = 0;
@@ -51,12 +59,8 @@ public class GameSession : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
-        enemySpawnTimer += Time.deltaTime;
 
-        if (canSpawnEnemy && enemyCount < maxEnemyCount)
-        {
-            SpawnEnemy?.Invoke(EnemyToSpawn());
-        }
+        SpawnEnemy();
     }
 
     private void FixedUpdate()
@@ -90,6 +94,29 @@ public class GameSession : MonoBehaviour
         timerStr += seconds.ToString();
 
         return timerStr;
+    }
+
+    private void SpawnEnemy()
+    {
+        if (!canSpawnEnemy)
+        {
+            return;
+        }
+
+        enemySpawnTimer += Time.deltaTime;
+        spawnWaveTimer -= Time.deltaTime;
+
+        if (enemyCount < maxEnemyPerWave)
+        {
+            OnSpawnEnemy?.Invoke(EnemyToSpawn());
+        }
+
+        if (spawnWaveTimer <= 0 && enemyCount <= maxEnemyTotal - maxEnemyPerWave)
+        {
+            OnSpawnEnemy?.Invoke(EnemyToSpawn());
+
+            spawnWaveTimer = timeBetweenWaves;
+        }
     }
 
     private Enemy EnemyToSpawn()
