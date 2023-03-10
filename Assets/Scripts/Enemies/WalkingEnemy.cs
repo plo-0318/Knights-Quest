@@ -11,12 +11,15 @@ public class WalkingEnemy : Enemy
     {
         base.FixedUpdate();
 
-        rb.velocity = Vector2.zero;
+        Move();
+    }
 
-        transform.position = Vector2.MoveTowards(
-            transform.position,
-            playerTrans.position,
-            Time.deltaTime * speed
+    private void Move()
+    {
+        Vector2 direction = playerTrans.position - transform.position;
+
+        rb.MovePosition(
+            (Vector2)transform.position + (direction.normalized * Time.deltaTime * speed)
         );
     }
 }
