@@ -344,7 +344,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c3f555f5c01e34b84a443d91c76f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
 --- !u!114 &7536766102812715272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,6 +356,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9316c4e70eac04ea765a2dc2c314c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseHealth: 100
+  baseDamage: 1
+  baseSpeed: 5
+  baseProjectileSpeed: 1
 --- !u!1 &7536766102928805697
 GameObject:
   m_ObjectHideFlags: 0

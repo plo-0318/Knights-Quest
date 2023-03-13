@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     protected GameSession gameSession;
     protected Transform playerTrans;
     protected Rigidbody2D rb;
+    protected Stat _stat;
 
-    protected virtual void Awake() { }
+    protected virtual void Awake()
+    {
+        _stat = new Stat();
+    }
 
     protected virtual void Start()
     {
@@ -16,8 +20,9 @@ public class Enemy : MonoBehaviour
         playerTrans = GameManager.PlayerMovement().transform;
         rb = GetComponent<Rigidbody2D>();
 
-        gameSession.OnEnemySpawn();
+        gameSession.OnEnemySpawn(this);
         gameSession.OnKillAllEnemies += ProcessDeath;
+        gameSession.OnRemoveModifier += stat.RemoveModifier;
     }
 
     protected virtual void FixedUpdate()
@@ -27,8 +32,9 @@ public class Enemy : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
-        gameSession.OnEnemyDestroy();
+        gameSession.OnEnemyDestroy(this);
         gameSession.OnKillAllEnemies -= ProcessDeath;
+        gameSession.OnRemoveModifier -= stat.RemoveModifier;
     }
 
     protected void Flip()
@@ -46,4 +52,11 @@ public class Enemy : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public virtual void Init(Modifier[] modifiers)
+    {
+        Stat.ApplyModifiers(_stat, modifiers);
+    }
+
+    public Stat stat => _stat;
 }

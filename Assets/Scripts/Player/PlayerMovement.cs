@@ -8,8 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     [SerializeField]
-    private float moveSpeed = 4f;
-    private const float DEFAULT_MOVE_SPEED_MULTIPLYER = 50f;
+    private Stat stat;
 
     private void Awake()
     {
@@ -27,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     {
         gatherInput = GetComponent<GatherInput>();
         rb = GetComponent<Rigidbody2D>();
+        stat = GetComponent<PlayerStat>().stat;
     }
 
     private void Update() { }
@@ -41,6 +41,6 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 movement = new Vector2(gatherInput.moveValueX, gatherInput.moveValueY).normalized;
 
-        rb.velocity = movement * Time.deltaTime * moveSpeed * DEFAULT_MOVE_SPEED_MULTIPLYER;
+        rb.velocity = movement * Time.deltaTime * stat.GetStat(Stat.Type.speed);
     }
 }

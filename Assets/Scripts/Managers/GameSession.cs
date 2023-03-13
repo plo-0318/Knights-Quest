@@ -8,12 +8,18 @@ public class GameSession : MonoBehaviour
 {
     private float timer;
 
+    [SerializeField]
+    private TextMeshProUGUI timerText;
+
+    /////////////// Level Detail ///////////////
+
     [Header("Level")]
     [SerializeField]
     private LevelDetail levelDetail;
+    private Modifier[] enemyModifiers;
 
-    [SerializeField]
-    private TextMeshProUGUI timerText;
+    ////////////// ////////////// //////////////
+
 
     ////////////// Spawning Enemy //////////////
     [Header("Enemy")]
@@ -25,9 +31,10 @@ public class GameSession : MonoBehaviour
 
     [SerializeField]
     private float timeBetweenWaves = 15f;
-    public event Action<Enemy> OnSpawnEnemy;
+    public event Action<Enemy, Modifier[]> OnSpawnEnemy;
     public event Action OnKillAllEnemies;
-    private int enemyCount;
+    public event Action<Modifier> OnRemoveModifier;
+    private HashSet<Enemy> enemyRefs;
     private bool canSpawnEnemy;
 
     private float enemySpawnTimer,
@@ -40,6 +47,7 @@ public class GameSession : MonoBehaviour
     ////////////// ////////////// //////////////
 
 
+
     private void Awake()
     {
         GameManager.RegisterGameSession(this);
@@ -49,10 +57,22 @@ public class GameSession : MonoBehaviour
     {
         timer = enemySpawnTimer = 0f;
         spawnWaveTimer = timeBetweenWaves;
-        enemyCount = 0;
+        enemyRefs = new HashSet<Enemy>();
         canSpawnEnemy = false;
         currentEnemyListIndex = currentEnemyIndex = 0;
 
+        enemyModifiers = null;
+        if (levelDetail.enemyModifiers.Length > 0)
+        {
+            enemyModifiers = levelDetail.enemyModifiers;
+
+            for (int i = 0; i < enemyModifiers.Length; i++)
+            {
+                enemyModifiers[i].id = gameObject.GetInstanceID();
+            }
+        }
+
+        // TODO: delete this test function
         Invoke("TEST_StartSpawn", 3f);
     }
 
@@ -106,14 +126,14 @@ public class GameSession : MonoBehaviour
         enemySpawnTimer += Time.deltaTime;
         spawnWaveTimer -= Time.deltaTime;
 
-        if (enemyCount < maxEnemyPerWave)
+        if (enemyRefs.Count < maxEnemyPerWave)
         {
-            OnSpawnEnemy?.Invoke(EnemyToSpawn());
+            OnSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
         }
 
-        if (spawnWaveTimer <= 0 && enemyCount <= maxEnemyTotal - maxEnemyPerWave)
+        if (spawnWaveTimer <= 0 && enemyRefs.Count <= maxEnemyTotal - maxEnemyPerWave)
         {
-            OnSpawnEnemy?.Invoke(EnemyToSpawn());
+            OnSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
 
             spawnWaveTimer = timeBetweenWaves;
         }
@@ -127,38 +147,45 @@ public class GameSession : MonoBehaviour
         {
             enemySpawnTimer = 0;
 
-            if (currentEnemyIndex + 1 < levelDetail.levelEnemyDetails.Count)
+            if (currentEnemyIndex + 1 < levelDetail.levelEnemyDetails.Length)
             {
                 currentEnemyListIndex++;
                 currentEnemyIndex = 0;
             }
         }
 
-        List<Enemy> enemies = levelDetail.levelEnemyDetails[currentEnemyListIndex].enemiesToSpawn;
+        Enemy[] enemies = levelDetail.levelEnemyDetails[currentEnemyListIndex].enemiesToSpawn;
 
         Enemy enemy = enemies[currentEnemyIndex];
 
-        currentEnemyIndex = ++currentEnemyIndex < enemies.Count ? currentEnemyIndex : 0;
+        currentEnemyIndex = ++currentEnemyIndex < enemies.Length ? currentEnemyIndex : 0;
 
         return enemy;
     }
 
-    public int EnemyCount => enemyCount;
+    public int EnemyCount => enemyRefs.Count;
 
-    public void OnEnemySpawn()
+    public void OnEnemySpawn(Enemy enemy)
     {
-        enemyCount++;
+        enemyRefs.Add(enemy);
     }
 
-    public void OnEnemyDestroy()
+    public void OnEnemyDestroy(Enemy enemy)
     {
-        enemyCount--;
+        enemyRefs.Remove(enemy);
     }
 
     public void KillAllEnemies()
     {
         OnKillAllEnemies?.Invoke();
     }
+
+    public void RemoveModifierFromAllEnemies(Modifier mod)
+    {
+        OnRemoveModifier?.Invoke(mod);
+    }
+
+    // TODO: delete this test function
 
     public void TEST_AddDaggerSkill()
     {

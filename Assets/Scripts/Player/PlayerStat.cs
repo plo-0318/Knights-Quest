@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class PlayerStat : MonoBehaviour
 {
-    private float health,
-        speed,
-        projectileSpeed,
-        damage;
+    [SerializeField]
+    private float baseHealth = 100f,
+        baseDamage = 1f,
+        baseSpeed = 5f,
+        baseProjectileSpeed = 1f;
+
+    private const float DEFAULT_MOVE_SPEED_MULTIPLYER = 35f;
+
+    private Stat _stat;
 
     private Dictionary<string, Skill> skills;
     private const int NUM_SKILLS = 10;
@@ -15,6 +20,13 @@ public class PlayerStat : MonoBehaviour
     private void Awake()
     {
         GameManager.RegisterPlayerStat(this);
+
+        _stat = new Stat(
+            baseHealth,
+            baseDamage,
+            baseSpeed * DEFAULT_MOVE_SPEED_MULTIPLYER,
+            baseProjectileSpeed
+        );
     }
 
     private void Start()
@@ -48,6 +60,8 @@ public class PlayerStat : MonoBehaviour
     {
         return skills;
     }
+
+    public Stat stat => _stat;
 
     // public bool HasSkill(string name)
     // {

@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: Test Level Detail
   m_EditorClassIdentifier: 
   levelEnemyDetails:
-  - {fileID: 11400000, guid: d8f0e49404c91ee4890b254620d5363a, type: 2}
-  - {fileID: 11400000, guid: 9a4dbd6c90b2c2e4f8a2b061443243d3, type: 2}
+  - spawnDuration: 10
+    enemiesToSpawn:
+    - {fileID: 1993816840659276434, guid: b1fd296878f8b7540935d21ef1319205, type: 3}
+  - spawnDuration: 60
+    enemiesToSpawn:
+    - {fileID: 206374162444279106, guid: 5d19e10cdfbff7d409b8b51886fa2927, type: 3}
+    - {fileID: 1993816840659276434, guid: b1fd296878f8b7540935d21ef1319205, type: 3}
+  enemyModifiers: []
