@@ -60,4 +60,9 @@ public class GameSession : MonoBehaviour
     {
         GameManager.PlayerStat().AssignSkill(new SkillDagger());
     }
+
+    public void TEST_AddFieldSkill()
+    {
+        GameManager.PlayerStat().AssignSkill(new SkillField());
+    }
 }
