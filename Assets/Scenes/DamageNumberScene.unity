@@ -999,7 +999,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624468597463783461}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.489999, y: -6.42633, z: 4.7821107}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2151,3 +2151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageTextPrefab: {fileID: 2655080092362227839, guid: 174dc6821fa6a894cad5c53b2ed9228b, type: 3}
+  moveUp: 1
+  rotationAmount: 5
+  opacityTime: 1
+  moveSpeed: 1
+  whenDestroy: 1.1
