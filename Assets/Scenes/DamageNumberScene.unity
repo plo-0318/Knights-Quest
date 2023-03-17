@@ -2153,6 +2153,5 @@ MonoBehaviour:
   damageTextPrefab: {fileID: 2655080092362227839, guid: 174dc6821fa6a894cad5c53b2ed9228b, type: 3}
   moveUp: 1
   rotationAmount: 5
-  opacityTime: 1
-  moveSpeed: 1
-  whenDestroy: 1.1
+  moveSpeed: 2
+  fadeInTime: 0.25
