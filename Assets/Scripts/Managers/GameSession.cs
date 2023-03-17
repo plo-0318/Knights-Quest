@@ -65,4 +65,9 @@ public class GameSession : MonoBehaviour
     {
         GameManager.PlayerStat().AssignSkill(new SkillField());
     }
+
+    public void TEST_AddFireballSkill()
+    {
+        GameManager.PlayerStat().AssignSkill(new SkillFireball());
+    }
 }

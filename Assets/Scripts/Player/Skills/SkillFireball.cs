@@ -17,7 +17,8 @@ public class SkillFireball : Skill
     public SkillFireball()
     {
         name = "Fireball";
-        fireball = Resources.Load<GameObject>("fireball");
+        //fireball = Resources.Load<GameObject>("fireball"); 
+        fireball = Resources.Load<GameObject>("dagger"); // TESTING STUFF
 
         level = 1;
 
@@ -124,7 +125,8 @@ public class SkillFireball : Skill
 
         spawnedFireball.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
 
-        spawnedFireball.GetComponent<Fireball>().Init(damage, velocity * speed);
+        //spawnedFireball.GetComponent<Fireball>().Init(damage, velocity * speed);
+        spawnedFireball.GetComponent<Dagger>().Init(damage, velocity * speed); // TESTING STUFF
 
         return spawnedFireball;
     }
