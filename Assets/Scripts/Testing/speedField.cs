@@ -10,7 +10,7 @@ public class speedField : MonoBehaviour
 
     private void Start()
     {
-        speedMod = new Modifier(Stat.Type.speed, gameObject.GetInstanceID(), speedMultiplier);
+        speedMod = new Modifier(Stat.Type.SPEED, gameObject.GetInstanceID(), speedMultiplier);
 
         // Destroy(gameObject, UnityEngine.Random.Range(8f, 20f));
     }

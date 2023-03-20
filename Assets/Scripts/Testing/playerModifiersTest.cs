@@ -8,22 +8,34 @@ public class playerModifiersTest : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI speedText;
 
+    [SerializeField]
+    private TextMeshProUGUI healthText;
+
+    [SerializeField]
+    private TextMeshProUGUI killCountText;
+
     private Modifier speedMod;
 
     private Stat stat;
+    private PlayerStat playerStat;
 
     private void Start()
     {
-        speedMod = new Modifier(Stat.Type.speed, gameObject.GetInstanceID(), 0);
+        speedMod = new Modifier(Stat.Type.SPEED, gameObject.GetInstanceID(), 0);
 
-        stat = GameManager.PlayerStat().stat;
+        playerStat = GameManager.PlayerStat();
+        stat = playerStat.stat;
     }
 
     private void FixedUpdate()
     {
-        string speedStr = Mathf.RoundToInt((stat.GetStat(Stat.Type.speed) / 35f)).ToString();
+        string speedStr = Mathf.RoundToInt((stat.GetStat(Stat.Type.SPEED) / 35f)).ToString();
 
         speedText.text = "Speed: " + speedStr;
+
+        healthText.text = "HP: " + stat.Health.ToString();
+
+        killCountText.text = "Kills: " + playerStat.KillCount.ToString();
     }
 
     public void IncreaseSpeed()

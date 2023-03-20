@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     private PlayerDirectionArrow playerDirectionArrow;
     private GameSession gameSession;
     private PlayerStat playerStat;
+    private SpawnerManager spawnerManager;
 
     private void Awake()
     {
@@ -87,5 +88,20 @@ public class GameManager : MonoBehaviour
     public static PlayerStat PlayerStat()
     {
         return gameManager.playerStat;
+    }
+
+    public static void RegisterSpawnerManager(SpawnerManager sm)
+    {
+        if (!gameManager)
+        {
+            return;
+        }
+
+        gameManager.spawnerManager = sm;
+    }
+
+    public static SpawnerManager SpawnerManager()
+    {
+        return gameManager.spawnerManager;
     }
 }

@@ -8,11 +8,11 @@ public class Stat
 {
     public enum Type
     {
-        maxHealth,
-        damage,
-        speed,
-        projectileSpeed,
-        scale,
+        MAX_HEALTH,
+        DAMAGE,
+        SPEED,
+        PROJECTILE_SPEED,
+        SCALE,
     }
 
     private const int NUMBER_OF_STATS = 5;
@@ -20,41 +20,30 @@ public class Stat
     private List<float> stats;
     private List<Dictionary<int, float>> modifierList;
 
-    public float health;
+    private float currentHealth;
 
     public Stat()
-    {
-        stats = new List<float>();
-
-        for (int i = 0; i < NUMBER_OF_STATS; i++)
-        {
-            stats.Add(1f);
-        }
-
-        health = stats[(int)Type.maxHealth];
-
-        InitModifiers();
-    }
+        : this(1f, 1f, 1f) { }
 
     public Stat(
-        float maxHealth,
-        float damage,
+        float MAX_HEALTH,
+        float DAMAGE,
         float speed,
-        float projectileSpeed = 1f,
-        float scale = 1f
+        float PROJECTILE_SPEED = 1f,
+        float SCALE = 1f
     )
     {
         stats = new List<float>();
 
-        stats.Add(maxHealth);
-        stats.Add(damage);
+        stats.Add(MAX_HEALTH);
+        stats.Add(DAMAGE);
         stats.Add(speed);
-        stats.Add(projectileSpeed);
-        stats.Add(scale);
+        stats.Add(PROJECTILE_SPEED);
+        stats.Add(SCALE);
 
         BASE_STATS = new List<float>(stats);
 
-        health = stats[(int)Type.maxHealth];
+        currentHealth = GetStat(Type.MAX_HEALTH);
 
         InitModifiers();
     }
@@ -63,6 +52,8 @@ public class Stat
     {
         return stats[(int)statType];
     }
+
+    public float Health => currentHealth;
 
     private void InitModifiers()
     {
@@ -113,8 +104,6 @@ public class Stat
             return baseStat;
         }
 
-        // Debug.Log("new speed: " + CalculateModifierDefault(statModifiers) * baseStat);
-
         return CalculateModifierDefault(statModifiers) * baseStat;
 
         // if (statType == Type.speed)
@@ -122,7 +111,7 @@ public class Stat
         //     return CalculateSpeedModifier(statModifiers) * baseStat;
         // }
 
-        // if (statType == Type.maxHealth || statType == Type.damage)
+        // if (statType == Type.MAX_HEALTH || statType == Type.DAMAGE)
         // {
         //     return statModifiers.Values.Sum() * baseStat;
         // }
@@ -140,6 +129,7 @@ public class Stat
         return multiplier > 0 ? multiplier : 0.01f;
     }
 
+    // Probably not using this
     private float CalculateSpeedModifier(Dictionary<int, float> statModifiers)
     {
         float max = statModifiers.Values.Max();
@@ -164,6 +154,24 @@ public class Stat
 
         // max > 0, min < 0
         return max + min;
+    }
+
+    public float ModifyHealth(float amount)
+    {
+        float newHealth = currentHealth + amount;
+
+        if (newHealth < 0)
+        {
+            newHealth = 0;
+        }
+        else if (newHealth > GetStat(Type.MAX_HEALTH))
+        {
+            newHealth = GetStat(Type.MAX_HEALTH);
+        }
+
+        currentHealth = newHealth;
+
+        return currentHealth;
     }
 
     public static void ApplyModifiers(Stat stat, Modifier[] modifiersToAdd)

@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     private GameSession gameSession;
+    private SpawnerManager spawnerManager;
     private float spawnCooldownTime;
     private float spawnCooldownTimer;
     private float spawnTimeOffset;
@@ -40,6 +41,7 @@ public class EnemySpawner : MonoBehaviour
 
         // Reset spawn timer, and instantiate the enemy game object
         spawnCooldownTimer = 0;
+
         Enemy newEnemy = Instantiate(enemy, transform.position, Quaternion.identity);
 
         // If there is a global enemy modifier, apply it

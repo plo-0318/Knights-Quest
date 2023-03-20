@@ -15,9 +15,11 @@ MonoBehaviour:
   levelEnemyDetails:
   - spawnDuration: 10
     enemiesToSpawn:
-    - {fileID: 1993816840659276434, guid: b1fd296878f8b7540935d21ef1319205, type: 3}
-  - spawnDuration: 60
+    - {fileID: 3946279775617393671, guid: 3495e09faf19bb745936688902e459a1, type: 3}
+  - spawnDuration: 10
     enemiesToSpawn:
-    - {fileID: 206374162444279106, guid: 5d19e10cdfbff7d409b8b51886fa2927, type: 3}
-    - {fileID: 1993816840659276434, guid: b1fd296878f8b7540935d21ef1319205, type: 3}
+    - {fileID: 6442392794086570286, guid: 1e226fbd027ee84489413d28ab591e33, type: 3}
+  - spawnDuration: 10
+    enemiesToSpawn:
+    - {fileID: 1637516702266013817, guid: 9e2b3016d86b6b34a8e198e283682059, type: 3}
   enemyModifiers: []

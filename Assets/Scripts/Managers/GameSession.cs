@@ -7,21 +7,24 @@ using TMPro;
 public class GameSession : MonoBehaviour
 {
     private float timer;
+    private bool tickTimer;
 
     [SerializeField]
     private TextMeshProUGUI timerText;
 
-    /////////////// Level Detail ///////////////
+    PlayerStat playerStat;
+
+    //////////////////// LEVEL DETAIL ////////////////////
 
     [Header("Level")]
     [SerializeField]
     private LevelDetail levelDetail;
     private Modifier[] enemyModifiers;
 
-    ////////////// ////////////// //////////////
+    /////////////////////////////////////////////////////
 
 
-    ////////////// Spawning Enemy //////////////
+    ////////////////// SPAWNING ENEMY //////////////////
     [Header("Enemy")]
     [SerializeField]
     private int maxEnemyPerWave = 30;
@@ -44,8 +47,7 @@ public class GameSession : MonoBehaviour
 
     public Transform enemyParent;
 
-    ////////////// ////////////// //////////////
-
+    /////////////////////////////////////////////////////
 
 
     private void Awake()
@@ -56,6 +58,8 @@ public class GameSession : MonoBehaviour
     private void Start()
     {
         timer = enemySpawnTimer = 0f;
+        tickTimer = true;
+
         spawnWaveTimer = timeBetweenWaves;
         enemyRefs = new HashSet<Enemy>();
         canSpawnEnemy = false;
@@ -72,28 +76,42 @@ public class GameSession : MonoBehaviour
             }
         }
 
+        playerStat = GameManager.PlayerStat();
+
+        playerStat.onPlayerDeath += HandleGameOver;
+
         // TODO: delete this test function
         Invoke("TEST_StartSpawn", 3f);
     }
 
     private void Update()
     {
-        timer += Time.deltaTime;
-
+        TickTimer();
         SpawnEnemy();
     }
 
     private void FixedUpdate()
     {
+        // TODO: Delete this test
         if (timerText)
         {
             timerText.text = GetTimeString();
         }
     }
 
-    public float GetTime()
+    private void OnDestroy()
     {
-        return timer;
+        playerStat.onPlayerDeath -= HandleGameOver;
+    }
+
+    public float Timer => timer;
+
+    private void TickTimer()
+    {
+        if (tickTimer)
+        {
+            timer += Time.deltaTime;
+        }
     }
 
     private void InitSession() { }
@@ -141,13 +159,17 @@ public class GameSession : MonoBehaviour
 
     private Enemy EnemyToSpawn()
     {
+        // Get the spawn duration for each enemy list
         float duration = levelDetail.levelEnemyDetails[currentEnemyListIndex].spawnDuration;
 
+        // If the current list of enemies have spawned for its maximum duration
+        // Reset enemy spawn timer
+        // If there are more enemy lists, advance to the next list, else don't advance
         if (enemySpawnTimer >= duration)
         {
             enemySpawnTimer = 0;
 
-            if (currentEnemyIndex + 1 < levelDetail.levelEnemyDetails.Length)
+            if (currentEnemyListIndex + 1 < levelDetail.levelEnemyDetails.Length)
             {
                 currentEnemyListIndex++;
                 currentEnemyIndex = 0;
@@ -158,6 +180,7 @@ public class GameSession : MonoBehaviour
 
         Enemy enemy = enemies[currentEnemyIndex];
 
+        // Cycle through the enemies in the list
         currentEnemyIndex = ++currentEnemyIndex < enemies.Length ? currentEnemyIndex : 0;
 
         return enemy;
@@ -185,6 +208,11 @@ public class GameSession : MonoBehaviour
         OnRemoveModifier?.Invoke(mod);
     }
 
+    private void HandleGameOver()
+    {
+        canSpawnEnemy = false;
+    }
+
     // TODO: delete this test function
 
     public void TEST_AddDaggerSkill()
@@ -195,5 +223,12 @@ public class GameSession : MonoBehaviour
     public void TEST_StartSpawn()
     {
         canSpawnEnemy = true;
+    }
+
+    public void TEST_HurtPlayer()
+    {
+        float damage = 10f;
+
+        playerStat.Hurt(damage, Vector2.down);
     }
 }

@@ -2,13 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IAnimatable
 {
     private GatherInput gatherInput;
     private Rigidbody2D rb;
+    private Collider2D col;
+
+    private PlayerStat playerStat;
+
+    private Vector3 BASE_LOCALSCALE;
 
     [SerializeField]
-    private Stat stat;
+    private float knockBackForce = 5f;
+
+    [SerializeField]
+    private float knockBackDuration = 0.15f;
+
+    private bool canMove;
 
     private void Awake()
     {
@@ -26,21 +36,106 @@ public class PlayerMovement : MonoBehaviour
     {
         gatherInput = GetComponent<GatherInput>();
         rb = GetComponent<Rigidbody2D>();
-        stat = GetComponent<PlayerStat>().stat;
+        col = GetComponent<Collider2D>();
+        playerStat = GetComponent<PlayerStat>();
+
+        BASE_LOCALSCALE = new Vector3(
+            transform.localScale.x,
+            transform.localScale.y,
+            transform.localScale.z
+        );
+
+        canMove = true;
+
+        playerStat.onPlayerDeath += handlePlayerDeath;
     }
 
     private void Update() { }
 
     private void FixedUpdate()
     {
-        // Debug.Log(rb.velocity);
+        Flip();
         Move();
+    }
+
+    private void OnDestroy()
+    {
+        playerStat.onPlayerDeath -= handlePlayerDeath;
     }
 
     private void Move()
     {
+        if (!canMove)
+        {
+            return;
+        }
+
         Vector2 movement = new Vector2(gatherInput.moveValueX, gatherInput.moveValueY).normalized;
 
-        rb.velocity = movement * Time.deltaTime * stat.GetStat(Stat.Type.speed);
+        rb.velocity = movement * Time.deltaTime * playerStat.GetStat(Stat.Type.SPEED);
+    }
+
+    private void Flip()
+    {
+        if (!canMove)
+        {
+            return;
+        }
+
+        bool hasHorizontalSpeed = Mathf.Abs(rb.velocity.x) >= Mathf.Epsilon;
+
+        if (hasHorizontalSpeed)
+        {
+            transform.localScale = new Vector2(Mathf.Sign(rb.velocity.x) * BASE_LOCALSCALE.x, 1f);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            float damage = enemy.GetStat(Stat.Type.DAMAGE);
+            Vector2 direction = transform.position - enemy.transform.position;
+
+            playerStat.Hurt(damage, direction);
+        }
+    }
+
+    public void KnockBack(Vector2 direction)
+    {
+        canMove = false;
+
+        rb.velocity = direction * knockBackForce;
+
+        StartCoroutine(RecoverFromKnockBack(knockBackDuration));
+    }
+
+    private IEnumerator RecoverFromKnockBack(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        rb.velocity = Vector2.zero;
+
+        if (!playerStat.IsDead)
+        {
+            canMove = true;
+        }
+    }
+
+    private void handlePlayerDeath()
+    {
+        canMove = false;
+        col.enabled = false;
+    }
+
+    public bool IsDead() => playerStat.IsDead;
+
+    public bool IsIdle() => !canMove ? true : rb.velocity.magnitude <= Mathf.Epsilon;
+
+    public bool IsMoving() => !IsIdle();
+
+    public void TEST_knockback()
+    {
+        KnockBack(Vector2.down);
     }
 }

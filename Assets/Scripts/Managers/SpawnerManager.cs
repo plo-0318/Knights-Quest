@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SpawnerManager : MonoBehaviour
 {
+    private GameSession gameSession;
+
+    [SerializeField]
+    private GameObject enemySpawner;
+
     [SerializeField]
     private int numSpawners = 8;
 
@@ -11,8 +17,10 @@ public class SpawnerManager : MonoBehaviour
     [SerializeField]
     private float distance = 10f;
 
-    [SerializeField]
-    private GameObject enemySpawner;
+    private void Awake()
+    {
+        GameManager.RegisterSpawnerManager(this);
+    }
 
     private void Start()
     {
@@ -31,18 +39,6 @@ public class SpawnerManager : MonoBehaviour
                 transform.position.y + Mathf.Sin(currentDeg * Mathf.Deg2Rad) * distance,
                 transform.position.z
             );
-
-            // Debug.Log("trans: " + transform.position);
-            // Debug.Log(
-            //     "deg: "
-            //         + currentDeg
-            //         + ", x: "
-            //         + Mathf.Cos(currentDeg) * distance
-            //         + ", y: "
-            //         + Mathf.Sin(currentDeg) * distance
-            //         + ", pos: "
-            //         + spawnPos
-            // );
 
             GameObject spawner = Instantiate(enemySpawner, spawnPos, Quaternion.identity);
 

@@ -8,11 +8,16 @@ public class SkillDagger : Skill
     private float cooldownTimer;
     private float cooldownTime;
 
-    private const float BASE_DAMAGE = 1f;
+    private const float BASE_DAMAGE = 500f;
     private const float BASE_COOLDOWN_TIME = 3f;
+    private float spawnRadius;
+
+    private int numDaggers;
 
     private float damage,
         speed;
+
+    private bool piercing;
 
     public SkillDagger()
     {
@@ -26,6 +31,17 @@ public class SkillDagger : Skill
 
         damage = BASE_DAMAGE;
         speed = 8f;
+        numDaggers = 4;
+        piercing = false;
+
+        if (GameManager.PlayerMovement().TryGetComponent<Collider2D>(out Collider2D col))
+        {
+            spawnRadius = Mathf.Max(col.bounds.size.x, col.bounds.size.y);
+        }
+        else
+        {
+            spawnRadius = 0.5f;
+        }
     }
 
     public override void Upgrade()
@@ -35,22 +51,27 @@ public class SkillDagger : Skill
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;
+            numDaggers += 2;
         }
 
         if (level == 3)
         {
             cooldownTime = BASE_COOLDOWN_TIME - .5f;
+            numDaggers += 2;
         }
 
         if (level == 4)
         {
             damage = BASE_DAMAGE * 1.5f;
+            numDaggers += 2;
         }
 
         if (level == 5)
         {
             damage = BASE_DAMAGE * 1.75f;
             cooldownTime = BASE_COOLDOWN_TIME - 1f;
+            numDaggers += 2;
+            piercing = true;
         }
     }
 
@@ -68,51 +89,27 @@ public class SkillDagger : Skill
 
     private void Fire()
     {
-        float playerPosXOffset = .6f,
-            playerPosYOffset = .6f;
+        float degBetweenSpawner = 360f / numDaggers;
+        float currentDeg = 0f;
 
-        SpawnDagger(new Vector2(0, playerPosYOffset), 0, Vector2.up);
-        SpawnDagger(new Vector2(-playerPosXOffset, 0), 90, Vector2.left);
-        SpawnDagger(new Vector2(0, -playerPosYOffset), 180, Vector2.down);
-        SpawnDagger(new Vector2(playerPosXOffset, 0), 270, Vector2.right);
-
-        if (level == 5)
+        for (int i = 0; i < numDaggers; i++)
         {
-            // Top left
-            SpawnDagger(
-                new Vector2(-playerPosXOffset, playerPosYOffset),
-                45,
-                (Vector2.up + Vector2.left).normalized
+            Vector2 spawnPosOffset = new Vector2(
+                Mathf.Cos(currentDeg * Mathf.Deg2Rad) * spawnRadius,
+                Mathf.Sin(currentDeg * Mathf.Deg2Rad) * spawnRadius
             );
-            // Bottom left
-            SpawnDagger(
-                new Vector2(-playerPosXOffset, -playerPosYOffset),
-                135,
-                (Vector2.down + Vector2.left).normalized
-            );
-            // Bottom right
-            SpawnDagger(
-                new Vector2(playerPosXOffset, -playerPosYOffset),
-                225,
-                (Vector2.down + Vector2.right).normalized
-            );
-            // Top right
-            SpawnDagger(
-                new Vector2(playerPosXOffset, playerPosYOffset),
-                315,
-                (Vector2.up + Vector2.right).normalized
-            );
+
+            SpawnDagger(spawnPosOffset, currentDeg, spawnPosOffset.normalized);
+
+            currentDeg += degBetweenSpawner;
         }
 
         cooldownTimer = cooldownTime;
     }
 
-    private GameObject SpawnDagger(Vector2 offset, float zRotation, Vector2 velocity)
+    private GameObject SpawnDagger(Vector2 offset, float zRotation, Vector2 direction)
     {
         Vector2 playerPos = GameManager.PlayerMovement().transform.position;
-
-        float playerPosBaseOffset = -.2f;
-        playerPos.y += playerPosBaseOffset;
 
         GameObject spawnedDagger = GameObject.Instantiate(
             dagger,
@@ -120,11 +117,11 @@ public class SkillDagger : Skill
             Quaternion.identity
         );
 
-        float baseRotation = 45f;
+        float baseRotation = -45f;
 
         spawnedDagger.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
 
-        spawnedDagger.GetComponent<Dagger>().Init(damage, velocity * speed);
+        spawnedDagger.GetComponent<Dagger>().Init(damage, direction * speed, piercing);
 
         return spawnedDagger;
     }
