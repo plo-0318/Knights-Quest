@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3739448856907395493}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.75, y: 1.75, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_Children:
   - {fileID: 7536766102928805698}
   m_Father: {fileID: 7536766102812715276}
@@ -159,6 +159,7 @@ GameObject:
   - component: {fileID: 7536766102812715278}
   - component: {fileID: 7536766102812715277}
   - component: {fileID: 7536766102812715272}
+  - component: {fileID: 641962814}
   m_Layer: 0
   m_Name: Ace (with spawner)
   m_TagString: Untagged
@@ -344,6 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c3f555f5c01e34b84a443d91c76f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockBackForce: 10
+  knockBackDuration: 0.15
 --- !u!114 &7536766102812715272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,8 +361,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseHealth: 100
   baseDamage: 1
-  baseSpeed: 5
+  baseSpeed: 6
   baseProjectileSpeed: 1
+--- !u!114 &641962814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7536766102812715273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ce43494087f279449d7c467a1c380dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idle: Player_Idle
+  move: Player_Run
+  death: Player_Death
 --- !u!1 &7536766102928805697
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +405,7 @@ Transform:
   m_GameObject: {fileID: 7536766102928805697}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.46000004, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 3739448856907395492}
   m_RootOrder: 0
