@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class GameSession : MonoBehaviour
 {
@@ -81,7 +82,7 @@ public class GameSession : MonoBehaviour
         playerStat.onPlayerDeath += HandleGameOver;
 
         // TODO: delete this test function
-        Invoke("TEST_StartSpawn", 3f);
+        // Invoke("TEST_StartSpawn", 3f);
     }
 
     private void Update()
@@ -213,7 +214,41 @@ public class GameSession : MonoBehaviour
         canSpawnEnemy = false;
     }
 
-    // TODO: delete this test function
+    // Get the closest enemy position to the point
+    public Vector3 closestEnemyPosition(Vector3 pos)
+    {
+        return closestEnemyPositions(pos, 1).First();
+    }
+
+    // Get the n closest enemy positions to the point
+    public IEnumerable<Vector3> closestEnemyPositions(Vector3 fromPos, int n)
+    {
+        if (enemyRefs.Count == 0 || n <= 0)
+        {
+            return null;
+        }
+
+        // Create a list of positions because enemy might get destroyed
+        // during the calculation or before the value is consumed
+        List<Vector3> positions = new List<Vector3>();
+
+        foreach (Enemy enemy in enemyRefs)
+        {
+            Vector3 enemyPos = enemy.gameObject.transform.position;
+
+            positions.Add(new Vector3(enemyPos.x, enemyPos.y, enemyPos.z));
+        }
+
+        int count = n <= positions.Count ? n : positions.Count;
+
+        IEnumerable<Vector3> nClosestEnemyPos = positions
+            .OrderBy(pos => (pos - fromPos).sqrMagnitude)
+            .Take(n);
+
+        return nClosestEnemyPos;
+    }
+
+    // TODO: delete these test functions
 
     public void TEST_AddDaggerSkill()
     {
@@ -230,5 +265,29 @@ public class GameSession : MonoBehaviour
         float damage = 10f;
 
         playerStat.Hurt(damage, Vector2.down);
+    }
+
+    public void TEST_SpawnRandomEnemiesAroundPlayer()
+    {
+        Vector3 playerPos = GameManager.PlayerMovement().gameObject.transform.position;
+
+        float minX = -10f,
+            minY = -10f,
+            maxX = 10f,
+            maxY = 10f;
+
+        var enemy = levelDetail.levelEnemyDetails[0].enemiesToSpawn[0];
+
+        for (int i = 0; i < 10; i++)
+        {
+            Vector2 spawnPos = new Vector2(
+                UnityEngine.Random.Range(minX, maxX) + playerPos.x,
+                UnityEngine.Random.Range(minY, maxY) + playerPos.y
+            );
+
+            Debug.Log(spawnPos);
+
+            var e = Instantiate(enemy, spawnPos, Quaternion.identity);
+        }
     }
 }

@@ -20,9 +20,9 @@ public class PlayerStat : MonoBehaviour
     private const float DEFAULT_MOVE_SPEED_MULTIPLYER = 35f;
 
     private Stat _stat;
-    private float itemPickupScale,
-        killCount,
-        exp;
+    private float itemPickupScale;
+    private int killCount;
+    private double exp;
 
     /////////////////////////////////////////////////////
 
@@ -41,6 +41,13 @@ public class PlayerStat : MonoBehaviour
 
     /////////////////////////////////////////////////////
 
+    ////////////////////// EXP //////////////////////
+    private const int BASE_EXP = 100;
+    private const int LINEAR_INCREMENT = 50;
+    private const int EXPONENTIAL_INCREMENT = 25;
+
+    /////////////////////////////////////////////////////
+
     private void Awake()
     {
         GameManager.RegisterPlayerStat(this);
@@ -53,7 +60,8 @@ public class PlayerStat : MonoBehaviour
         );
 
         itemPickupScale = 1f;
-        killCount = exp = 0;
+        killCount = 0;
+        exp = 0;
 
         isDead = isInvincible = false;
 
@@ -63,40 +71,6 @@ public class PlayerStat : MonoBehaviour
     private void Start()
     {
         skills = new Dictionary<string, Skill>();
-
-        // StartCoroutine(Blink());
-    }
-
-    private IEnumerator Blink()
-    {
-        float interval = .1f;
-        float currentTime = interval;
-        var sprite = GetComponent<SpriteRenderer>();
-        Color originalColor = new Color(
-            sprite.color.r,
-            sprite.color.g,
-            sprite.color.b,
-            sprite.color.a
-        );
-
-        float[] alphas = { 0, .5f, 1f };
-        TwoWayList list = new TwoWayList(alphas);
-
-        while (currentTime < 5f)
-        {
-            sprite.color = new Color(
-                originalColor.r,
-                originalColor.g,
-                originalColor.b,
-                list.GetNext()
-            );
-
-            currentTime += interval;
-
-            yield return new WaitForSeconds(interval);
-        }
-
-        sprite.color = originalColor;
     }
 
     private void Update()
@@ -150,6 +124,8 @@ public class PlayerStat : MonoBehaviour
             return;
         }
 
+        isInvincible = true;
+
         if (knockBackDirection != Vector2.zero)
         {
             playerMovement.KnockBack(knockBackDirection);
@@ -161,8 +137,6 @@ public class PlayerStat : MonoBehaviour
         {
             ProcessDeath();
         }
-
-        isInvincible = true;
 
         StartCoroutine(RecoverFromInvincible());
     }
@@ -177,7 +151,9 @@ public class PlayerStat : MonoBehaviour
         // yield return new WaitForSeconds(invincibleTime);
 
         // Blink
-        float currentTime = .1f;
+        float currentTime = 0;
+        float oscillationSpeed = 6f;
+
         var sprite = GetComponent<SpriteRenderer>();
         Color originalColor = new Color(
             sprite.color.r,
@@ -186,21 +162,14 @@ public class PlayerStat : MonoBehaviour
             sprite.color.a
         );
 
-        float[] alphas = { 0, .5f, 1f };
-        TwoWayList list = new TwoWayList(alphas);
-
         while (currentTime < invincibleTime)
         {
-            sprite.color = new Color(
-                originalColor.r,
-                originalColor.g,
-                originalColor.b,
-                list.GetNext()
-            );
+            var a = Mathf.PingPong(Time.time * oscillationSpeed, 1f);
 
-            currentTime += .1f;
+            sprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, a);
 
-            yield return new WaitForSeconds(.1f);
+            currentTime += Time.deltaTime;
+            yield return null;
         }
 
         sprite.color = originalColor;
@@ -214,59 +183,16 @@ public class PlayerStat : MonoBehaviour
         onPlayerDeath?.Invoke();
     }
 
-    public float KillCount => killCount;
+    private double ExpNeededToLevelUp(int level)
+    {
+        return BASE_EXP + LINEAR_INCREMENT * level + EXPONENTIAL_INCREMENT * Mathf.Pow(level, 2);
+    }
+
+    public int KillCount => killCount;
     public bool IsDead => isDead;
 
     // public bool HasSkill(string name)
     // {
     //     return skills.ContainsKey(name);
     // }
-}
-
-class TwoWayList
-{
-    private List<float> values;
-    private int index;
-    private bool forward;
-
-    public TwoWayList(float[] list)
-    {
-        values = new List<float>(list);
-
-        index = 0;
-
-        forward = true;
-    }
-
-    public float GetNext()
-    {
-        float value = values[index];
-
-        if (forward)
-        {
-            if (index == values.Count - 1)
-            {
-                forward = false;
-                index--;
-            }
-            else
-            {
-                index++;
-            }
-        }
-        else
-        {
-            if (index == 0)
-            {
-                forward = true;
-                index++;
-            }
-            else
-            {
-                index--;
-            }
-        }
-
-        return value;
-    }
 }
