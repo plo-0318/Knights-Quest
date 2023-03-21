@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 837192759}
   - component: {fileID: 837192758}
   - component: {fileID: 837192760}
+  - component: {fileID: 837192761}
   m_Layer: 0
   m_Name: exp gem
   m_TagString: Collectable
@@ -218,7 +219,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164532fe12ee0a845acce8a711b06a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickupSpeed: 0
+  PickupSpeed: 1
+  inRadius: 0
+--- !u!61 &837192761
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837192757}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.5}
+    newSize: {x: 0.5, y: 0.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!1 &1569923075
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,6 +258,7 @@ GameObject:
   - component: {fileID: 1569923077}
   - component: {fileID: 1569923076}
   - component: {fileID: 1569923078}
+  - component: {fileID: 1569923079}
   m_Layer: 0
   m_Name: shield
   m_TagString: Collectable
@@ -314,7 +343,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164532fe12ee0a845acce8a711b06a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickupSpeed: 0
+  PickupSpeed: 1
+  inRadius: 0
+--- !u!61 &1569923079
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569923075}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.5}
+    newSize: {x: 0.5, y: 0.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!1 &1812447429
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +382,7 @@ GameObject:
   - component: {fileID: 1812447431}
   - component: {fileID: 1812447430}
   - component: {fileID: 1812447432}
+  - component: {fileID: 1812447433}
   m_Layer: 0
   m_Name: potion
   m_TagString: Collectable
@@ -410,7 +467,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164532fe12ee0a845acce8a711b06a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickupSpeed: 0
+  PickupSpeed: 1
+  inRadius: 0
+--- !u!61 &1812447433
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812447429}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.5, y: 0.5}
+    newSize: {x: 0.5, y: 0.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5}
+  m_EdgeRadius: 0
 --- !u!50 &93237553700432196
 Rigidbody2D:
   serializedVersion: 4
@@ -536,6 +620,8 @@ GameObject:
   - component: {fileID: 93237553700432196}
   - component: {fileID: 93237553700432197}
   - component: {fileID: 93237553700432208}
+  - component: {fileID: 93237553700432209}
+  - component: {fileID: 93237553700432210}
   m_Layer: 0
   m_Name: Ace 1
   m_TagString: Player
@@ -620,7 +706,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93237553700432205}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -628,6 +714,38 @@ CapsuleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0.02, y: -0.23}
   m_Size: {x: 2.5, y: 0.8830223}
+  m_Direction: 0
+--- !u!58 &93237553700432209
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93237553700432205}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
+--- !u!70 &93237553700432210
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 93237553700432205}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.28}
+  m_Size: {x: 0.38, y: 0.74}
   m_Direction: 0
 --- !u!114 &93237554120740608
 MonoBehaviour:

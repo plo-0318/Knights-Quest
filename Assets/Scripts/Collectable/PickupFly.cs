@@ -4,17 +4,37 @@ using UnityEngine;
 
 public class PickupFly : MonoBehaviour
 {
-    public float PickupSpeed;
+    public float PickupSpeed = 2f;
+    private GameObject player;
+    public bool inRadius = false;
 
-    private void OnTriggerStay2D(Collider2D other)
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    void Update()
+    {
+        if (inRadius == true)
+        {
+            MoveTowardsPlayer();
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                other.transform.position,
-                PickupSpeed * Time.deltaTime
-            );
+            inRadius = true;
         }
+    }
+
+    void MoveTowardsPlayer()
+    {
+        transform.position = Vector3.Lerp(
+            this.transform.position,
+            player.transform.position,
+            PickupSpeed * Time.deltaTime
+        );
     }
 }
