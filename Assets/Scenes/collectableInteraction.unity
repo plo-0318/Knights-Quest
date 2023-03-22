@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 837192758}
   - component: {fileID: 837192760}
   - component: {fileID: 837192761}
+  - component: {fileID: 837192762}
   m_Layer: 0
   m_Name: exp gem
   m_TagString: Collectable
@@ -247,6 +248,65 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &837192762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837192757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 381b3f0b77e5cee4886909b4797c2948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1215418806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1215418807}
+  - component: {fileID: 1215418808}
+  m_Layer: 0
+  m_Name: PickupRadius
+  m_TagString: Pickup
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1215418807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215418806}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.30747032, y: 0.14915657, z: -2.0627346}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 93237553700432200}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1215418808
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215418806}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.32, y: -0.4}
+  serializedVersion: 2
+  m_Radius: 2.01
 --- !u!1 &1569923075
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,6 +319,7 @@ GameObject:
   - component: {fileID: 1569923076}
   - component: {fileID: 1569923078}
   - component: {fileID: 1569923079}
+  - component: {fileID: 1569923080}
   m_Layer: 0
   m_Name: shield
   m_TagString: Collectable
@@ -343,7 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164532fe12ee0a845acce8a711b06a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickupSpeed: 1
+  PickupSpeed: 2
   inRadius: 0
 --- !u!61 &1569923079
 BoxCollider2D:
@@ -371,6 +432,65 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &1569923080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569923075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 381b3f0b77e5cee4886909b4797c2948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1619036982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1619036983}
+  - component: {fileID: 1619036984}
+  m_Layer: 0
+  m_Name: AbsorbRadius
+  m_TagString: Absorb
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1619036983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619036982}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.841609, y: -0.19630241, z: -2.3672054}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 93237553700432200}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1619036984
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619036982}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.84, y: 0.03}
+  m_Size: {x: 0.16, y: 0.82}
+  m_Direction: 0
 --- !u!1 &1812447429
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +503,7 @@ GameObject:
   - component: {fileID: 1812447430}
   - component: {fileID: 1812447432}
   - component: {fileID: 1812447433}
+  - component: {fileID: 1812447434}
   m_Layer: 0
   m_Name: potion
   m_TagString: Collectable
@@ -495,6 +616,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &1812447434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812447429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 381b3f0b77e5cee4886909b4797c2948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &93237553700432196
 Rigidbody2D:
   serializedVersion: 4
@@ -544,6 +677,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6501499344878154208}
+  - {fileID: 1215418807}
+  - {fileID: 1619036983}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -619,8 +754,6 @@ GameObject:
   - component: {fileID: 93237553700432201}
   - component: {fileID: 93237553700432196}
   - component: {fileID: 93237553700432197}
-  - component: {fileID: 93237553700432208}
-  - component: {fileID: 93237553700432209}
   - component: {fileID: 93237553700432210}
   m_Layer: 0
   m_Name: Ace 1
@@ -699,38 +832,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &93237553700432208
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 93237553700432205}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.02, y: -0.23}
-  m_Size: {x: 2.5, y: 0.8830223}
-  m_Direction: 0
---- !u!58 &93237553700432209
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 93237553700432205}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1
 --- !u!70 &93237553700432210
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

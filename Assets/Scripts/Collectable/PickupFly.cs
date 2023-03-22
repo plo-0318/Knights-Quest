@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PickupFly : MonoBehaviour
 {
-    public float PickupSpeed = 2f;
+    public float PickupSpeed = 4f;
     private GameObject player;
     public bool inRadius = false;
 
@@ -23,7 +23,7 @@ public class PickupFly : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Pickup"))
         {
             inRadius = true;
         }

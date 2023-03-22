@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Field
   - Collectable
+  - Pickup
+  - Absorb
   layers:
   - Default
   - TransparentFX
