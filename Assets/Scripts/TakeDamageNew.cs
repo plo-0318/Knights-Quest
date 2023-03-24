@@ -12,6 +12,13 @@ public class TakeDamageNew : MonoBehaviour
     //How much the text moves up
     public float moveUp = 1.0f;
 
+
+    //How far out it goes
+    public float amplitude = 0.15f;
+    
+    //How fast it goes side to side
+    public float frequency = 3.5f;
+
     //How much it rotates left and right
     public float rotationAmount = 1.0f;
 
@@ -20,6 +27,7 @@ public class TakeDamageNew : MonoBehaviour
 
     //How long it takes to fade in the text
     public float fadeInTime = 1.0f;
+
     
     //When to destroy the object
  //   public float whenDestroy = 1.0f;
@@ -46,7 +54,7 @@ public class TakeDamageNew : MonoBehaviour
         damageText.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(damageStr);
 
         //Functions for moving and rotating text
-        StartCoroutine(MoveTextUp(damageText, moveSpeed));
+        StartCoroutine(MoveTextUpAndBounce(damageText, moveSpeed, amplitude, frequency));
         StartCoroutine(RotateText(damageText, rotationAmount));
 
         //Accessing TextMeshPro of child and calling the fading in function
@@ -56,19 +64,23 @@ public class TakeDamageNew : MonoBehaviour
 
 
     }
-    
-    private IEnumerator MoveTextUp(GameObject obj, float speed) {
+  
+    private IEnumerator MoveTextUpAndBounce(GameObject obj, float speed, float amplitude, float frequency) {
         float elapsedTime = 0.0f;
         Vector3 startPosition = obj.transform.position;
         Vector3 endPosition = startPosition + Vector3.up * moveUp;
+
         while (elapsedTime < 1.0f) {
-            obj.transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime);
+            float x = Mathf.PingPong(elapsedTime * frequency, 1.0f) * amplitude;
+            Vector3 offset = new Vector3(x, 0.0f, 0.0f);
+            obj.transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime) + offset;
             elapsedTime += Time.deltaTime * speed;
             yield return null;
         }
         obj.transform.position = endPosition;
         Destroy(obj);
     }
+
 
     private IEnumerator RotateText(GameObject obj, float rotation) {
         float elapsedTime = 0.0f;
