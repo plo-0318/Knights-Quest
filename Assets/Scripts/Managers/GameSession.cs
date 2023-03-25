@@ -282,19 +282,4 @@ public class GameSession : MonoBehaviour
             var e = Instantiate(enemy, spawnPos, Quaternion.identity);
         }
     }
-
-    public void TEST_AddFireballSkill()
-    {
-        GameManager.PlayerStat().AssignSkill(new SkillFireball());
-    }
-
-    public void TEST_AddArrowSkill()
-    {
-        GameManager.PlayerStat().AssignSkill(new SkillArrow());
-    }
-
-    public void TEST_AddHammerSkill()
-    {
-        GameManager.PlayerStat().AssignSkill(new SkillHammer());
-    }
 }
