@@ -9,19 +9,32 @@ public class GameManager : MonoBehaviour
     private PlayerMovement playerMovement;
     private PlayerDirectionArrow playerDirectionArrow;
     private GameSession gameSession;
-    private PlayerStat playerStat;
+    private PlayerStatus playerStatus;
     private SpawnerManager spawnerManager;
+
+    private Dictionary<string, SkillData> skillData;
 
     private void Awake()
     {
         if (!gameManager)
         {
             gameManager = this;
+
             DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
+        }
+
+        skillData = new Dictionary<string, SkillData>();
+
+        TextAsset jsonFile = Resources.Load<TextAsset>("Data/skillData");
+        SkillData[] data = JsonHelper.FromJson<SkillData>(jsonFile.text);
+
+        foreach (SkillData skill in data)
+        {
+            skillData.Add(skill.name, skill);
         }
     }
 
@@ -75,19 +88,19 @@ public class GameManager : MonoBehaviour
         return gameManager.gameSession;
     }
 
-    public static void RegisterPlayerStat(PlayerStat ps)
+    public static void RegisterPlayerStatus(PlayerStatus ps)
     {
         if (!gameManager)
         {
             return;
         }
 
-        gameManager.playerStat = ps;
+        gameManager.playerStatus = ps;
     }
 
-    public static PlayerStat PlayerStat()
+    public static PlayerStatus PlayerStatus()
     {
-        return gameManager.playerStat;
+        return gameManager.playerStatus;
     }
 
     public static void RegisterSpawnerManager(SpawnerManager sm)
@@ -103,5 +116,15 @@ public class GameManager : MonoBehaviour
     public static SpawnerManager SpawnerManager()
     {
         return gameManager.spawnerManager;
+    }
+
+    public static SkillData GetSkillData(string name)
+    {
+        if (gameManager.skillData.TryGetValue(name, out SkillData skill))
+        {
+            return new SkillData(skill);
+        }
+
+        return null;
     }
 }

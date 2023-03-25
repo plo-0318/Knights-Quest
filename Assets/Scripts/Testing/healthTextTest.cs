@@ -13,30 +13,30 @@ public class healthTextTest : MonoBehaviour
 
     private void Start()
     {
-        Color color = Color.blue;
-        string layerName = "";
+        //     Color color = Color.blue;
+        //     string layerName = "";
 
-        if (actor.TryGetComponent<PlayerStat>(out var p))
-        {
-            ColorUtility.TryParseHtmlString("#34FA22", out color);
-            layerName = "Player";
-            stat = p.stat;
-        }
-        else if (actor.TryGetComponent<Enemy>(out var e))
-        {
-            ColorUtility.TryParseHtmlString("#FF441C", out color);
-            layerName = "Enemy";
-            stat = e.stat;
-        }
+        //     if (actor.TryGetComponent<PlayerStatus>(out var p))
+        //     {
+        //         ColorUtility.TryParseHtmlString("#34FA22", out color);
+        //         layerName = "Player";
+        //         stat = p.stat;
+        //     }
+        //     else if (actor.TryGetComponent<Enemy>(out var e))
+        //     {
+        //         ColorUtility.TryParseHtmlString("#FF441C", out color);
+        //         layerName = "Enemy";
+        //         stat = e.stat;
+        //     }
 
-        background.sortingLayerName = layerName;
-        text.sortingLayerID = SortingLayer.NameToID(layerName);
+        //     background.sortingLayerName = layerName;
+        //     text.sortingLayerID = SortingLayer.NameToID(layerName);
 
-        text.color = color;
-    }
+        //     text.color = color;
+        // }
 
-    private void Update()
-    {
-        text.SetText(stat.Health.ToString());
+        // private void Update()
+        // {
+        //     text.SetText(stat.health.ToString());
     }
 }

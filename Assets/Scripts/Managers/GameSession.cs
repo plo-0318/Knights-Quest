@@ -13,7 +13,7 @@ public class GameSession : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI timerText;
 
-    PlayerStat playerStat;
+    PlayerStatus playerStatus;
 
     //////////////////// LEVEL DETAIL ////////////////////
 
@@ -39,6 +39,7 @@ public class GameSession : MonoBehaviour
     public event Action OnKillAllEnemies;
     public event Action<Modifier> OnRemoveModifier;
     private HashSet<Enemy> enemyRefs;
+
     private bool canSpawnEnemy;
 
     private float enemySpawnTimer,
@@ -77,12 +78,9 @@ public class GameSession : MonoBehaviour
             }
         }
 
-        playerStat = GameManager.PlayerStat();
+        playerStatus = GameManager.PlayerStatus();
 
-        playerStat.onPlayerDeath += HandleGameOver;
-
-        // TODO: delete this test function
-        // Invoke("TEST_StartSpawn", 3f);
+        playerStatus.onPlayerDeath += HandleGameOver;
     }
 
     private void Update()
@@ -102,7 +100,7 @@ public class GameSession : MonoBehaviour
 
     private void OnDestroy()
     {
-        playerStat.onPlayerDeath -= HandleGameOver;
+        playerStatus.onPlayerDeath -= HandleGameOver;
     }
 
     public float Timer => timer;
@@ -249,22 +247,16 @@ public class GameSession : MonoBehaviour
     }
 
     // TODO: delete these test functions
-
-    public void TEST_AddDaggerSkill()
+    public void TEST_ToggleSpawn()
     {
-        GameManager.PlayerStat().AssignSkill(new SkillDagger());
-    }
-
-    public void TEST_StartSpawn()
-    {
-        canSpawnEnemy = true;
+        canSpawnEnemy = !canSpawnEnemy;
     }
 
     public void TEST_HurtPlayer()
     {
         float damage = 10f;
 
-        playerStat.Hurt(damage, Vector2.down);
+        playerStatus.Hurt(damage, Vector2.down);
     }
 
     public void TEST_SpawnRandomEnemiesAroundPlayer()

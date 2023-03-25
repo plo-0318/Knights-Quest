@@ -16,44 +16,42 @@ public class playerModifiersTest : MonoBehaviour
 
     private Modifier speedMod;
 
-    private Stat stat;
-    private PlayerStat playerStat;
+    private PlayerStatus playerStatus;
 
     private void Start()
     {
-        speedMod = new Modifier(Stat.Type.SPEED, gameObject.GetInstanceID(), 0);
+        speedMod = new Modifier(Stat.SPEED, gameObject.GetInstanceID(), 0);
 
-        playerStat = GameManager.PlayerStat();
-        stat = playerStat.stat;
+        playerStatus = GameManager.PlayerStatus();
     }
 
     private void FixedUpdate()
     {
-        string speedStr = Mathf.RoundToInt((stat.GetStat(Stat.Type.SPEED) / 35f)).ToString();
+        string speedStr = Mathf.RoundToInt((playerStatus.GetStat(Stat.SPEED) / 35f)).ToString();
 
         speedText.text = "Speed: " + speedStr;
 
-        healthText.text = "HP: " + stat.Health.ToString();
+        healthText.text = "HP: " + playerStatus.stat.health.ToString();
 
-        killCountText.text = "Kills: " + playerStat.KillCount.ToString();
+        killCountText.text = "Kills: " + playerStatus.stat.killCount.ToString();
     }
 
     public void IncreaseSpeed()
     {
         speedMod.multiplier += 0.25f;
 
-        stat.AddModifier(speedMod);
+        playerStatus.stat.AddModifier(speedMod);
     }
 
     public void DecreaseSpeed()
     {
         speedMod.multiplier -= 0.25f;
 
-        stat.AddModifier(speedMod);
+        playerStatus.stat.AddModifier(speedMod);
     }
 
     private void OnDestroy()
     {
-        stat.RemoveModifier(speedMod);
+        playerStatus.stat.RemoveModifier(speedMod);
     }
 }

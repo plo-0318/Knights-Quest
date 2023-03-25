@@ -44,7 +44,7 @@ public class WalkingEnemy : Enemy
 
         rb.MovePosition(
             (Vector2)transform.position
-                + (direction.normalized * Time.deltaTime * _stat.GetStat(Stat.Type.SPEED))
+                + (direction.normalized * Time.deltaTime * _stat.GetStat(Stat.SPEED))
         );
     }
 

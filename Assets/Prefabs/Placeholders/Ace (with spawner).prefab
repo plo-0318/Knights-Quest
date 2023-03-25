@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 7536766102812715265}
   - component: {fileID: 7536766102812715278}
   - component: {fileID: 7536766102812715277}
-  - component: {fileID: 7536766102812715272}
+  - component: {fileID: 1028309881153570004}
   - component: {fileID: 641962814}
   m_Layer: 0
   m_Name: Ace (with spawner)
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockBackForce: 10
   knockBackDuration: 0.15
---- !u!114 &7536766102812715272
+--- !u!114 &1028309881153570004
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -356,13 +356,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7536766102812715273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a9316c4e70eac04ea765a2dc2c314c4, type: 3}
+  m_Script: {fileID: 11500000, guid: c66983f08bcc3514394a1b73d82b396b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseHealth: 100
   baseDamage: 1
   baseSpeed: 6
-  baseProjectileSpeed: 1
 --- !u!114 &641962814
 MonoBehaviour:
   m_ObjectHideFlags: 0

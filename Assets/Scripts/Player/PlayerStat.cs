@@ -3,184 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class PlayerStat : MonoBehaviour
+public class PlayerStat : Stat
 {
-    ////////////////////// REFS //////////////////////
-    private PlayerMovement playerMovement;
+    public const int ITEM_PICKUP_SCALE = 5;
 
-    /////////////////////////////////////////////////////
+    protected float itemPickupScale;
+    protected int _killCount;
+    protected double _exp;
+    protected int _level;
 
-    ////////////////////// STATS //////////////////////
-    [SerializeField]
-    private float baseHealth = 100f,
-        baseDamage = 1f,
-        baseSpeed = 5f,
-        baseProjectileSpeed = 1f;
-
-    private const float DEFAULT_MOVE_SPEED_MULTIPLYER = 35f;
-
-    private Stat _stat;
-    private float itemPickupScale;
-    private int killCount;
-    private double exp;
-
-    /////////////////////////////////////////////////////
-
-    ////////////////////// SKILLS //////////////////////
-    private Dictionary<string, Skill> skills;
-    private const int MAX_SKILL_COUNT = 7;
-
-    /////////////////////////////////////////////////////
-
-    ////////////////////// STATUS //////////////////////
-    private bool isDead,
-        isInvincible;
-    private float invincibleTime = .75f;
-
-    public event Action onPlayerDeath;
-
-    /////////////////////////////////////////////////////
-
-    ////////////////////// EXP //////////////////////
+    ///////////////////// _EXP FORMULA /////////////////////
     private const int BASE_EXP = 100;
     private const int LINEAR_INCREMENT = 50;
     private const int EXPONENTIAL_INCREMENT = 25;
 
     /////////////////////////////////////////////////////
 
-    private void Awake()
+    public PlayerStat(
+        float maxHealth,
+        float damage,
+        float speed,
+        float prjectileSpeed = 1f,
+        float scale = 1f,
+        float itemPickupScale = 1f
+    )
     {
-        GameManager.RegisterPlayerStat(this);
+        NUMBER_OF_STATS = 6;
 
-        _stat = new Stat(
-            baseHealth,
-            baseDamage,
-            baseSpeed * DEFAULT_MOVE_SPEED_MULTIPLYER,
-            baseProjectileSpeed
-        );
+        stats = new List<float>();
 
-        itemPickupScale = 1f;
-        killCount = 0;
-        exp = 0;
+        stats.Add(maxHealth);
+        stats.Add(damage);
+        stats.Add(speed);
+        stats.Add(prjectileSpeed);
+        stats.Add(scale);
+        stats.Add(itemPickupScale);
 
-        isDead = isInvincible = false;
+        BASE_STATS = new List<float>(stats);
 
-        playerMovement = GetComponent<PlayerMovement>();
-    }
+        currentHealth = GetStat(MAX_HEALTH);
 
-    private void Start()
-    {
-        skills = new Dictionary<string, Skill>();
-    }
+        _killCount = 0;
+        _exp = 0;
+        _level = 0;
 
-    private void Update()
-    {
-        if (isDead)
-        {
-            return;
-        }
-
-        foreach (KeyValuePair<string, Skill> kvp in skills)
-        {
-            kvp.Value.Use();
-        }
-    }
-
-    public void AssignSkill(Skill skillToAdd)
-    {
-        // If player has not learned this skill, add it
-        if (!skills.TryGetValue(skillToAdd.name, out Skill skill))
-        {
-            skills.Add(skillToAdd.name, skillToAdd);
-        }
-        // else level up this skill
-        else
-        {
-            skill.Upgrade();
-        }
-    }
-
-    public Dictionary<string, Skill> GetSkills()
-    {
-        return skills;
-    }
-
-    public Stat stat => _stat;
-
-    public float GetStat(Stat.Type statType)
-    {
-        return _stat.GetStat(statType);
-    }
-
-    public void Hurt(float damage)
-    {
-        Hurt(damage, Vector2.zero);
-    }
-
-    public void Hurt(float damage, Vector2 knockBackDirection)
-    {
-        if (isInvincible)
-        {
-            return;
-        }
-
-        isInvincible = true;
-
-        if (knockBackDirection != Vector2.zero)
-        {
-            playerMovement.KnockBack(knockBackDirection);
-        }
-
-        float newHealth = stat.ModifyHealth(-damage);
-
-        if (newHealth <= 0)
-        {
-            ProcessDeath();
-        }
-
-        StartCoroutine(RecoverFromInvincible());
-    }
-
-    public void IncrementKillCount()
-    {
-        killCount++;
-    }
-
-    private IEnumerator RecoverFromInvincible()
-    {
-        // yield return new WaitForSeconds(invincibleTime);
-
-        // Blink
-        float currentTime = 0;
-        float oscillationSpeed = 6f;
-
-        var sprite = GetComponent<SpriteRenderer>();
-        Color originalColor = new Color(
-            sprite.color.r,
-            sprite.color.g,
-            sprite.color.b,
-            sprite.color.a
-        );
-
-        while (currentTime < invincibleTime)
-        {
-            var a = Mathf.PingPong(Time.time * oscillationSpeed, 1f);
-
-            sprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, a);
-
-            currentTime += Time.deltaTime;
-            yield return null;
-        }
-
-        sprite.color = originalColor;
-
-        isInvincible = false;
-    }
-
-    private void ProcessDeath()
-    {
-        isDead = true;
-        onPlayerDeath?.Invoke();
+        InitModifiers();
     }
 
     private double ExpNeededToLevelUp(int level)
@@ -188,11 +55,12 @@ public class PlayerStat : MonoBehaviour
         return BASE_EXP + LINEAR_INCREMENT * level + EXPONENTIAL_INCREMENT * Mathf.Pow(level, 2);
     }
 
-    public int KillCount => killCount;
-    public bool IsDead => isDead;
+    public void IncrementKillCount()
+    {
+        _killCount++;
+    }
 
-    // public bool HasSkill(string name)
-    // {
-    //     return skills.ContainsKey(name);
-    // }
+    public int killCount => _killCount;
+    public double exp => _exp;
+    public int level => _level;
 }

@@ -67,7 +67,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         Stat.ApplyModifiers(_stat, modifiers);
     }
 
-    public float GetStat(Stat.Type statType)
+    public float GetStat(int statType)
     {
         return _stat.GetStat(statType);
     }
@@ -111,7 +111,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     {
         isDead = true;
         col.enabled = false;
-        GameManager.PlayerStat().IncrementKillCount();
+        GameManager.PlayerStatus().stat.IncrementKillCount();
 
         if (TryGetComponent<AnimatorController>(out var animatorController))
         {

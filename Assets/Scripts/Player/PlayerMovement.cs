@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     private Rigidbody2D rb;
     private Collider2D col;
 
-    private PlayerStat playerStat;
+    private PlayerStatus playerStatus;
 
     private Vector3 BASE_LOCALSCALE;
 
@@ -37,7 +37,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
         gatherInput = GetComponent<GatherInput>();
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
-        playerStat = GetComponent<PlayerStat>();
+        playerStatus = GetComponent<PlayerStatus>();
 
         BASE_LOCALSCALE = new Vector3(
             transform.localScale.x,
@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
         canMove = true;
 
-        playerStat.onPlayerDeath += handlePlayerDeath;
+        playerStatus.onPlayerDeath += handlePlayerDeath;
     }
 
     private void Update() { }
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
     private void OnDestroy()
     {
-        playerStat.onPlayerDeath -= handlePlayerDeath;
+        playerStatus.onPlayerDeath -= handlePlayerDeath;
     }
 
     private void Move()
@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
         Vector2 movement = new Vector2(gatherInput.moveValueX, gatherInput.moveValueY).normalized;
 
-        rb.velocity = movement * Time.deltaTime * playerStat.GetStat(Stat.Type.SPEED);
+        rb.velocity = movement * Time.deltaTime * playerStatus.GetStat(Stat.SPEED);
     }
 
     private void Flip()
@@ -94,10 +94,10 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     {
         if (other.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            float damage = enemy.GetStat(Stat.Type.DAMAGE);
+            float damage = enemy.GetStat(Stat.DAMAGE);
             Vector2 direction = transform.position - enemy.transform.position;
 
-            playerStat.Hurt(damage, direction);
+            playerStatus.Hurt(damage, direction);
         }
     }
 
@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
         rb.velocity = Vector2.zero;
 
-        if (!playerStat.IsDead)
+        if (!playerStatus.IsDead)
         {
             canMove = true;
         }
@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
         col.enabled = false;
     }
 
-    public bool IsDead() => playerStat.IsDead;
+    public bool IsDead() => playerStatus.IsDead;
 
     public bool IsIdle() => !canMove ? true : rb.velocity.magnitude <= Mathf.Epsilon;
 

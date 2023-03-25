@@ -6,56 +6,55 @@ using UnityEngine;
 
 public class Stat
 {
-    public enum Type
-    {
-        MAX_HEALTH,
-        DAMAGE,
-        SPEED,
-        PROJECTILE_SPEED,
-        SCALE,
-    }
+    public const int MAX_HEALTH = 0;
+    public const int DAMAGE = 1;
+    public const int SPEED = 2;
+    public const int PROJECTILE_SPEED = 3;
+    public const int SCALE = 4;
 
-    private const int NUMBER_OF_STATS = 5;
-    private List<float> BASE_STATS;
-    private List<float> stats;
-    private List<Dictionary<int, float>> modifierList;
+    protected int NUMBER_OF_STATS;
+    protected List<float> BASE_STATS;
+    protected List<float> stats;
+    protected List<Dictionary<int, float>> modifierList;
 
-    private float currentHealth;
+    protected float currentHealth;
 
     public Stat()
         : this(1f, 1f, 1f) { }
 
     public Stat(
-        float MAX_HEALTH,
-        float DAMAGE,
+        float maxHealth,
+        float damage,
         float speed,
-        float PROJECTILE_SPEED = 1f,
-        float SCALE = 1f
+        float prjectileSpeed = 1f,
+        float scale = 1f
     )
     {
+        NUMBER_OF_STATS = 5;
+
         stats = new List<float>();
 
-        stats.Add(MAX_HEALTH);
-        stats.Add(DAMAGE);
+        stats.Add(maxHealth);
+        stats.Add(damage);
         stats.Add(speed);
-        stats.Add(PROJECTILE_SPEED);
-        stats.Add(SCALE);
+        stats.Add(prjectileSpeed);
+        stats.Add(scale);
 
         BASE_STATS = new List<float>(stats);
 
-        currentHealth = GetStat(Type.MAX_HEALTH);
+        currentHealth = GetStat(MAX_HEALTH);
 
         InitModifiers();
     }
 
-    public float GetStat(Type statType)
+    public float GetStat(int statIndex)
     {
-        return stats[(int)statType];
+        return stats[statIndex];
     }
 
-    public float Health => currentHealth;
+    public float health => currentHealth;
 
-    private void InitModifiers()
+    protected void InitModifiers()
     {
         modifierList = new List<Dictionary<int, float>>();
 
@@ -67,8 +66,10 @@ public class Stat
 
     public void AddModifier(Modifier modifier, bool replaceIfExits = true)
     {
-        Dictionary<int, float> statModifiers = modifierList[(int)modifier.type];
+        // Get the list of modifiers for this stat type
+        Dictionary<int, float> statModifiers = modifierList[modifier.statType];
 
+        // See if the modifier already exists
         if (statModifiers.TryGetValue(modifier.id, out float multiplier))
         {
             if (!replaceIfExits)
@@ -83,21 +84,22 @@ public class Stat
             statModifiers.Add(modifier.id, modifier.multiplier);
         }
 
-        stats[(int)modifier.type] = CalculateStat(modifier.type);
+        // Recaculate the stat
+        stats[modifier.statType] = CalculateStat(modifier.statType);
     }
 
     public void RemoveModifier(Modifier modifier)
     {
-        if (modifierList[(int)modifier.type].Remove(modifier.id))
+        if (modifierList[modifier.statType].Remove(modifier.id))
         {
-            stats[(int)modifier.type] = CalculateStat(modifier.type);
+            stats[modifier.statType] = CalculateStat(modifier.statType);
         }
     }
 
-    private float CalculateStat(Type statType)
+    protected float CalculateStat(int statIndex)
     {
-        Dictionary<int, float> statModifiers = modifierList[(int)statType];
-        float baseStat = BASE_STATS[(int)statType];
+        Dictionary<int, float> statModifiers = modifierList[statIndex];
+        float baseStat = BASE_STATS[statIndex];
 
         if (statModifiers.Count == 0)
         {
@@ -119,7 +121,7 @@ public class Stat
         // return baseStat;
     }
 
-    private float CalculateModifierDefault(Dictionary<int, float> statModifiers)
+    protected float CalculateModifierDefault(Dictionary<int, float> statModifiers)
     {
         float multiplier = 1f + statModifiers.Values.Sum();
 
@@ -130,7 +132,7 @@ public class Stat
     }
 
     // Probably not using this
-    private float CalculateSpeedModifier(Dictionary<int, float> statModifiers)
+    protected float CalculateSpeedModifier(Dictionary<int, float> statModifiers)
     {
         float max = statModifiers.Values.Max();
         float min = statModifiers.Values.Min();
@@ -164,9 +166,9 @@ public class Stat
         {
             newHealth = 0;
         }
-        else if (newHealth > GetStat(Type.MAX_HEALTH))
+        else if (newHealth > GetStat(MAX_HEALTH))
         {
-            newHealth = GetStat(Type.MAX_HEALTH);
+            newHealth = GetStat(MAX_HEALTH);
         }
 
         currentHealth = newHealth;
@@ -186,7 +188,7 @@ public class Stat
 [System.Serializable]
 public struct Modifier
 {
-    public Stat.Type type;
+    public int statType;
 
     [System.NonSerialized]
     public int id;
@@ -196,9 +198,9 @@ public struct Modifier
     )]
     public float multiplier;
 
-    public Modifier(Stat.Type type, int id, float multiplier)
+    public Modifier(int statType, int id, float multiplier)
     {
-        this.type = type;
+        this.statType = statType;
         this.id = id;
         this.multiplier = multiplier;
     }

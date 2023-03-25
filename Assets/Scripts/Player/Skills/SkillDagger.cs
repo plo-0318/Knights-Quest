@@ -8,8 +8,9 @@ public class SkillDagger : Skill
     private float cooldownTimer;
     private float cooldownTime;
 
-    private const float BASE_DAMAGE = 500f;
-    private const float BASE_COOLDOWN_TIME = 3f;
+    private readonly float BASE_DAMAGE;
+    private readonly float BASE_COOLDOWN_TIME;
+    private readonly float BASE_SPEED;
     private float spawnRadius;
 
     private int numDaggers;
@@ -21,16 +22,21 @@ public class SkillDagger : Skill
 
     public SkillDagger()
     {
-        name = "Dagger";
+        name = "dagger";
         dagger = Resources.Load<GameObject>("dagger");
 
         level = 1;
+
+        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+
+        BASE_SPEED = 8f;
 
         cooldownTime = BASE_COOLDOWN_TIME;
         cooldownTimer = .5f;
 
         damage = BASE_DAMAGE;
-        speed = 8f;
+        speed = BASE_SPEED;
         numDaggers = 4;
         piercing = false;
 
