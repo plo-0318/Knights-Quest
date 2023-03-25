@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     private Dictionary<string, SkillData> skillData;
 
+    private GameObject _damagePopupText;
+
     private void Awake()
     {
         if (!gameManager)
@@ -36,6 +38,8 @@ public class GameManager : MonoBehaviour
         {
             skillData.Add(skill.name, skill);
         }
+
+        _damagePopupText = Resources.Load<GameObject>("Damage Popup Text");
     }
 
     public static GameManager GetGameManager()
@@ -127,4 +131,6 @@ public class GameManager : MonoBehaviour
 
         return null;
     }
+
+    public static GameObject damagePopupText => gameManager._damagePopupText;
 }

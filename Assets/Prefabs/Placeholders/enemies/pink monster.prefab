@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 1637516702266013816}
   - component: {fileID: 1637516702266013817}
   - component: {fileID: 6708350384901388413}
+  - component: {fileID: -5092676159163702187}
   m_Layer: 7
   m_Name: pink monster
   m_TagString: Untagged
@@ -222,3 +223,21 @@ MonoBehaviour:
   idle: 
   move: PinkMonster_Run
   death: PinkMonster_Death
+--- !u!114 &-5092676159163702187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637516702266013814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac5986567bf9d24bb19373254812631, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveUp: 1
+  amplitude: 0.15
+  frequency: 1.5
+  rotationAmount: 5
+  moveSpeed: 2
+  fadeInTime: 0.25

@@ -47,10 +47,17 @@ public class GameSession : MonoBehaviour
     private int currentEnemyListIndex,
         currentEnemyIndex;
 
-    public Transform enemyParent;
-
     /////////////////////////////////////////////////////
 
+    ////////////////// OBJECT HOLDERS //////////////////
+    [Header("Object Holders")]
+    [Tooltip("All the spawned enemies will be the children of this game object")]
+    public Transform enemyParent;
+
+    [Tooltip("All the spawned damage popups will be the children of this game object")]
+    public Transform damagePopupParent;
+
+    /////////////////////////////////////////////////////
 
     private void Awake()
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(DamagePopup))]
 public abstract class Enemy : MonoBehaviour, IAnimatable
 {
     protected GameSession gameSession;
@@ -14,6 +15,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     [Tooltip("The enemy to enemy collider")]
     [SerializeField]
     protected Collider2D enemyBodyCollider;
+    protected DamagePopup damagePopup;
     protected Stat _stat;
     protected bool isDead;
 
@@ -28,6 +30,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         playerTrans = GameManager.PlayerMovement().transform;
 
         rb = GetComponent<Rigidbody2D>();
+        damagePopup = GetComponent<DamagePopup>();
 
         if (TryGetComponent<Collider2D>(out Collider2D col))
         {
@@ -97,6 +100,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
             GameObject fx = Instantiate(onHitFx, spawnPos, Quaternion.identity);
             fx.transform.parent = gameObject.transform;
         }
+
+        damagePopup.ShowDamagePopup(amount);
 
         // Get the new health
         float newHealth = _stat.ModifyHealth(-amount);
