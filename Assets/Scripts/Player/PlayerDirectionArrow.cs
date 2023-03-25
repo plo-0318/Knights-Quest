@@ -28,7 +28,7 @@ public class PlayerDirectionArrow : MonoBehaviour
         Rotate();
     }
 
-    private void Rotate()
+    public void Rotate()
     {
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(gatherInput.mousePos); //+ Vector3.forward * 10f);
 
