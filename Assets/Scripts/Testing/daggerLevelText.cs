@@ -8,7 +8,7 @@ public class daggerLevelText : MonoBehaviour
     // FOR TESTING, WILL DELETE LATER
 
     private TextMeshProUGUI text;
-    private PlayerStat playerStat;
+    private PlayerStatus playerStatus;
     private Dictionary<string, Skill> skills;
     private bool found;
 
@@ -17,7 +17,7 @@ public class daggerLevelText : MonoBehaviour
         text = GetComponent<TextMeshProUGUI>();
         text.text = "Dagger Level : 0";
 
-        playerStat = GameManager.PlayerStat();
+        playerStatus = GameManager.PlayerStatus();
 
         found = false;
     }
@@ -26,14 +26,14 @@ public class daggerLevelText : MonoBehaviour
     {
         if (!found)
         {
-            if (playerStat.GetSkills() == null)
+            if (playerStatus.GetSkills() == null)
             {
                 return;
             }
             else
             {
                 found = true;
-                skills = playerStat.GetSkills();
+                skills = playerStatus.GetSkills();
             }
         }
 
