@@ -61,21 +61,18 @@ public class GameSession : MonoBehaviour
         GameManager.PlayerStat().AssignSkill(new SkillDagger());
     }
 
-    public void TEST_AddFieldSkill()
-    {
-        GameManager.PlayerStat().AssignSkill(new SkillField());
-    }
-
     public void TEST_AddFireballSkill()
     {
         GameManager.PlayerStat().AssignSkill(new SkillFireball());
     }
+
     public void TEST_AddArrowSkill()
     {
-        GameManager.PlayerStat().AssignSkill(new SkillArrow ());
+        GameManager.PlayerStat().AssignSkill(new SkillArrow());
     }
+
     public void TEST_AddHammerSkill()
     {
-        GameManager.PlayerStat().AssignSkill(new SkillHammer ());
+        GameManager.PlayerStat().AssignSkill(new SkillHammer());
     }
 }
