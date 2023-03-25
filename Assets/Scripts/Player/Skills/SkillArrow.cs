@@ -132,13 +132,13 @@ public class SkillArrow : Skill
             Quaternion.identity
         );
 
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(gatherInput.mousePos);
+        // Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(gatherInput.mousePos);
          
-         //Angle between mouse and t$$anonymous$$s object
-         float angle = AngleBetweenPoints(spawnedArrow.transform.position, mouseWorldPosition);
+        //  //Angle between mouse and t$$anonymous$$s object
+        //  float angle = AngleBetweenPoints(spawnedArrow.transform.position, mouseWorldPosition);
          
          //Ta daa
-         spawnedArrow.transform.rotation =  Quaternion.Euler (new Vector3(0f,0f,angle + zRotation));
+         spawnedArrow.transform.rotation =  Quaternion.Euler (new Vector3(0f,0f, PlayerDirectionArrow.AngleBetweenMouseAndPlayer() + zRotation));
 
         //float baseRotation = 45f;
         

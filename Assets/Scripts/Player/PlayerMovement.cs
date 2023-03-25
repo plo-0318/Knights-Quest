@@ -134,6 +134,11 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
     public bool IsMoving() => !IsIdle();
 
+    public Vector3 MousePos()
+    {
+        return Camera.main.ScreenToWorldPoint(gatherInput.mousePos);
+    }
+
     public void TEST_knockback()
     {
         KnockBack(Vector2.down);
