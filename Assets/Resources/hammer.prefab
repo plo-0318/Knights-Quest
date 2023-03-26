@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 3249951914766141027}
-  endRotate: 120
+  swingSpeed: 350
 --- !u!50 &3249951914766141027
 Rigidbody2D:
   serializedVersion: 4

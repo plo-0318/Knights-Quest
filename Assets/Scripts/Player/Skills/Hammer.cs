@@ -13,7 +13,7 @@ public class Hammer : MonoBehaviour
     private float startRotate;
     private float endRotate;
 
-    private float totalRotateTime = 1.0f;
+    public float swingSpeed = 1.0f;
     private float elapsedTime = 0.0f;
 
     private void Start()
@@ -23,20 +23,19 @@ public class Hammer : MonoBehaviour
 
     private void Update()
     {
-        if (elapsedTime < totalRotateTime && swingPoint != null)
+        if (elapsedTime < endRotate && swingPoint != null)
         {
-            elapsedTime += Time.deltaTime;
-            float progress = elapsedTime / totalRotateTime;
-            float step = (endRotate - startRotate) * Time.deltaTime / totalRotateTime;
+            elapsedTime += swingSpeed * Time.deltaTime;
+            float step = swingSpeed * Time.deltaTime;
             transform.RotateAround(swingPoint.position, Vector3.forward, step);
         }
-        else if (elapsedTime >= totalRotateTime)
+        else if (elapsedTime >= endRotate)
         {
             Destroy(gameObject);
         }
     }
 
-    public void Init(float damage, float endRotate, bool strike = false, Transform swingPoint = null)
+    public void Init(float damage, float endRotate, float speed, bool strike = false, Transform swingPoint = null)
     {
         this.damage = damage;
         this.endRotate = endRotate;
