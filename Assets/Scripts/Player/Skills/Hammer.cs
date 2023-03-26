@@ -16,11 +16,6 @@ public class Hammer : MonoBehaviour
     public float swingSpeed = 1.0f;
     private float elapsedTime = 0.0f;
 
-    private void Start()
-    {
-        startRotate = 0f;
-    }
-
     private void Update()
     {
         if (elapsedTime < endRotate && swingPoint != null)

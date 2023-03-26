@@ -13,8 +13,6 @@ public class SkillHammer : Skill
 
     private float damage, rotation;
     private float speed = 2.0f;
-    
-    private float swingSpeed = 1.0f;
 
     public SkillHammer()
     {
@@ -96,8 +94,6 @@ public class SkillHammer : Skill
             new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
             Quaternion.identity
         );
-
-        Debug.Log("spawn");
 
         float baseRotation = 45f;
 
