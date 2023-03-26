@@ -4,36 +4,43 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
-    private float damage,
-        speed;
-    private bool strike;
+    private float damage;
+    private Transform swingPoint;
 
     [SerializeField]
     private Rigidbody2D rb;
 
-    private float destroyTimer;
-    private float destroyTime;
+    private float startRotate;
+    private float endRotate;
+
+    private float totalRotateTime = 1.0f;
+    private float elapsedTime = 0.0f;
 
     private void Start()
     {
-        destroyTimer = 0f;
-        destroyTime = 3f;
+        startRotate = 0f;
     }
 
     private void Update()
     {
-        if (destroyTimer >= destroyTime)
+        if (elapsedTime < totalRotateTime && swingPoint != null)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / totalRotateTime;
+            float step = (endRotate - startRotate) * Time.deltaTime / totalRotateTime;
+            transform.RotateAround(swingPoint.position, Vector3.forward, step);
+        }
+        else if (elapsedTime >= totalRotateTime)
         {
             Destroy(gameObject);
         }
-
-        destroyTimer += Time.deltaTime;
     }
 
-    public void Init(float damage, Vector2 velocity, bool strike = false)
+    public void Init(float damage, float endRotate, bool strike = false, Transform swingPoint = null)
     {
         this.damage = damage;
-        rb.velocity = velocity;
-        this.strike = strike;
+        this.endRotate = endRotate;
+        this.swingPoint = swingPoint;
+        elapsedTime = 0f;
     }
 }
