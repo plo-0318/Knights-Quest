@@ -20,7 +20,7 @@ public class Hammer : MonoBehaviour
     {
         UpdateParentPosition();
 
-
+        //Create the swinging
         if (elapsedTime < endRotate && swingPoint != null)
         {
             elapsedTime += swingSpeed * Time.deltaTime;
@@ -41,6 +41,7 @@ public class Hammer : MonoBehaviour
         elapsedTime = 0f;
     }
 
+    //Check the parent position
     private void UpdateParentPosition()
     {
         if (swingPoint != null)
