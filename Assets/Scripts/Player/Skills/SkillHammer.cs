@@ -89,11 +89,22 @@ public class SkillHammer : Skill
         float playerPosBaseOffset = -.2f;
         playerPos.y += playerPosBaseOffset;
 
+        GameObject hammerParent = new GameObject("HammerMovement");
+        hammerParent.transform.position = new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0);
+
+        // Attach the HammerParent script to the new parent GameObject
+        HammerMovement hammerParentScript = hammerParent.AddComponent<HammerMovement>();
+        hammerParentScript.SetPlayer(GameManager.PlayerMovement().gameObject);
+
+        // Instantiate the Hammer as a child of the new parent GameObject
         GameObject spawnedHammer = GameObject.Instantiate(
             hammer,
-            new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
-            Quaternion.identity
+            Vector3.zero,
+            Quaternion.identity,
+            hammerParent.transform
         );
+
+        spawnedHammer.transform.localPosition = new Vector3(offset.x, offset.y, 0);
 
         float baseRotation = 45f;
 

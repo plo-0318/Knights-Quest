@@ -18,6 +18,9 @@ public class Hammer : MonoBehaviour
 
     private void Update()
     {
+        UpdateParentPosition();
+
+
         if (elapsedTime < endRotate && swingPoint != null)
         {
             elapsedTime += swingSpeed * Time.deltaTime;
@@ -26,7 +29,7 @@ public class Hammer : MonoBehaviour
         }
         else if (elapsedTime >= endRotate)
         {
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
 
@@ -36,5 +39,13 @@ public class Hammer : MonoBehaviour
         this.endRotate = endRotate;
         this.swingPoint = swingPoint;
         elapsedTime = 0f;
+    }
+
+    private void UpdateParentPosition()
+    {
+        if (swingPoint != null)
+        {
+            transform.parent.position = swingPoint.position;
+        }
     }
 }
