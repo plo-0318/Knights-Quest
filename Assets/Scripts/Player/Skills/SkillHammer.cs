@@ -11,7 +11,8 @@ public class SkillHammer : Skill
     private const float BASE_DAMAGE = 1f;
     private const float BASE_COOLDOWN_TIME = 4f;
 
-    private float damage, rotation;
+    private float damage,
+        rotation;
     private float speed = 2.0f;
 
     public SkillHammer()
@@ -70,7 +71,8 @@ public class SkillHammer : Skill
         }
     }
 
-    public float getRotation(){
+    public float getRotation()
+    {
         return rotation;
     }
 
@@ -88,15 +90,21 @@ public class SkillHammer : Skill
         //Gets the player position
         Vector2 playerPos = GameManager.PlayerMovement().transform.position;
 
+        //Get the mouse position
+        Vector2 mousePos = GameManager.PlayerMovement().GetMousePos();
 
         //Editing radius of the player
         float playerPosBaseOffset = -.2f;
         playerPos.y += playerPosBaseOffset;
 
         GameObject hammerParent = new GameObject("HammerMovement");
-        hammerParent.transform.position = new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0);
+        hammerParent.transform.position = new Vector3(
+            playerPos.x + offset.x,
+            playerPos.y + offset.y,
+            0
+        );
 
-        //Attaching the hamer parent 
+        //Attaching the hamer parent
         HammerMovement hammerParentScript = hammerParent.AddComponent<HammerMovement>();
         hammerParentScript.SetPlayer(GameManager.PlayerMovement().gameObject);
 
@@ -107,7 +115,7 @@ public class SkillHammer : Skill
             Quaternion.identity,
             hammerParent.transform
         );
-        
+
         //Sets local position
         spawnedHammer.transform.localPosition = new Vector3(offset.x, offset.y, 0);
 

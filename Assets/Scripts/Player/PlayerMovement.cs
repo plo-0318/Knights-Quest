@@ -128,6 +128,11 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
         col.enabled = false;
     }
 
+    public Vector2 GetMousePos()
+    {
+        return Camera.main.ScreenToWorldPoint(gatherInput.mousePos);
+    }
+
     public bool IsDead() => playerStatus.IsDead;
 
     public bool IsIdle() => !canMove ? true : rb.velocity.magnitude <= Mathf.Epsilon;
