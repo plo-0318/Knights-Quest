@@ -9,10 +9,17 @@ public class Dagger : MonoBehaviour
     private bool piercing;
 
     [SerializeField]
+    GameObject onHitFx;
+
     private Rigidbody2D rb;
 
     private float destroyTimer;
     private float destroyTime;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     private void Start()
     {
@@ -35,5 +42,18 @@ public class Dagger : MonoBehaviour
         this.damage = damage;
         rb.velocity = velocity;
         this.piercing = piercing;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            enemy.Hurt(damage, onHitFx, transform.position);
+
+            if (!piercing)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }

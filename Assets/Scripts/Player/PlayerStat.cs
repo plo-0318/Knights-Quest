@@ -1,56 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class PlayerStat : MonoBehaviour
+public class PlayerStat : Stat
 {
-    private float health,
-        speed,
-        projectileSpeed,
-        damage;
+    public const int ITEM_PICKUP_SCALE = 5;
 
-    private Dictionary<string, Skill> skills;
-    private const int NUM_SKILLS = 10;
+    protected float itemPickupScale;
+    protected int _killCount;
+    protected double _exp;
+    protected int _level;
 
-    private void Awake()
+    ///////////////////// _EXP FORMULA /////////////////////
+    private const int BASE_EXP = 100;
+    private const int LINEAR_INCREMENT = 50;
+    private const int EXPONENTIAL_INCREMENT = 25;
+
+    /////////////////////////////////////////////////////
+
+    public PlayerStat(
+        float maxHealth,
+        float damage,
+        float speed,
+        float prjectileSpeed = 1f,
+        float scale = 1f,
+        float itemPickupScale = 1f
+    )
     {
-        GameManager.RegisterPlayerStat(this);
+        NUMBER_OF_STATS = 6;
+
+        stats = new List<float>();
+
+        stats.Add(maxHealth);
+        stats.Add(damage);
+        stats.Add(speed);
+        stats.Add(prjectileSpeed);
+        stats.Add(scale);
+        stats.Add(itemPickupScale);
+
+        BASE_STATS = new List<float>(stats);
+
+        currentHealth = GetStat(MAX_HEALTH);
+
+        _killCount = 0;
+        _exp = 0;
+        _level = 0;
+
+        InitModifiers();
     }
 
-    private void Start()
+    private double ExpNeededToLevelUp(int level)
     {
-        skills = new Dictionary<string, Skill>();
+        return BASE_EXP + LINEAR_INCREMENT * level + EXPONENTIAL_INCREMENT * Mathf.Pow(level, 2);
     }
 
-    private void Update()
+    public void IncrementKillCount()
     {
-        foreach (KeyValuePair<string, Skill> kvp in skills)
-        {
-            kvp.Value.Use();
-        }
+        _killCount++;
     }
 
-    public void AssignSkill(Skill skillToAdd)
-    {
-        // If player has not learned this skill, add it
-        if (!skills.TryGetValue(skillToAdd.name, out Skill skill))
-        {
-            skills.Add(skillToAdd.name, skillToAdd);
-        }
-        // else level up this skill
-        else
-        {
-            skill.Upgrade();
-        }
-    }
-
-    public Dictionary<string, Skill> GetSkills()
-    {
-        return skills;
-    }
-
-    // public bool HasSkill(string name)
-    // {
-    //     return skills.ContainsKey(name);
-    // }
+    public int killCount => _killCount;
+    public double exp => _exp;
+    public int level => _level;
 }

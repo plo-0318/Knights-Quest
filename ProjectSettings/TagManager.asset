@@ -4,10 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Field
-  - Collectable
-  - Pickup
-  - Absorb
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,9 +12,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - EnemyBody
   - 
   - 
   - 
@@ -44,9 +41,6 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: 
-    uniqueID: 3010459049
     locked: 0
   - name: Background
     uniqueID: 2091767323

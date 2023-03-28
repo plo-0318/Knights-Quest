@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8138ac1a78effb147a75701ce3e0bc10, type: 3}
+  m_Name: Test Level Detail
+  m_EditorClassIdentifier: 
+  levelEnemyDetails:
+  - spawnDuration: 10
+    enemiesToSpawn:
+    - {fileID: 3946279775617393671, guid: 3495e09faf19bb745936688902e459a1, type: 3}
+  - spawnDuration: 10
+    enemiesToSpawn:
+    - {fileID: 6442392794086570286, guid: 1e226fbd027ee84489413d28ab591e33, type: 3}
+  - spawnDuration: 10
+    enemiesToSpawn:
+    - {fileID: 1637516702266013817, guid: 9e2b3016d86b6b34a8e198e283682059, type: 3}
+  enemyModifiers: []
