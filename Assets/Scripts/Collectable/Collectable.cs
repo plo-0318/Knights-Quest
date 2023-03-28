@@ -4,15 +4,41 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    protected float flySpeed = 8f;
+    protected bool pickedUp;
+    protected Transform destination;
+
+    protected void Awake()
     {
-        
+        pickedUp = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (pickedUp)
+        {
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                destination.position,
+                flySpeed * Time.deltaTime
+            );
+        }
+    }
+
+    public void PickUp(Transform destination)
+    {
+        if (pickedUp)
+        {
+            return;
+        }
+
+        pickedUp = true;
+        this.destination = destination;
+    }
+
+    public virtual void Use()
+    {
+        Destroy(gameObject);
     }
 }
