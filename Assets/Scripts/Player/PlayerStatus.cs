@@ -138,9 +138,9 @@ public class PlayerStatus : MonoBehaviour
 
         while (currentTime < invincibleTime)
         {
-            var a = Mathf.PingPong(Time.time * oscillationSpeed, 1f);
+            var alpha = Mathf.PingPong(Time.time * oscillationSpeed, 1f);
 
-            sprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, a);
+            sprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
 
             currentTime += Time.deltaTime;
             yield return null;

@@ -88,6 +88,8 @@ public class GameSession : MonoBehaviour
         playerStatus = GameManager.PlayerStatus();
 
         playerStatus.onPlayerDeath += HandleGameOver;
+
+        // Invoke("TEST_SpawnRandomEnemiesAroundPlayer", 3f);
     }
 
     private void Update()
@@ -220,17 +222,17 @@ public class GameSession : MonoBehaviour
     }
 
     // Get the closest enemy position to the point
-    public Vector3 closestEnemyPosition(Vector3 pos)
+    public List<Vector3> closestEnemyPosition(Vector3 pos)
     {
-        return closestEnemyPositions(pos, 1).First();
+        return closestEnemyPositions(pos, 1);
     }
 
     // Get the n closest enemy positions to the point
-    public IEnumerable<Vector3> closestEnemyPositions(Vector3 fromPos, int n)
+    public List<Vector3> closestEnemyPositions(Vector3 fromPos, int n)
     {
         if (enemyRefs.Count == 0 || n <= 0)
         {
-            return null;
+            return new List<Vector3>();
         }
 
         // Create a list of positions because enemy might get destroyed
@@ -244,13 +246,14 @@ public class GameSession : MonoBehaviour
             positions.Add(new Vector3(enemyPos.x, enemyPos.y, enemyPos.z));
         }
 
+        // Check if n is less than the amount of enemies
         int count = n <= positions.Count ? n : positions.Count;
 
         IEnumerable<Vector3> nClosestEnemyPos = positions
             .OrderBy(pos => (pos - fromPos).sqrMagnitude)
             .Take(n);
 
-        return nClosestEnemyPos;
+        return nClosestEnemyPos.ToList<Vector3>();
     }
 
     // TODO: delete these test functions
@@ -287,6 +290,77 @@ public class GameSession : MonoBehaviour
             Debug.Log(spawnPos);
 
             var e = Instantiate(enemy, spawnPos, Quaternion.identity);
+        }
+    }
+
+    public List<Enemy> TEST_GetNClosestEnemies(Vector3 fromPos, int n)
+    {
+        if (enemyRefs.Count == 0 || n <= 0)
+        {
+            return new List<Enemy>();
+        }
+
+        List<Enemy> enemies = new List<Enemy>();
+
+        foreach (Enemy enemy in enemyRefs)
+        {
+            enemies.Add(enemy);
+        }
+
+        int count = n <= enemies.Count ? n : enemies.Count;
+
+        IEnumerable<Enemy> nClosestEnemyPos = enemies
+            .OrderBy(enemy => (enemy.transform.position - fromPos).sqrMagnitude)
+            .Take(n);
+
+        return nClosestEnemyPos.ToList<Enemy>();
+    }
+
+    private IEnumerator TEST_BlinkEnemy(Enemy enemy)
+    {
+        float blinkDuration = 5f;
+        float currentTime = 0;
+        float oscillationSpeed = 6f;
+
+        var sprite = enemy.GetComponent<SpriteRenderer>();
+        Color originalColor = new Color(
+            sprite.color.r,
+            sprite.color.g,
+            sprite.color.b,
+            sprite.color.a
+        );
+
+        while (currentTime < blinkDuration)
+        {
+            var a = Mathf.PingPong(Time.time * oscillationSpeed, 1f);
+
+            sprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, a);
+
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        sprite.color = originalColor;
+    }
+
+    public void TEST_BlinkNClosestEnemies(int n)
+    {
+        var enemies = TEST_GetNClosestEnemies(GameManager.PlayerMovement().transform.position, n);
+
+        foreach (var enemy in enemies)
+        {
+            StartCoroutine(TEST_BlinkEnemy(enemy));
+        }
+    }
+
+    public void TEST_DisableAllEnemyMovement()
+    {
+        foreach (var enemy in enemyRefs)
+        {
+            if (enemy.TryGetComponent<WalkingEnemy>(out var we))
+            {
+                we.TEST_DisableMovement();
+            }
         }
     }
 }

@@ -60,4 +60,10 @@ public class WalkingEnemy : Enemy
     public override bool IsIdle() => false;
 
     public override bool IsMoving() => !isDead;
+
+    //TODO: Delete this
+    public void TEST_DisableMovement()
+    {
+        canMove = false;
+    }
 }
