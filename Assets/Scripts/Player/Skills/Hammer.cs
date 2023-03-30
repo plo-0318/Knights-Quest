@@ -5,15 +5,11 @@ using UnityEngine;
 public class Hammer : MonoBehaviour
 {
     private float damage;
+    private float swingSpeed;
     private Transform swingPoint;
-
-    [SerializeField]
-    private Rigidbody2D rb;
 
     private float startRotate;
     private float endRotate;
-
-    public float swingSpeed = 1.0f;
     private float elapsedTime = 0.0f;
 
     private void Update()
@@ -33,10 +29,11 @@ public class Hammer : MonoBehaviour
         }
     }
 
-    public void Init(float damage, float endRotate, float speed, bool strike = false, Transform swingPoint = null)
+    public void Init(float damage, float endRotate, float swingSpeed, bool strike = false, Transform swingPoint = null)
     {
         this.damage = damage;
         this.endRotate = endRotate;
+        this.swingSpeed = swingSpeed;
         this.swingPoint = swingPoint;
         elapsedTime = 0f;
     }

@@ -12,8 +12,7 @@ public class SkillHammer : Skill
     private const float BASE_COOLDOWN_TIME = 4f;
 
     private float damage,
-        rotation;
-    private float speed = 2.0f;
+        rotation, swingSpeed;
 
     public SkillHammer()
     {
@@ -26,8 +25,8 @@ public class SkillHammer : Skill
         cooldownTimer = .5f;
 
         damage = BASE_DAMAGE;
-        speed = 8f;
         rotation = 90;
+        swingSpeed = 120f;
     }
 
     public override void Upgrade()
@@ -37,17 +36,20 @@ public class SkillHammer : Skill
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;
+            swingSpeed = 140f;
         }
 
         if (level == 3)
         {
             cooldownTime = BASE_COOLDOWN_TIME - .5f;
             rotation = 140f;
+            swingSpeed = 160f;
         }
 
         if (level == 4)
         {
             damage = BASE_DAMAGE * 1.5f;
+            swingSpeed = 180f;
         }
 
         if (level == 5)
@@ -55,6 +57,7 @@ public class SkillHammer : Skill
             damage = BASE_DAMAGE * 1.75f;
             cooldownTime = BASE_COOLDOWN_TIME - 1f;
             rotation = 190f;
+            swingSpeed = 200f;
         }
     }
 
@@ -82,7 +85,7 @@ public class SkillHammer : Skill
         float playerPosYOffset = 1.5f;
         GameObject hammerObject = SpawnHammer(new Vector2(0, playerPosYOffset), 0f);
         Hammer hammer = hammerObject.GetComponent<Hammer>();
-        hammer.Init(damage, getRotation(), speed, false, GameManager.PlayerMovement().transform);
+        hammer.Init(damage, getRotation(), swingSpeed, false, GameManager.PlayerMovement().transform);
     }
 
     private GameObject SpawnHammer(Vector2 offset, float zRotation)
