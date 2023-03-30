@@ -14,7 +14,7 @@ public class EnemySpawner : MonoBehaviour
     {
         gameSession = GameManager.GameSession();
 
-        gameSession.OnSpawnEnemy += Spawn;
+        gameSession.onSpawnEnemy += Spawn;
 
         spawnCooldownTime = 1f;
         spawnCooldownTimer = 0;
@@ -28,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDestroy()
     {
-        gameSession.OnSpawnEnemy -= Spawn;
+        gameSession.onSpawnEnemy -= Spawn;
     }
 
     private void Spawn(Enemy enemy, Modifier[] enemyModifiers)

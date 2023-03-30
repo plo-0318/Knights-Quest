@@ -8,12 +8,18 @@ using System.Linq;
 public class GameSession : MonoBehaviour
 {
     private float timer;
-    private bool tickTimer;
 
     [SerializeField]
     private TextMeshProUGUI timerText;
 
-    PlayerStatus playerStatus;
+    private PlayerStatus playerStatus;
+    private SoundManager soundManager;
+
+    //////////////////// GAME STATE ////////////////////
+    private bool tickTimer;
+    private bool gameStarted;
+
+    /////////////////////////////////////////////////////
 
     //////////////////// LEVEL DETAIL ////////////////////
 
@@ -35,9 +41,9 @@ public class GameSession : MonoBehaviour
 
     [SerializeField]
     private float timeBetweenWaves = 15f;
-    public event Action<Enemy, Modifier[]> OnSpawnEnemy;
-    public event Action OnKillAllEnemies;
-    public event Action<Modifier> OnRemoveModifier;
+    public event Action<Enemy, Modifier[]> onSpawnEnemy;
+    public event Action onKillAllEnemies;
+    public event Action<Modifier> onRemoveModifier;
     private HashSet<Enemy> enemyRefs;
 
     private bool canSpawnEnemy;
@@ -49,6 +55,12 @@ public class GameSession : MonoBehaviour
 
     /////////////////////////////////////////////////////
 
+    ////////////////// GAME EVENTS //////////////////
+    public event Action onGameStart;
+    public event Action onGameLost;
+
+    /////////////////////////////////////////////////////
+
     ////////////////// OBJECT HOLDERS //////////////////
     [Header("Object Holders")]
     [Tooltip("All the spawned enemies will be the children of this game object")]
@@ -57,17 +69,19 @@ public class GameSession : MonoBehaviour
     [Tooltip("All the spawned damage popups will be the children of this game object")]
     public Transform damagePopupParent;
 
+    [Tooltip("All the spawned skills will be the children of this game object")]
+    public Transform skillParents;
+
     /////////////////////////////////////////////////////
 
     private void Awake()
     {
         GameManager.RegisterGameSession(this);
-    }
 
-    private void Start()
-    {
         timer = enemySpawnTimer = 0f;
-        tickTimer = true;
+        tickTimer = false;
+
+        gameStarted = false;
 
         spawnWaveTimer = timeBetweenWaves;
         enemyRefs = new HashSet<Enemy>();
@@ -84,12 +98,12 @@ public class GameSession : MonoBehaviour
                 enemyModifiers[i].id = gameObject.GetInstanceID();
             }
         }
+    }
 
+    private void Start()
+    {
         playerStatus = GameManager.PlayerStatus();
-
-        playerStatus.onPlayerDeath += HandleGameOver;
-
-        // Invoke("TEST_SpawnRandomEnemiesAroundPlayer", 3f);
+        soundManager = GameManager.SoundManager();
     }
 
     private void Update()
@@ -107,10 +121,7 @@ public class GameSession : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        playerStatus.onPlayerDeath -= HandleGameOver;
-    }
+    private void OnDestroy() { }
 
     public float Timer => timer;
 
@@ -122,7 +133,24 @@ public class GameSession : MonoBehaviour
         }
     }
 
-    private void InitSession() { }
+    public void StartGame()
+    {
+        if (gameStarted)
+        {
+            return;
+        }
+
+        soundManager.PlayMusic(soundManager.GetRandomActionClip());
+
+        onGameStart?.Invoke();
+        gameStarted = true;
+    }
+
+    public void HandleStartEventEnd()
+    {
+        canSpawnEnemy = true;
+        tickTimer = true;
+    }
 
     public string GetTimeString()
     {
@@ -154,12 +182,12 @@ public class GameSession : MonoBehaviour
 
         if (enemyRefs.Count < maxEnemyPerWave)
         {
-            OnSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
+            onSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
         }
 
         if (spawnWaveTimer <= 0 && enemyRefs.Count <= maxEnemyTotal - maxEnemyPerWave)
         {
-            OnSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
+            onSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
 
             spawnWaveTimer = timeBetweenWaves;
         }
@@ -208,17 +236,23 @@ public class GameSession : MonoBehaviour
 
     public void KillAllEnemies()
     {
-        OnKillAllEnemies?.Invoke();
+        onKillAllEnemies?.Invoke();
     }
 
     public void RemoveModifierFromAllEnemies(Modifier mod)
     {
-        OnRemoveModifier?.Invoke(mod);
+        onRemoveModifier?.Invoke(mod);
     }
 
-    private void HandleGameOver()
+    public void HandleGameLost()
     {
         canSpawnEnemy = false;
+        tickTimer = false;
+
+        soundManager.PlayClip(soundManager.audioRefs.sfxDefeat);
+        soundManager.PlayMusic(soundManager.audioRefs.musicGameOver);
+
+        onGameLost?.Invoke();
     }
 
     // Get the closest enemy position to the point

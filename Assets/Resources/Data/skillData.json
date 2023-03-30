@@ -8,18 +8,18 @@
       "lv3Effect": "Cooldown -0.5s\nNumber of daggers +2",
       "lv4Effect": "Damage +25%\nNumber of daggers +2",
       "lv5Effect": "Damage +25%\nNumber of daggers +2\nCooldown -1s\nDaggers can pierce through multiple enemies",
-      "damage": 300.0,
+      "damage": 200.0,
       "cooldown": 3.0
     },
     {
       "displayName": "Repellent Field (TBD)",
       "name": "field",
-      "description": "Spawns a field around the player, enemies inside the field will take damage every second",
+      "description": "Spawns a field around the player. Enemies inside the field will take damage every second",
       "lv2Effect": "lv2 effect",
       "lv3Effect": "lv3 effect",
       "lv4Effect": "lv4 effect",
       "lv5Effect": "lv5 effec5",
-      "damage": 250.0,
+      "damage": 100.0,
       "cooldown": 1.0
     },
     {

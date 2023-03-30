@@ -6,6 +6,7 @@ using System;
 public class PlayerStatus : MonoBehaviour
 {
     private PlayerMovement playerMovement;
+    private SoundManager soundManager;
 
     /////////////////////////////////////////////////////
 
@@ -32,8 +33,6 @@ public class PlayerStatus : MonoBehaviour
         isInvincible;
     private float invincibleTime = .75f;
 
-    public event Action onPlayerDeath;
-
     /////////////////////////////////////////////////////
 
 
@@ -47,11 +46,13 @@ public class PlayerStatus : MonoBehaviour
         isDead = isInvincible = false;
 
         playerMovement = GetComponent<PlayerMovement>();
+
+        skills = new Dictionary<string, Skill>();
     }
 
     private void Start()
     {
-        skills = new Dictionary<string, Skill>();
+        soundManager = GameManager.SoundManager();
     }
 
     private void Update()
@@ -105,6 +106,8 @@ public class PlayerStatus : MonoBehaviour
 
         isInvincible = true;
 
+        soundManager.PlayClip(soundManager.audioRefs.sfxPlayerHurt);
+
         if (knockBackDirection != Vector2.zero)
         {
             playerMovement.KnockBack(knockBackDirection);
@@ -154,7 +157,8 @@ public class PlayerStatus : MonoBehaviour
     private void ProcessDeath()
     {
         isDead = true;
-        onPlayerDeath?.Invoke();
+
+        GameManager.GameSession().HandleGameLost();
     }
 
     public PlayerStat stat => _stat;

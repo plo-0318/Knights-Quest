@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1970a145c697a8c4e864c257b832afba, type: 3}
+  m_Name: Audio References
+  m_EditorClassIdentifier: 
+  musicMainMenu: {fileID: 8300000, guid: ef76e794d330e3648b82cefa0b933739, type: 3}
+  musicAction1: {fileID: 8300000, guid: 3ed0e6bc72306044ca87ad4aafb22deb, type: 3}
+  musicAction2: {fileID: 8300000, guid: 0e081d60e8a640a49bb59324e639154e, type: 3}
+  musicAction3: {fileID: 8300000, guid: d9d45447854665e42a2bf665940cd4ad, type: 3}
+  musicBoss: {fileID: 8300000, guid: 5ee5e258aa4887a418def369813690a7, type: 3}
+  musicGameOver: {fileID: 8300000, guid: bda836d442c0b5848b98cb3dfc9a3149, type: 3}
+  sfxMenuOpen: {fileID: 8300000, guid: 03b9b972d95bd4e42a5c274187628fa5, type: 3}
+  sfxMenuClick: {fileID: 8300000, guid: 21b9d6b158297dd449863015c3ba08e3, type: 3}
+  sfxTick: {fileID: 8300000, guid: b5146cdfb5eefe34e95f0e0634f46cba, type: 3}
+  sfxStart: {fileID: 8300000, guid: 010ef40ab8bab6a4d8e8d5c031f81541, type: 3}
+  sfxPlayerHurt: {fileID: 8300000, guid: 1c2ec734cba4aaa4b85f83cd7c12b881, type: 3}
+  sfxEnemyHurt: {fileID: 8300000, guid: 9bccb26c87b273849972071d2f3ce4df, type: 3}
+  sfxEnemyDeath: {fileID: 8300000, guid: ab584c8682c326a4599e560e4749650f, type: 3}
+  sfxExpPickup: {fileID: 8300000, guid: 2e7423519aefba64ea5e6fbc1e201095, type: 3}
+  sfxVictory: {fileID: 8300000, guid: d9833017985f1e948b19cb7eac8cb696, type: 3}
+  sfxDefeat: {fileID: 8300000, guid: 69fa50ab1a250194bbe14ebf74c30196, type: 3}
+  sfxBossWarning: {fileID: 8300000, guid: 52f3e58a8a939f344a926073e1f51d0c, type: 3}
+  sfxDaggerHit: {fileID: 8300000, guid: 3b0041396f9aad340bfd60a30134e475, type: 3}

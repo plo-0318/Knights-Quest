@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
     private GameSession gameSession;
     private PlayerStatus playerStatus;
     private SpawnerManager spawnerManager;
+    private SoundManager soundManager;
 
     private Dictionary<string, SkillData> skillData;
 
@@ -122,6 +124,21 @@ public class GameManager : MonoBehaviour
         return gameManager.spawnerManager;
     }
 
+    public static void RegisterSoundManager(SoundManager sm)
+    {
+        if (!gameManager)
+        {
+            return;
+        }
+
+        gameManager.soundManager = sm;
+    }
+
+    public static SoundManager SoundManager()
+    {
+        return gameManager.soundManager;
+    }
+
     public static SkillData GetSkillData(string name)
     {
         if (gameManager.skillData.TryGetValue(name, out SkillData skill))
@@ -133,4 +150,12 @@ public class GameManager : MonoBehaviour
     }
 
     public static GameObject damagePopupText => gameManager._damagePopupText;
+
+    public static void ReloadScene()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+
+        gameManager.soundManager.PlayMusic(gameManager.soundManager.audioRefs.musicMainMenu);
+        SceneManager.LoadScene(scene.name);
+    }
 }

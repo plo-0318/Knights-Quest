@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
         canMove = true;
 
-        playerStatus.onPlayerDeath += handlePlayerDeath;
+        GameManager.GameSession().onGameLost += HandlePlayerDeath;
     }
 
     private void Update() { }
@@ -60,7 +60,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
     private void OnDestroy()
     {
-        playerStatus.onPlayerDeath -= handlePlayerDeath;
+        GameManager.GameSession().onGameLost -= HandlePlayerDeath;
     }
 
     private void Move()
@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
         }
     }
 
-    private void handlePlayerDeath()
+    private void HandlePlayerDeath()
     {
         canMove = false;
         col.enabled = false;

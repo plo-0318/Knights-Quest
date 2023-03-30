@@ -19,6 +19,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     protected Stat _stat;
     protected bool isDead;
 
+    protected SoundManager soundManager;
+
     protected virtual void Awake()
     {
         _stat = new Stat();
@@ -28,6 +30,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     {
         gameSession = GameManager.GameSession();
         playerTrans = GameManager.PlayerMovement().transform;
+        soundManager = GameManager.SoundManager();
 
         rb = GetComponent<Rigidbody2D>();
         damagePopup = GetComponent<DamagePopup>();
@@ -38,8 +41,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         }
 
         gameSession.OnEnemySpawn(this);
-        gameSession.OnKillAllEnemies += ProcessDeath;
-        gameSession.OnRemoveModifier += stat.RemoveModifier;
+        gameSession.onKillAllEnemies += ProcessDeath;
+        gameSession.onRemoveModifier += stat.RemoveModifier;
     }
 
     protected virtual void FixedUpdate()
@@ -50,8 +53,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     protected virtual void OnDestroy()
     {
         gameSession.OnEnemyDestroy(this);
-        gameSession.OnKillAllEnemies -= ProcessDeath;
-        gameSession.OnRemoveModifier -= stat.RemoveModifier;
+        gameSession.onKillAllEnemies -= ProcessDeath;
+        gameSession.onRemoveModifier -= stat.RemoveModifier;
     }
 
     protected void Flip()
@@ -103,6 +106,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
         damagePopup.ShowDamagePopup(amount);
 
+        soundManager.PlayClip(soundManager.audioRefs.sfxEnemyHurt);
+
         // Get the new health
         float newHealth = _stat.ModifyHealth(-amount);
 
@@ -117,6 +122,9 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         isDead = true;
         col.enabled = false;
         GameManager.PlayerStatus().stat.IncrementKillCount();
+
+        //TODO: Decide whether to keep enemy death sound
+        // soundManager.PlayClip(soundManager.audioRefs.sfxEnemyDeath);
 
         if (TryGetComponent<AnimatorController>(out var animatorController))
         {
