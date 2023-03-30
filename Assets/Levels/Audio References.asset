@@ -17,7 +17,7 @@ MonoBehaviour:
   musicAction2: {fileID: 8300000, guid: 0e081d60e8a640a49bb59324e639154e, type: 3}
   musicAction3: {fileID: 8300000, guid: d9d45447854665e42a2bf665940cd4ad, type: 3}
   musicBoss: {fileID: 8300000, guid: 5ee5e258aa4887a418def369813690a7, type: 3}
-  musicGameOver: {fileID: 8300000, guid: bda836d442c0b5848b98cb3dfc9a3149, type: 3}
+  musicGameOver: {fileID: 8300000, guid: f8e8c788c23f4354bb6953549f594f13, type: 3}
   sfxMenuOpen: {fileID: 8300000, guid: 03b9b972d95bd4e42a5c274187628fa5, type: 3}
   sfxMenuClick: {fileID: 8300000, guid: 21b9d6b158297dd449863015c3ba08e3, type: 3}
   sfxTick: {fileID: 8300000, guid: b5146cdfb5eefe34e95f0e0634f46cba, type: 3}
