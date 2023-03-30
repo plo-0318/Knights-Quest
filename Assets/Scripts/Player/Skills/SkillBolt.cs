@@ -18,9 +18,11 @@ public class SkillBolt : Skill
         name = "bolt";
         bolt = Resources.Load<GameObject>("bolt");
 
-        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        // BASE_DAMAGE = GameManager.GetSkillData(name).damage;
+        // BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
 
+        BASE_COOLDOWN_TIME = 2f;
+        BASE_DAMAGE = 5f;
         BASE_SPEED = 10f;
 
         level = 1;
