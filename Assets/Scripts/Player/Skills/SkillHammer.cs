@@ -74,10 +74,6 @@ public class SkillHammer : Skill
         }
     }
 
-    public float getRotation()
-    {
-        return rotation;
-    }
 
     //Creats the swinging and spawns hammer
     private void Swing()
@@ -85,33 +81,40 @@ public class SkillHammer : Skill
         float playerPosYOffset = 1.5f;
         GameObject hammerObject = SpawnHammer(new Vector2(0, playerPosYOffset), 0f);
         Hammer hammer = hammerObject.GetComponent<Hammer>();
-        hammer.Init(damage, getRotation(), swingSpeed, false, GameManager.PlayerMovement().transform);
+        hammer.Init(damage, rotation, swingSpeed, false, GameManager.PlayerMovement().transform);
     }
 
     private GameObject SpawnHammer(Vector2 offset, float zRotation)
     {
-        //Gets the player position
+        // Get the player position
         Vector2 playerPos = GameManager.PlayerMovement().transform.position;
 
-        //Get the mouse position
+        // Get the mouse position
         Vector2 mousePos = GameManager.PlayerMovement().GetMousePos();
 
-        //Editing radius of the player
+        // Calculate the direction vector from the player to the mouse
+        Vector2 direction = mousePos - playerPos;
+        direction.Normalize();
+
+        // Calculate the spawn position as the player position plus the direction vector scaled by the offset distance
+        Vector2 spawnPos = playerPos + direction * offset.magnitude;
+
+        // Editing radius of the player
         float playerPosBaseOffset = -.2f;
         playerPos.y += playerPosBaseOffset;
 
         GameObject hammerParent = new GameObject("HammerMovement");
         hammerParent.transform.position = new Vector3(
-            playerPos.x + offset.x,
-            playerPos.y + offset.y,
+            spawnPos.x,
+            spawnPos.y,
             0
         );
 
-        //Attaching the hamer parent
+        // Attaching the hammer parent
         HammerMovement hammerParentScript = hammerParent.AddComponent<HammerMovement>();
         hammerParentScript.SetPlayer(GameManager.PlayerMovement().gameObject);
 
-        //Creating the hammer is a child of the parent object
+        // Creating the hammer as a child of the parent object
         GameObject spawnedHammer = GameObject.Instantiate(
             hammer,
             Vector3.zero,
@@ -119,12 +122,13 @@ public class SkillHammer : Skill
             hammerParent.transform
         );
 
-        //Sets local position
-        spawnedHammer.transform.localPosition = new Vector3(offset.x, offset.y, 0);
+        // Set the initial rotation of the hammer based on the angle between the direction vector and the x-axis
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float baseRotation = angle - 90f;
+        spawnedHammer.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation + 45);
 
-        float baseRotation = 45f;
-
-        spawnedHammer.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
+        // Set the local position of the hammer to the offset distance along the direction vector
+        spawnedHammer.transform.localPosition = direction * offset.magnitude;
 
         Rigidbody2D rb = spawnedHammer.GetComponent<Rigidbody2D>();
         rb.isKinematic = true;
