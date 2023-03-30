@@ -23,4 +23,9 @@ public class PlayerSkillTest : MonoBehaviour
     {
         GameManager.PlayerStatus().AssignSkill(new SkillHammer());
     }
+
+    public void TEST_AddBoltSkill()
+    {
+        GameManager.PlayerStatus().AssignSkill(new SkillBolt());
+    }
 }
