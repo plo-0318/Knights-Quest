@@ -29,5 +29,6 @@ public class AudioReferences : ScriptableObject
     public AudioClip sfxBossWarning;
 
     [Header("SFX Skill")]
-    public AudioClip sfxDaggerHit;
+    public AudioClip sfxDaggerUse;
+    public AudioClip sfxSwordUse;
 }

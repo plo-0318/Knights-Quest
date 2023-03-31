@@ -151,8 +151,15 @@ public class GameManager : MonoBehaviour
 
     public static GameObject damagePopupText => gameManager._damagePopupText;
 
-    public static void ReloadScene()
+    public static void ReloadScene(float delay = 0)
     {
+        gameManager.StartCoroutine(DelayReloadScene(delay));
+    }
+
+    private static IEnumerator DelayReloadScene(float time)
+    {
+        yield return new WaitForSeconds(time);
+
         Scene scene = SceneManager.GetActiveScene();
 
         gameManager.soundManager.PlayMusic(gameManager.soundManager.audioRefs.musicMainMenu);

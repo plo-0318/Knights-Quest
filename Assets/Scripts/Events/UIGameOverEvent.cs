@@ -9,6 +9,8 @@ public class UIGameOverEvent : UIGameEvent
     private Button playAgainButton,
         mainMenuButton;
 
+    private SoundManager soundManager;
+
     protected override void Awake()
     {
         base.Awake();
@@ -22,6 +24,14 @@ public class UIGameOverEvent : UIGameEvent
         mainMenuButton.gameObject.SetActive(false);
     }
 
+    private void Start()
+    {
+        soundManager = GameManager.SoundManager();
+
+        playAgainButton.onClick.AddListener(PlayMenuClickSFX);
+        mainMenuButton.onClick.AddListener(PlayMenuClickSFX);
+    }
+
     protected override void StartEvent()
     {
         playAgainButton.gameObject.SetActive(true);
@@ -31,13 +41,18 @@ public class UIGameOverEvent : UIGameEvent
     private void HandlePlayAgain()
     {
         EndEvent();
-        GameManager.ReloadScene();
+        GameManager.ReloadScene(0.5f);
+    }
+
+    private void PlayMenuClickSFX()
+    {
+        soundManager.PlayClip(soundManager.audioRefs.sfxMenuClick);
     }
 
     //TODO: Update this code
     private void HandleMainMenu()
     {
         EndEvent();
-        GameManager.ReloadScene();
+        GameManager.ReloadScene(0.5f);
     }
 }

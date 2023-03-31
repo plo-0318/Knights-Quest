@@ -113,19 +113,26 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
         if (newHealth <= 0)
         {
+            OnKilledByPlayer();
             ProcessDeath();
         }
     }
 
+    protected virtual void OnKilledByPlayer()
+    {
+        GameManager.PlayerStatus().stat.IncrementKillCount();
+    }
+
     protected virtual void ProcessDeath()
     {
+        // Setting isDead --> play the death animation
         isDead = true;
         col.enabled = false;
-        GameManager.PlayerStatus().stat.IncrementKillCount();
 
         //TODO: Decide whether to keep enemy death sound
         // soundManager.PlayClip(soundManager.audioRefs.sfxEnemyDeath);
 
+        // Try to get the length of the death animation
         if (TryGetComponent<AnimatorController>(out var animatorController))
         {
             OnDeath(animatorController.deathAnimationLength);
@@ -136,6 +143,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         }
     }
 
+    // Deestroy the gameobject after the death animation finishes
     protected void OnDeath(float destroyTime = 0)
     {
         if (enemyBodyCollider != null)

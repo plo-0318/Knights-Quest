@@ -114,7 +114,7 @@ public class SkillDagger : Skill
             currentDeg += degBetweenSpawner;
         }
 
-        soundManager.PlayClip(soundManager.audioRefs.sfxDaggerHit);
+        soundManager.PlayClip(soundManager.audioRefs.sfxDaggerUse);
 
         cooldownTimer = cooldownTime;
     }

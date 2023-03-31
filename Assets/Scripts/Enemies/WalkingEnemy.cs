@@ -48,6 +48,11 @@ public class WalkingEnemy : Enemy
         );
     }
 
+    protected override void OnKilledByPlayer()
+    {
+        base.ProcessDeath();
+    }
+
     protected override void ProcessDeath()
     {
         canMove = false;

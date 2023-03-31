@@ -1,6 +1,17 @@
 {
   "Items": [
     {
+      "displayName": "Sword (TBD)",
+      "name": "sword",
+      "description": "Your trusty sword",
+      "lv2Effect": "lv2 effect",
+      "lv3Effect": "lv3 effect",
+      "lv4Effect": "lv4 effect",
+      "lv5Effect": "lv5 effec5",
+      "damage": 250.0,
+      "cooldown": 1.5
+    },
+    {
       "displayName": "Dagger (TBD)",
       "name": "dagger",
       "description": "Throw daggers at surrounding enemies damaging the first enemy hit with the dagger",
@@ -8,7 +19,7 @@
       "lv3Effect": "Cooldown -0.5s\nNumber of daggers +2",
       "lv4Effect": "Damage +25%\nNumber of daggers +2",
       "lv5Effect": "Damage +25%\nNumber of daggers +2\nCooldown -1s\nDaggers can pierce through multiple enemies",
-      "damage": 200.0,
+      "damage": 350.0,
       "cooldown": 3.0
     },
     {
@@ -19,7 +30,7 @@
       "lv3Effect": "lv3 effect",
       "lv4Effect": "lv4 effect",
       "lv5Effect": "lv5 effec5",
-      "damage": 100.0,
+      "damage": 200.0,
       "cooldown": 1.0
     },
     {

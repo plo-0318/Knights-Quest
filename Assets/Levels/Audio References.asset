@@ -29,4 +29,5 @@ MonoBehaviour:
   sfxVictory: {fileID: 8300000, guid: d9833017985f1e948b19cb7eac8cb696, type: 3}
   sfxDefeat: {fileID: 8300000, guid: 69fa50ab1a250194bbe14ebf74c30196, type: 3}
   sfxBossWarning: {fileID: 8300000, guid: 52f3e58a8a939f344a926073e1f51d0c, type: 3}
-  sfxDaggerHit: {fileID: 8300000, guid: 3b0041396f9aad340bfd60a30134e475, type: 3}
+  sfxDaggerUse: {fileID: 8300000, guid: 3b0041396f9aad340bfd60a30134e475, type: 3}
+  sfxSwordUse: {fileID: 8300000, guid: 246cba7d32fd8ed44a6d315a171438a9, type: 3}

@@ -49,7 +49,8 @@ public class PlayerSkillUITest : MonoBehaviour
     private Dictionary<string, SkillUI> skillUIs;
 
     [SerializeField]
-    private GameObject dagger,
+    private GameObject sword,
+        dagger,
         field,
         hammer,
         arrow,
@@ -79,6 +80,7 @@ public class PlayerSkillUITest : MonoBehaviour
         skillUIs.Add("Arrow", SkillUI.NewSkillUI(arrow, TEST_AddArrowSkill));
         skillUIs.Add("Fireball", SkillUI.NewSkillUI(fireball, TEST_AddFireballSkill));
         skillUIs.Add("Hammer", SkillUI.NewSkillUI(hammer, TEST_AddHammerSkill));
+        skillUIs.Add("sword", SkillUI.NewSkillUI(sword, TEST_AddSwordSkill));
     }
 
     private void AddClickSound()
@@ -115,6 +117,13 @@ public class PlayerSkillUITest : MonoBehaviour
         {
             kvp.Value.SetButtonActive(false);
         }
+    }
+
+    public void TEST_AddSwordSkill()
+    {
+        GameManager.PlayerStatus().AssignSkill(new SkillSword());
+
+        UpdateText();
     }
 
     public void TEST_AddDaggerSkill()

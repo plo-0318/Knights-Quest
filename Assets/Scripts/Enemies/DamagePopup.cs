@@ -39,7 +39,7 @@ public class DamagePopup : MonoBehaviour
 
         // Generate a random damage, for testing only
         // string damageStr = Random.Range(100, 1000).ToString();
-        string damageStr = damage.ToString();
+        string damageStr = Mathf.RoundToInt(damage).ToString();
 
         //Generate random movements for the rotation amount
         int chooseSign = Random.Range(0, 2);
@@ -107,10 +107,11 @@ public class DamagePopup : MonoBehaviour
 
     private IEnumerator fadeIn(TextMeshPro textrenderer, float fadeInTime)
     {
-        Debug.Log("Opacity should be changing");
+        // Commented out logging, changed targetAlpha from 1 to 0.8
+        // Debug.Log("Opacity should be changing");
         float elapsedTime = 0.0f;
         float startAlpha = 0.0f;
-        float targetAlpha = 1.0f;
+        float targetAlpha = 0.8f;
 
         while (elapsedTime < fadeInTime)
         {

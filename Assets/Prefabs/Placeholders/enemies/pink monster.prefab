@@ -123,7 +123,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 385439543
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 1218939323123148936, guid: 84e0f89324b9d6441bc4975383bbc20e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBodyCollider: {fileID: 1637516701067602559}
-  baseSpeed: 3
+  baseSpeed: 2.5
   baseHealth: 500
   baseDamage: 10
 --- !u!114 &6708350384901388413
