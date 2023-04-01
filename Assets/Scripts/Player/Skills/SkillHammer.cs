@@ -13,6 +13,7 @@ public class SkillHammer : Skill
 
     private float damage,
         rotation, swingSpeed;
+    private float lerpFactor;
 
     public SkillHammer()
     {
@@ -27,6 +28,7 @@ public class SkillHammer : Skill
         damage = BASE_DAMAGE;
         rotation = 90;
         swingSpeed = 120f;
+        lerpFactor = 0.5f;
     }
 
     public override void Upgrade()
@@ -42,8 +44,9 @@ public class SkillHammer : Skill
         if (level == 3)
         {
             cooldownTime = BASE_COOLDOWN_TIME - .5f;
-            rotation = 140f;
+            rotation = 135f;
             swingSpeed = 160f;
+            lerpFactor = 0.675f;
         }
 
         if (level == 4)
@@ -56,7 +59,8 @@ public class SkillHammer : Skill
         {
             damage = BASE_DAMAGE * 1.75f;
             cooldownTime = BASE_COOLDOWN_TIME - 1f;
-            rotation = 190f;
+            rotation = 180f;
+            lerpFactor = 1f;
             swingSpeed = 200f;
         }
     }
@@ -93,8 +97,13 @@ public class SkillHammer : Skill
         Vector2 mousePos = GameManager.PlayerMovement().GetMousePos();
 
         // Calculate the direction vector from the player to the mouse
-        Vector2 direction = mousePos - playerPos;
-        direction.Normalize();
+       // Vector2 direction = Vector2.Perpendicular(mousePos - playerPos).normalized;
+       // direction.Normalize();
+
+       // Calculate the direction vector from the player to the mouse, then find the perpendicular vector
+        Vector2 initialDirection = (mousePos - playerPos).normalized;
+        Vector2 perpendicularDirection = -1 * Vector2.Perpendicular(initialDirection);
+        Vector2 direction = Vector2.Lerp(initialDirection, perpendicularDirection, lerpFactor).normalized;
 
         // Calculate the spawn position as the player position plus the direction vector scaled by the offset distance
         Vector2 spawnPos = playerPos + direction * offset.magnitude;
