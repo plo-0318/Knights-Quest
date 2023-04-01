@@ -8,6 +8,9 @@ public class Hammer : MonoBehaviour
     private float swingSpeed;
     private Transform swingPoint;
 
+    [SerializeField]
+    GameObject onHitFx;
+
     private float startRotate;
     private float endRotate;
     private float elapsedTime = 0.0f;
@@ -44,6 +47,14 @@ public class Hammer : MonoBehaviour
         if (swingPoint != null)
         {
             transform.parent.position = swingPoint.position;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            enemy.Hurt(damage, onHitFx, transform.position);
         }
     }
 }

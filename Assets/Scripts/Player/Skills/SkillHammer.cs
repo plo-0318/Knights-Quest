@@ -8,12 +8,13 @@ public class SkillHammer : Skill
     private float cooldownTimer;
     private float cooldownTime;
 
-    private const float BASE_DAMAGE = 1f;
-    private const float BASE_COOLDOWN_TIME = 4f;
+    private const float BASE_DAMAGE = 400f;
+    private const float BASE_COOLDOWN_TIME = 3f;
 
     private float damage,
         rotation, swingSpeed;
     private float lerpFactor;
+    private int intDamage;
 
     public SkillHammer()
     {
@@ -27,7 +28,7 @@ public class SkillHammer : Skill
 
         damage = BASE_DAMAGE;
         rotation = 90;
-        swingSpeed = 120f;
+        swingSpeed = 140f;
         lerpFactor = 0.5f;
     }
 
@@ -38,7 +39,7 @@ public class SkillHammer : Skill
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;
-            swingSpeed = 140f;
+            swingSpeed = 150f;
         }
 
         if (level == 3)
@@ -46,13 +47,13 @@ public class SkillHammer : Skill
             cooldownTime = BASE_COOLDOWN_TIME - .5f;
             rotation = 135f;
             swingSpeed = 160f;
-            lerpFactor = 0.675f;
+            lerpFactor = 0.7f;
         }
 
         if (level == 4)
         {
             damage = BASE_DAMAGE * 1.5f;
-            swingSpeed = 180f;
+            swingSpeed = 170f;
         }
 
         if (level == 5)
@@ -60,8 +61,8 @@ public class SkillHammer : Skill
             damage = BASE_DAMAGE * 1.75f;
             cooldownTime = BASE_COOLDOWN_TIME - 1f;
             rotation = 180f;
-            lerpFactor = 1f;
-            swingSpeed = 200f;
+            lerpFactor = 1.5f;
+            swingSpeed = 180f;
         }
     }
 
