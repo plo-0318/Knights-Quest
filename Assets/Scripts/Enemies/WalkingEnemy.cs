@@ -50,7 +50,7 @@ public class WalkingEnemy : Enemy
 
     protected override void OnKilledByPlayer()
     {
-        base.ProcessDeath();
+        base.OnKilledByPlayer();
     }
 
     protected override void ProcessDeath()

@@ -15,6 +15,11 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     [Tooltip("The enemy to enemy collider")]
     [SerializeField]
     protected Collider2D enemyBodyCollider;
+
+    [Header("Gem Drops")]
+    [Tooltip("The list of possible gem drops and their chances")]
+    [SerializeField]
+    protected GemSpawn[] gemSpawns;
     protected DamagePopup damagePopup;
     protected Stat _stat;
     protected bool isDead;
@@ -121,6 +126,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     protected virtual void OnKilledByPlayer()
     {
         GameManager.PlayerStatus().stat.IncrementKillCount();
+
+        Instantiate(GemSpawn.GetGem(gemSpawns), transform.position, Quaternion.identity);
     }
 
     protected virtual void ProcessDeath()

@@ -2,16 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Collectable : MonoBehaviour
+public abstract class Collectable : MonoBehaviour
 {
     [SerializeField]
     protected float flySpeed = 8f;
     protected bool pickedUp;
     protected Transform destination;
 
+    protected SoundManager soundManager;
+    protected AudioClip pickupSFX;
+
     protected void Awake()
     {
         pickedUp = false;
+    }
+
+    protected virtual void Start()
+    {
+        soundManager = GameManager.SoundManager();
     }
 
     private void Update()
@@ -39,6 +47,11 @@ public class Collectable : MonoBehaviour
 
     public virtual void Use()
     {
+        if (pickupSFX != null)
+        {
+            GameManager.SoundManager().PlayClip(pickupSFX);
+        }
+
         Destroy(gameObject);
     }
 }

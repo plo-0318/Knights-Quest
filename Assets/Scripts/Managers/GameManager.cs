@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
     private SpawnerManager spawnerManager;
     private SoundManager soundManager;
 
-    private Dictionary<string, SkillData> skillData;
+    private Dictionary<string, SkillData> skillDatum;
 
     private GameObject _damagePopupText;
 
@@ -31,14 +32,16 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        skillData = new Dictionary<string, SkillData>();
+        skillDatum = new Dictionary<string, SkillData>();
 
         TextAsset jsonFile = Resources.Load<TextAsset>("Data/skillData");
         SkillData[] data = JsonHelper.FromJson<SkillData>(jsonFile.text);
 
         foreach (SkillData skill in data)
         {
-            skillData.Add(skill.name, skill);
+            skill.sprite = Util.LoadSprite(skill.iconPath, skill.iconSubName);
+
+            skillDatum.Add(skill.name, skill);
         }
 
         _damagePopupText = Resources.Load<GameObject>("Damage Popup Text");
@@ -139,9 +142,39 @@ public class GameManager : MonoBehaviour
         return gameManager.soundManager;
     }
 
+    public static ReadOnlyDictionary<string, SkillData> GetAllAttackingSkillData()
+    {
+        return GetAllTypeSkillData("ATTACK");
+    }
+
+    public static ReadOnlyDictionary<string, SkillData> GetAllUtilitySkillData()
+    {
+        return GetAllTypeSkillData("UTILITY");
+    }
+
+    private static ReadOnlyDictionary<string, SkillData> GetAllTypeSkillData(string type)
+    {
+        Dictionary<string, SkillData> typeSkillData = new Dictionary<string, SkillData>();
+
+        foreach (var kvp in gameManager.skillDatum)
+        {
+            if (kvp.Value.type == type)
+            {
+                typeSkillData.Add(kvp.Key, kvp.Value);
+            }
+        }
+
+        return new ReadOnlyDictionary<string, SkillData>(typeSkillData);
+    }
+
+    public static ReadOnlyDictionary<string, SkillData> GetAllSkillData()
+    {
+        return new ReadOnlyDictionary<string, SkillData>(gameManager.skillDatum);
+    }
+
     public static SkillData GetSkillData(string name)
     {
-        if (gameManager.skillData.TryGetValue(name, out SkillData skill))
+        if (gameManager.skillDatum.TryGetValue(name, out SkillData skill))
         {
             return new SkillData(skill);
         }

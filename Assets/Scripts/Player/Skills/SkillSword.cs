@@ -47,6 +47,8 @@ public class SkillSword : Skill
         spawnRadius *= SPAWN_RADIUS_OFFSET;
 
         soundManager = GameManager.SoundManager();
+
+        type = Type.ATTACK;
     }
 
     public override void Upgrade()

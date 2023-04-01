@@ -205,6 +205,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBodyCollider: {fileID: 6442392793961025416}
+  gemSpawns:
+  - gem: 0
+    spawnChance: 6
+  - gem: 1
+    spawnChance: 4
   baseSpeed: 2.5
   baseHealth: 500
   baseDamage: 10

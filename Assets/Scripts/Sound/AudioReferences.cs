@@ -23,10 +23,14 @@ public class AudioReferences : ScriptableObject
     public AudioClip sfxPlayerHurt;
     public AudioClip sfxEnemyHurt;
     public AudioClip sfxEnemyDeath;
-    public AudioClip sfxExpPickup;
     public AudioClip sfxVictory;
     public AudioClip sfxDefeat;
     public AudioClip sfxBossWarning;
+
+    [Header("SFX Collectable")]
+    public AudioClip sfxPickupGem;
+    public AudioClip sfxPickupPotion;
+    public AudioClip sfxPickupShield;
 
     [Header("SFX Skill")]
     public AudioClip sfxDaggerUse;

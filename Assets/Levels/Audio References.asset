@@ -25,9 +25,11 @@ MonoBehaviour:
   sfxPlayerHurt: {fileID: 8300000, guid: 1c2ec734cba4aaa4b85f83cd7c12b881, type: 3}
   sfxEnemyHurt: {fileID: 8300000, guid: 9bccb26c87b273849972071d2f3ce4df, type: 3}
   sfxEnemyDeath: {fileID: 8300000, guid: ab584c8682c326a4599e560e4749650f, type: 3}
-  sfxExpPickup: {fileID: 8300000, guid: 2e7423519aefba64ea5e6fbc1e201095, type: 3}
   sfxVictory: {fileID: 8300000, guid: d9833017985f1e948b19cb7eac8cb696, type: 3}
   sfxDefeat: {fileID: 8300000, guid: 69fa50ab1a250194bbe14ebf74c30196, type: 3}
   sfxBossWarning: {fileID: 8300000, guid: 52f3e58a8a939f344a926073e1f51d0c, type: 3}
+  sfxPickupGem: {fileID: 8300000, guid: f2d5c414e7a2799479cabbc2c11fc991, type: 3}
+  sfxPickupPotion: {fileID: 8300000, guid: 40add135805d01a42bdbfb9aa70392a4, type: 3}
+  sfxPickupShield: {fileID: 8300000, guid: 883d0a8afeebff4499b5212cd2acad00, type: 3}
   sfxDaggerUse: {fileID: 8300000, guid: 3b0041396f9aad340bfd60a30134e475, type: 3}
   sfxSwordUse: {fileID: 8300000, guid: 246cba7d32fd8ed44a6d315a171438a9, type: 3}

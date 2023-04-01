@@ -9,7 +9,7 @@ public class PlayerStat : Stat
 
     protected float itemPickupScale;
     protected int _killCount;
-    protected double _exp;
+    protected float _exp;
     protected int _level;
 
     ///////////////////// _EXP FORMULA /////////////////////
@@ -48,9 +48,15 @@ public class PlayerStat : Stat
         _level = 0;
 
         InitModifiers();
+
+        //TODO: Delete this log
+        // for (int i = 1; i <= 30; i++)
+        // {
+        //     Debug.Log(ExpNeededToLevelUp(i));
+        // }
     }
 
-    private double ExpNeededToLevelUp(int level)
+    private float ExpNeededToLevelUp(int level)
     {
         return BASE_EXP + LINEAR_INCREMENT * level + EXPONENTIAL_INCREMENT * Mathf.Pow(level, 2);
     }
@@ -58,6 +64,24 @@ public class PlayerStat : Stat
     public void IncrementKillCount()
     {
         _killCount++;
+    }
+
+    public int IncreaseExp(float amount)
+    {
+        int levelUps = 0;
+
+        _exp += amount;
+
+        //TODO: DELETE
+        Debug.Log("exp: " + _exp + "/" + ExpNeededToLevelUp(_level + 1));
+
+        while (exp >= ExpNeededToLevelUp(_level + 1))
+        {
+            _level++;
+            levelUps++;
+        }
+
+        return levelUps;
     }
 
     public int killCount => _killCount;

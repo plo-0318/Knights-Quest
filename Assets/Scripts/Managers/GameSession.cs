@@ -18,6 +18,7 @@ public class GameSession : MonoBehaviour
     //////////////////// GAME STATE ////////////////////
     private bool tickTimer;
     private bool gameStarted;
+    private bool gamePaused;
 
     /////////////////////////////////////////////////////
 
@@ -82,6 +83,7 @@ public class GameSession : MonoBehaviour
         tickTimer = false;
 
         gameStarted = false;
+        gamePaused = false;
 
         spawnWaveTimer = timeBetweenWaves;
         enemyRefs = new HashSet<Enemy>();
@@ -150,6 +152,39 @@ public class GameSession : MonoBehaviour
     {
         canSpawnEnemy = true;
         tickTimer = true;
+    }
+
+    public void PauseGame()
+    {
+        if (gamePaused)
+        {
+            return;
+        }
+
+        gamePaused = true;
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        if (!gamePaused)
+        {
+            return;
+        }
+
+        Time.timeScale = 1f;
+        gamePaused = false;
+    }
+
+    public void HandleGameLost()
+    {
+        canSpawnEnemy = false;
+        tickTimer = false;
+
+        soundManager.PlayClip(soundManager.audioRefs.sfxDefeat);
+        soundManager.PlayMusic(soundManager.audioRefs.musicGameOver);
+
+        onGameLost?.Invoke();
     }
 
     public string GetTimeString()
@@ -244,17 +279,6 @@ public class GameSession : MonoBehaviour
         onRemoveModifier?.Invoke(mod);
     }
 
-    public void HandleGameLost()
-    {
-        canSpawnEnemy = false;
-        tickTimer = false;
-
-        soundManager.PlayClip(soundManager.audioRefs.sfxDefeat);
-        soundManager.PlayMusic(soundManager.audioRefs.musicGameOver);
-
-        onGameLost?.Invoke();
-    }
-
     // Get the closest enemy position to the point
     public List<Vector3> closestEnemyPosition(Vector3 pos)
     {
@@ -289,6 +313,8 @@ public class GameSession : MonoBehaviour
 
         return nClosestEnemyPos.ToList<Vector3>();
     }
+
+    public bool GamePaused => gamePaused;
 
     // TODO: delete these test functions
     public void TEST_ToggleSpawn()

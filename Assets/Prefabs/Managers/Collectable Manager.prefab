@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6602912319530433311}
   - component: {fileID: 6602912319530433296}
   - component: {fileID: 6602912319530433297}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,9 +45,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.003930092, y: -0.277709}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 1
 --- !u!114 &6602912319530433297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 6602912319927755167}
   - component: {fileID: 6602912319927755153}
   - component: {fileID: 6602912319927755152}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Absorb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6602912319927755166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.035, y: -0.388, z: 0}
+  m_LocalPosition: {x: 0.018, y: -0.124, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6602912319997715480}
@@ -106,7 +106,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0008893013, y: 0.0073242188}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.08
 --- !u!114 &6602912319927755152

@@ -23,6 +23,8 @@ public class SkillField : Skill
         damage = BASE_DAMAGE;
 
         hasField = false;
+
+        type = Type.ATTACK;
     }
 
     public override void Upgrade()

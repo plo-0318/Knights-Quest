@@ -52,6 +52,8 @@ public class SkillDagger : Skill
         }
 
         soundManager = GameManager.SoundManager();
+
+        type = Type.ATTACK;
     }
 
     public override void Upgrade()

@@ -1,0 +1,27 @@
+sword
+dagger
+field
+arrow
+fireball
+hammer
+bolt
+
+boots
+gauntlet
+crystal
+shield
+
+    {
+      "displayName": "Bolt (TBD)",
+      "name": "bolt",
+      "type": "ATTACK",
+      "description": "Fires a bolt repeteadly in the target direction dealing damage to the first enemy hit",
+      "lv2Effect": "lv2 effect",
+      "lv3Effect": "lv3 effect",
+      "lv4Effect": "lv4 effect",
+      "lv5Effect": "lv5 effec5",
+      "damage": 150.0,
+      "cooldown": 3.0,
+      "iconPath": "",
+      "iconSubName": ""
+    },
