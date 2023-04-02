@@ -83,16 +83,16 @@ public class CollectableSpawner : MonoBehaviour
         return null;
     }
 
-    public void SpawnRandomCollectable(Vector3 position, Quaternion quaternion)
+    public Collectable SpawnRandomCollectable(Vector3 position, Quaternion quaternion)
     {
         Collectable collectableToSpawn = GetRandomCollectable();
 
         if (collectableToSpawn == null)
         {
-            return;
+            return null;
         }
 
-        Instantiate(
+        return Instantiate(
             collectableToSpawn,
             position,
             quaternion,

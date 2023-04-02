@@ -12,7 +12,8 @@ public abstract class Collectable : MonoBehaviour
         GEM_RED,
         POTION,
         SHIELD,
-        POUCH
+        POUCH,
+        EMPTY
     }
 
     protected const float flySpeed = 15f;
