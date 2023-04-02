@@ -9,10 +9,12 @@ public class EnemySpawner : MonoBehaviour
     private float spawnCooldownTime;
     private float spawnCooldownTimer;
     private float spawnTimeOffset;
+    private MapConfiner mapConfiner;
 
     private void Start()
     {
         gameSession = GameManager.GameSession();
+        mapConfiner = GameManager.MapConfiner();
 
         gameSession.onSpawnEnemy += Spawn;
 
@@ -35,6 +37,12 @@ public class EnemySpawner : MonoBehaviour
     {
         // If spawn is on cooldown, return
         if (spawnCooldownTimer < spawnCooldownTime + spawnTimeOffset)
+        {
+            return;
+        }
+
+        // If spawn point is outside of the map, return
+        if (!mapConfiner.InsideMap(transform.position))
         {
             return;
         }

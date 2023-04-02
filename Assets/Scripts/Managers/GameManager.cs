@@ -8,16 +8,19 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager gameManager;
 
+    // REFERENCES
     private PlayerMovement playerMovement;
     private PlayerDirectionArrow playerDirectionArrow;
     private GameSession gameSession;
     private PlayerStatus playerStatus;
     private SpawnerManager spawnerManager;
     private SoundManager soundManager;
+    private MapConfiner mapConfiner;
 
+    // RESOURCES
     private Dictionary<string, SkillData> skillDatum;
-
-    private GameObject _damagePopupText;
+    private GameObject damagePopupTextPrefab;
+    private Dictionary<Collectable.Type, Collectable> collectablePrefabs;
 
     private void Awake()
     {
@@ -32,21 +35,12 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        skillDatum = new Dictionary<string, SkillData>();
-
-        TextAsset jsonFile = Resources.Load<TextAsset>("Data/skillData");
-        SkillData[] data = JsonHelper.FromJson<SkillData>(jsonFile.text);
-
-        foreach (SkillData skill in data)
-        {
-            skill.sprite = Util.LoadSprite(skill.iconPath, skill.iconSubName);
-
-            skillDatum.Add(skill.name, skill);
-        }
-
-        _damagePopupText = Resources.Load<GameObject>("Damage Popup Text");
+        LoadSkillData();
+        LoadDamagePopupText();
+        LoadCollectables();
     }
 
+    ////////// REGISTER REFERENCES / REFERENCE GETTERS //////////
     public static GameManager GetGameManager()
     {
         return gameManager;
@@ -142,6 +136,93 @@ public class GameManager : MonoBehaviour
         return gameManager.soundManager;
     }
 
+    public static void RegisterMapConfiner(MapConfiner mc)
+    {
+        if (!gameManager)
+        {
+            return;
+        }
+
+        gameManager.mapConfiner = mc;
+    }
+
+    public static MapConfiner MapConfiner()
+    {
+        return gameManager.mapConfiner;
+    }
+
+    ////////// ////////// ////////// ////////// ////////// //////////
+
+    //////////////////////// LOAD RESOURCES ////////////////////////
+    private void LoadSkillData()
+    {
+        skillDatum = new Dictionary<string, SkillData>();
+
+        TextAsset jsonFile = Resources.Load<TextAsset>("Data/skillData");
+        SkillData[] data = JsonHelper.FromJson<SkillData>(jsonFile.text);
+
+        foreach (SkillData skill in data)
+        {
+            skill.sprite = Util.LoadSprite(skill.iconPath, skill.iconSubName);
+
+            skillDatum.Add(skill.name, skill);
+        }
+    }
+
+    private void LoadDamagePopupText()
+    {
+        damagePopupTextPrefab = Resources.Load<GameObject>("Damage Popup Text");
+    }
+
+    private void LoadCollectables()
+    {
+        collectablePrefabs = new Dictionary<Collectable.Type, Collectable>();
+
+        collectablePrefabs.Add(
+            Collectable.Type.GEM_GREEN,
+            Resources.Load<Collectable>("collectables/gems/green exp gem")
+        );
+        collectablePrefabs.Add(
+            Collectable.Type.GEM_BLUE,
+            Resources.Load<Collectable>("collectables/gems/blue exp gem")
+        );
+        collectablePrefabs.Add(
+            Collectable.Type.GEM_ORANGE,
+            Resources.Load<Collectable>("collectables/gems/orange exp gem")
+        );
+        collectablePrefabs.Add(
+            Collectable.Type.GEM_RED,
+            Resources.Load<Collectable>("collectables/gems/red exp gem")
+        );
+        collectablePrefabs.Add(
+            Collectable.Type.POTION,
+            Resources.Load<Collectable>("collectables/items/potion")
+        );
+        collectablePrefabs.Add(
+            Collectable.Type.SHIELD,
+            Resources.Load<Collectable>("collectables/items/shield")
+        );
+        collectablePrefabs.Add(
+            Collectable.Type.POUCH,
+            Resources.Load<Collectable>("collectables/items/pouch")
+        );
+    }
+
+    ////////// ////////// ////////// ////////// ////////// //////////
+
+    //////////////////////// RESOURCES GETTERS ////////////////////////
+    public static GameObject damagePopupText => gameManager.damagePopupTextPrefab;
+
+    public static Collectable GetCollectable(Collectable.Type type)
+    {
+        if (gameManager.collectablePrefabs.TryGetValue(type, out var collectable))
+        {
+            return collectable;
+        }
+
+        return null;
+    }
+
     public static ReadOnlyDictionary<string, SkillData> GetAllAttackingSkillData()
     {
         return GetAllTypeSkillData("ATTACK");
@@ -182,7 +263,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public static GameObject damagePopupText => gameManager._damagePopupText;
+    ////////// ////////// ////////// ////////// ////////// //////////
 
     public static void ReloadScene(float delay = 0)
     {

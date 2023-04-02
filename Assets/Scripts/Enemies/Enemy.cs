@@ -15,12 +15,9 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     [Tooltip("The enemy to enemy collider")]
     [SerializeField]
     protected Collider2D enemyBodyCollider;
-
-    [Header("Gem Drops")]
-    [Tooltip("The list of possible gem drops and their chances")]
-    [SerializeField]
-    protected GemSpawn[] gemSpawns;
+    protected CollectableSpawner collectableSpawner;
     protected DamagePopup damagePopup;
+
     protected Stat _stat;
     protected bool isDead;
 
@@ -33,12 +30,13 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
     protected virtual void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        damagePopup = GetComponent<DamagePopup>();
+        collectableSpawner = GetComponent<CollectableSpawner>();
+
         gameSession = GameManager.GameSession();
         playerTrans = GameManager.PlayerMovement().transform;
         soundManager = GameManager.SoundManager();
-
-        rb = GetComponent<Rigidbody2D>();
-        damagePopup = GetComponent<DamagePopup>();
 
         if (TryGetComponent<Collider2D>(out Collider2D col))
         {
@@ -127,7 +125,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     {
         GameManager.PlayerStatus().stat.IncrementKillCount();
 
-        Instantiate(GemSpawn.GetGem(gemSpawns), transform.position, Quaternion.identity);
+        collectableSpawner.SpawnRandomCollectable(transform.position, Quaternion.identity);
     }
 
     protected virtual void ProcessDeath()

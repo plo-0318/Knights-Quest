@@ -63,6 +63,7 @@ GameObject:
   - component: {fileID: 6442392794086570286}
   - component: {fileID: 3775439773525719557}
   - component: {fileID: -4392040532664880961}
+  - component: {fileID: 4947222748790261953}
   m_Layer: 7
   m_Name: white monster
   m_TagString: Untagged
@@ -246,3 +247,20 @@ MonoBehaviour:
   rotationAmount: 5
   moveSpeed: 2
   fadeInTime: 0.25
+--- !u!114 &4947222748790261953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6442392794086570287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90992a038ac2ac14786aa28307f03385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectables:
+  - collectableType: 0
+    spawnChance: 6
+  - collectableType: 1
+    spawnChance: 4

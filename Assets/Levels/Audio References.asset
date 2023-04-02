@@ -20,16 +20,17 @@ MonoBehaviour:
   musicGameOver: {fileID: 8300000, guid: f8e8c788c23f4354bb6953549f594f13, type: 3}
   sfxMenuOpen: {fileID: 8300000, guid: 03b9b972d95bd4e42a5c274187628fa5, type: 3}
   sfxMenuClick: {fileID: 8300000, guid: 21b9d6b158297dd449863015c3ba08e3, type: 3}
-  sfxTick: {fileID: 8300000, guid: b5146cdfb5eefe34e95f0e0634f46cba, type: 3}
+  sfxTick: {fileID: 8300000, guid: cf74b46d8c33765419b365cd8750d1dc, type: 3}
   sfxStart: {fileID: 8300000, guid: 010ef40ab8bab6a4d8e8d5c031f81541, type: 3}
   sfxPlayerHurt: {fileID: 8300000, guid: 1c2ec734cba4aaa4b85f83cd7c12b881, type: 3}
-  sfxEnemyHurt: {fileID: 8300000, guid: 9bccb26c87b273849972071d2f3ce4df, type: 3}
+  sfxEnemyHurt: {fileID: 8300000, guid: 5840bf9ce754c4945871b11b18cbaa3e, type: 3}
   sfxEnemyDeath: {fileID: 8300000, guid: ab584c8682c326a4599e560e4749650f, type: 3}
   sfxVictory: {fileID: 8300000, guid: d9833017985f1e948b19cb7eac8cb696, type: 3}
   sfxDefeat: {fileID: 8300000, guid: 69fa50ab1a250194bbe14ebf74c30196, type: 3}
   sfxBossWarning: {fileID: 8300000, guid: 52f3e58a8a939f344a926073e1f51d0c, type: 3}
-  sfxPickupGem: {fileID: 8300000, guid: f2d5c414e7a2799479cabbc2c11fc991, type: 3}
+  sfxPickupGem: {fileID: 8300000, guid: 0d8a1ea970bd7704ab513ffebbdce393, type: 3}
   sfxPickupPotion: {fileID: 8300000, guid: 40add135805d01a42bdbfb9aa70392a4, type: 3}
   sfxPickupShield: {fileID: 8300000, guid: 883d0a8afeebff4499b5212cd2acad00, type: 3}
+  sfxPickupPouch: {fileID: 8300000, guid: d9ad6801762d11b448b1267933cf641a, type: 3}
   sfxDaggerUse: {fileID: 8300000, guid: 3b0041396f9aad340bfd60a30134e475, type: 3}
   sfxSwordUse: {fileID: 8300000, guid: 246cba7d32fd8ed44a6d315a171438a9, type: 3}

@@ -71,7 +71,10 @@ public class GameSession : MonoBehaviour
     public Transform damagePopupParent;
 
     [Tooltip("All the spawned skills will be the children of this game object")]
-    public Transform skillParents;
+    public Transform skillParent;
+
+    [Tooltip("All the spawned collectables will be the children of this game object")]
+    public Transform collectableParent;
 
     /////////////////////////////////////////////////////
 
@@ -422,5 +425,10 @@ public class GameSession : MonoBehaviour
                 we.TEST_DisableMovement();
             }
         }
+    }
+
+    public void TEST_PickupAllCollectables()
+    {
+        Collectable.PickUpAllCollectables();
     }
 }

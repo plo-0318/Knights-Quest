@@ -70,13 +70,14 @@ public class SkillSword : Skill
         {
             damage = BASE_DAMAGE * 1.5f;
             cooldownTime -= 0.25f;
+            scaleMultiplier = 2f;
         }
 
         if (level == 5)
         {
             damage = BASE_DAMAGE * 2f;
 
-            scaleMultiplier = 2f;
+            scaleMultiplier = 2.5f;
         }
     }
 
@@ -119,7 +120,7 @@ public class SkillSword : Skill
 
         spawnedSword.GetComponent<Sword>().Init(damage, spawnOffset, scaleMultiplier);
 
-        spawnedSword.transform.parent = GameManager.GameSession().skillParents;
+        spawnedSword.transform.parent = GameManager.GameSession().skillParent;
 
         return spawnedSword;
     }

@@ -13,6 +13,8 @@ public class CollectablePotion : Collectable
 
     public override void Use()
     {
+        //TODO: USE LOGIC HERE
+
         base.Use();
     }
 }

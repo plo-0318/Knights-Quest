@@ -31,6 +31,7 @@ public class AudioReferences : ScriptableObject
     public AudioClip sfxPickupGem;
     public AudioClip sfxPickupPotion;
     public AudioClip sfxPickupShield;
+    public AudioClip sfxPickupPouch;
 
     [Header("SFX Skill")]
     public AudioClip sfxDaggerUse;

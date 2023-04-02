@@ -137,7 +137,7 @@ public class SkillDagger : Skill
 
         spawnedDagger.GetComponent<Dagger>().Init(damage, direction * speed, piercing);
 
-        spawnedDagger.transform.parent = GameManager.GameSession().skillParents;
+        spawnedDagger.transform.parent = GameManager.GameSession().skillParent;
 
         return spawnedDagger;
     }

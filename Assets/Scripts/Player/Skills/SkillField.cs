@@ -76,7 +76,7 @@ public class SkillField : Skill
 
             hasField = true;
 
-            field.transform.parent = GameManager.GameSession().skillParents;
+            field.transform.parent = GameManager.GameSession().skillParent;
         }
     }
 }

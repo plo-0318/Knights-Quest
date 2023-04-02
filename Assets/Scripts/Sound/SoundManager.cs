@@ -16,6 +16,12 @@ public class SoundManager : MonoBehaviour
     [Range(0.01f, 1f)]
     public float sfxVolume = 0.05f;
 
+    private const float TIME_BETWEEN_GEM_SFX = 0.25f;
+    private const float TIME_BETWEEN_ENEMY_HURT_SFX = 0.05f;
+
+    private float gemSFXTimer,
+        enemyHurtSFXTimer;
+
     private void Awake()
     {
         int soundManagerCounts = FindObjectsOfType<SoundManager>().Length;
@@ -33,6 +39,8 @@ public class SoundManager : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = audioRefs.musicMainMenu;
+
+        gemSFXTimer = enemyHurtSFXTimer = 0f;
     }
 
     //TODO: UNCOMMENT THIS WHEN VOLUME UI IS IMPLEMENTED
@@ -47,6 +55,12 @@ public class SoundManager : MonoBehaviour
         audioSource.Play();
 
         // Invoke("TEST_ChangeMusic", 0f);
+    }
+
+    private void Update()
+    {
+        gemSFXTimer -= Time.deltaTime;
+        enemyHurtSFXTimer -= Time.deltaTime;
     }
 
     public AudioClip GetRandomActionClip()
@@ -68,7 +82,14 @@ public class SoundManager : MonoBehaviour
 
     public void PlayClip(AudioClip audioClip)
     {
-        AudioSource.PlayClipAtPoint(audioClip, Camera.main.transform.position, sfxVolume);
+        // If not playing timed sfx
+        if (audioClip != audioRefs.sfxPickupGem && audioClip != audioRefs.sfxEnemyHurt)
+        {
+            AudioSource.PlayClipAtPoint(audioClip, Camera.main.transform.position, sfxVolume);
+            return;
+        }
+
+        HandleTimedSFX(audioClip);
     }
 
     private void SetMusicVolume(float value)
@@ -86,6 +107,30 @@ public class SoundManager : MonoBehaviour
     {
         SetMusicVolume(PlayerPrefsController.GetMusicVolume());
         SetSFXVolume(PlayerPrefsController.GetSFXVolume());
+    }
+
+    private void HandleTimedSFX(AudioClip sfx)
+    {
+        if (sfx == audioRefs.sfxPickupGem)
+        {
+            if (gemSFXTimer > 0)
+            {
+                return;
+            }
+
+            gemSFXTimer = TIME_BETWEEN_GEM_SFX;
+        }
+        else if (sfx == audioRefs.sfxEnemyHurt)
+        {
+            if (enemyHurtSFXTimer > 0)
+            {
+                return;
+            }
+
+            enemyHurtSFXTimer = TIME_BETWEEN_ENEMY_HURT_SFX;
+        }
+
+        AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, sfxVolume);
     }
 
     public void TEST_ChangeMusic()

@@ -16,6 +16,8 @@ public class CollectableGem : Collectable
 
     public override void Use()
     {
+        //TODO: USE LOGIC HERE
+
         base.Use();
     }
 }

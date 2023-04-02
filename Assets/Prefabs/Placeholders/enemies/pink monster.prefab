@@ -63,6 +63,7 @@ GameObject:
   - component: {fileID: 1637516702266013817}
   - component: {fileID: 6708350384901388413}
   - component: {fileID: -5092676159163702187}
+  - component: {fileID: 1384876052551366016}
   m_Layer: 7
   m_Name: pink monster
   m_TagString: Untagged
@@ -246,3 +247,20 @@ MonoBehaviour:
   rotationAmount: 5
   moveSpeed: 2
   fadeInTime: 0.25
+--- !u!114 &1384876052551366016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637516702266013814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90992a038ac2ac14786aa28307f03385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectables:
+  - collectableType: 1
+    spawnChance: 7
+  - collectableType: 2
+    spawnChance: 3
