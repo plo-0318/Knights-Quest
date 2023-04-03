@@ -1,59 +1,144 @@
 {
   "Items": [
     {
-      "displayName": "Dagger (TBD)",
-      "name": "dagger",
-      "description": "Throw daggers at surrounding enemies damaging the first enemy hit with the dagger",
-      "lv2Effect": "Damage +25%\nNumber of daggers +2",
-      "lv3Effect": "Cooldown -0.5s\nNumber of daggers +2",
-      "lv4Effect": "Damage +25%\nNumber of daggers +2",
-      "lv5Effect": "Damage +25%\nNumber of daggers +2\nCooldown -1s\nDaggers can pierce through multiple enemies",
-      "damage": 300.0,
-      "cooldown": 3.0
-    },
-    {
-      "displayName": "Repellent Field (TBD)",
-      "name": "field",
-      "description": "Spawns a field around the player, enemies inside the field will take damage every second",
+      "displayName": "Sword (TBD)",
+      "name": "sword",
+      "type": "ATTACK",
+      "description": "Your trusty sword",
       "lv2Effect": "lv2 effect",
       "lv3Effect": "lv3 effect",
       "lv4Effect": "lv4 effect",
       "lv5Effect": "lv5 effec5",
       "damage": 250.0,
-      "cooldown": 1.0
+      "cooldown": 1.5,
+      "iconPath": "skill icons/icons",
+      "iconSubName": "Icons_49"
+    },
+    {
+      "displayName": "Dagger (TBD)",
+      "name": "dagger",
+      "type": "ATTACK",
+      "description": "Throw daggers at surrounding enemies damaging the first enemy hit with the dagger",
+      "lv2Effect": "Damage +25%\nNumber of daggers +2",
+      "lv3Effect": "Cooldown -0.5s\nNumber of daggers +2",
+      "lv4Effect": "Damage +25%\nNumber of daggers +2",
+      "lv5Effect": "Damage +25%\nNumber of daggers +2\nCooldown -1s\nDaggers can pierce through multiple enemies",
+      "damage": 350.0,
+      "cooldown": 3.0,
+      "iconPath": "skill icons/dagger",
+      "iconSubName": "dagger_10"
+    },
+    {
+      "displayName": "Repellent Field (TBD)",
+      "name": "field",
+      "type": "ATTACK",
+      "description": "Spawns a field around the player. Enemies inside the field will take damage every second",
+      "lv2Effect": "lv2 effect",
+      "lv3Effect": "lv3 effect",
+      "lv4Effect": "lv4 effect",
+      "lv5Effect": "lv5 effec5",
+      "damage": 200.0,
+      "cooldown": 1.0,
+      "iconPath": "skill icons/field",
+      "iconSubName": "field_0"
     },
     {
       "displayName": "Frost Arrow",
       "name": "arrow",
+      "type": "ATTACK",
       "description": "Fires an arrow in the target direction dealing damage to any enemies it passes through",
       "lv2Effect": "lv2 effect",
       "lv3Effect": "lv3 effect",
       "lv4Effect": "lv4 effect",
       "lv5Effect": "lv5 effec5",
       "damage": 350.0,
-      "cooldown": 3.5
+      "cooldown": 3.5,
+      "iconPath": "skill icons/arrows",
+      "iconSubName": "arrows_22"
     },
     {
       "displayName": "Fireball (TBD)",
       "name": "fireball",
+      "type": "ATTACK",
       "description": "summon fireballs from the sky striking the enemies closest to the player",
       "lv2Effect": "lv2 effect",
       "lv3Effect": "lv3 effect",
       "lv4Effect": "lv4 effect",
       "lv5Effect": "lv5 effec5",
       "damage": 400.0,
-      "cooldown": 5.0
+      "cooldown": 5.0,
+      "iconPath": "skill icons/fireball",
+      "iconSubName": ""
     },
     {
       "displayName": "Hammer (TBD)",
       "name": "hammer",
+      "type": "ATTACK",
       "description": "Swing a hammer in the target direction damaging and knocking back enemies hit",
       "lv2Effect": "lv2 effect",
       "lv3Effect": "lv3 effect",
       "lv4Effect": "lv4 effect",
       "lv5Effect": "lv5 effec5",
       "damage": 150.0,
-      "cooldown": 3.0
+      "cooldown": 3.0,
+      "iconPath": "skill icons/hammers",
+      "iconSubName": "hammers_35"
+    },
+    {
+      "displayName": "Boots of Ace",
+      "name": "boots",
+      "type": "UTILITY",
+      "description": "Increase movement speed",
+      "lv2Effect": "lv2 effect",
+      "lv3Effect": "lv3 effect",
+      "lv4Effect": "lv4 effect",
+      "lv5Effect": "lv5 effec5",
+      "damage": 0.0,
+      "cooldown": 0.0,
+      "iconPath": "skill icons/icons",
+      "iconSubName": "Icons_95"
+    },
+    {
+      "displayName": "Magnetic Gauntlet",
+      "name": "gauntlet",
+      "type": "UTILITY",
+      "description": "Increase item pick up radius",
+      "lv2Effect": "lv2 effect",
+      "lv3Effect": "lv3 effect",
+      "lv4Effect": "lv4 effect",
+      "lv5Effect": "lv5 effec5",
+      "damage": 0.0,
+      "cooldown": 0.0,
+      "iconPath": "skill icons/icons",
+      "iconSubName": "Icons_93"
+    },
+    {
+      "displayName": "Rejuvenating Crystal",
+      "name": "crystal",
+      "type": "UTILITY",
+      "description": "Regenerate a portion of health every few seconds",
+      "lv2Effect": "lv2 effect",
+      "lv3Effect": "lv3 effect",
+      "lv4Effect": "lv4 effect",
+      "lv5Effect": "lv5 effec5",
+      "damage": 0.0,
+      "cooldown": 10.0,
+      "iconPath": "skill icons/icons",
+      "iconSubName": "Icons_165"
+    },
+    {
+      "displayName": "Shield of Valor",
+      "name": "shield",
+      "type": "UTILITY",
+      "description": "Gains a shield that blocks an attack every few seconds",
+      "lv2Effect": "lv2 effect",
+      "lv3Effect": "lv3 effect",
+      "lv4Effect": "lv4 effect",
+      "lv5Effect": "lv5 effec5",
+      "damage": 0.0,
+      "cooldown": 10.0,
+      "iconPath": "skill icons/icons",
+      "iconSubName": "Icons_65"
     }
   ]
 }

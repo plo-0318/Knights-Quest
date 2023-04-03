@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1970a145c697a8c4e864c257b832afba, type: 3}
+  m_Name: Audio References
+  m_EditorClassIdentifier: 
+  musicMainMenu: {fileID: 8300000, guid: ef76e794d330e3648b82cefa0b933739, type: 3}
+  musicAction1: {fileID: 8300000, guid: 3ed0e6bc72306044ca87ad4aafb22deb, type: 3}
+  musicAction2: {fileID: 8300000, guid: 0e081d60e8a640a49bb59324e639154e, type: 3}
+  musicAction3: {fileID: 8300000, guid: d9d45447854665e42a2bf665940cd4ad, type: 3}
+  musicBoss: {fileID: 8300000, guid: 5ee5e258aa4887a418def369813690a7, type: 3}
+  musicGameOver: {fileID: 8300000, guid: f8e8c788c23f4354bb6953549f594f13, type: 3}
+  sfxMenuOpen: {fileID: 8300000, guid: 03b9b972d95bd4e42a5c274187628fa5, type: 3}
+  sfxMenuClick: {fileID: 8300000, guid: 21b9d6b158297dd449863015c3ba08e3, type: 3}
+  sfxTick: {fileID: 8300000, guid: cf74b46d8c33765419b365cd8750d1dc, type: 3}
+  sfxStart: {fileID: 8300000, guid: 010ef40ab8bab6a4d8e8d5c031f81541, type: 3}
+  sfxPlayerHurt: {fileID: 8300000, guid: 1c2ec734cba4aaa4b85f83cd7c12b881, type: 3}
+  sfxEnemyHurt: {fileID: 8300000, guid: 5840bf9ce754c4945871b11b18cbaa3e, type: 3}
+  sfxEnemyDeath: {fileID: 8300000, guid: ab584c8682c326a4599e560e4749650f, type: 3}
+  sfxVictory: {fileID: 8300000, guid: d9833017985f1e948b19cb7eac8cb696, type: 3}
+  sfxDefeat: {fileID: 8300000, guid: 69fa50ab1a250194bbe14ebf74c30196, type: 3}
+  sfxBossWarning: {fileID: 8300000, guid: 52f3e58a8a939f344a926073e1f51d0c, type: 3}
+  sfxPickupGem: {fileID: 8300000, guid: 0d8a1ea970bd7704ab513ffebbdce393, type: 3}
+  sfxPickupPotion: {fileID: 8300000, guid: 40add135805d01a42bdbfb9aa70392a4, type: 3}
+  sfxPickupShield: {fileID: 8300000, guid: 883d0a8afeebff4499b5212cd2acad00, type: 3}
+  sfxPickupPouch: {fileID: 8300000, guid: d9ad6801762d11b448b1267933cf641a, type: 3}
+  sfxDaggerUse: {fileID: 8300000, guid: 3b0041396f9aad340bfd60a30134e475, type: 3}
+  sfxSwordUse: {fileID: 8300000, guid: 246cba7d32fd8ed44a6d315a171438a9, type: 3}

@@ -30,30 +30,3 @@ public static class JsonHelper
         public T[] Items;
     }
 }
-
-[System.Serializable]
-public class SkillData
-{
-    public string displayName;
-    public string name;
-    public string description;
-    public string lv2Effect;
-    public string lv3Effect;
-    public string lv4Effect;
-    public string lv5Effect;
-    public float damage;
-    public float cooldown;
-
-    public SkillData(SkillData other)
-    {
-        displayName = other.displayName;
-        name = other.name;
-        description = other.description;
-        lv2Effect = other.lv2Effect;
-        lv3Effect = other.lv3Effect;
-        lv4Effect = other.lv4Effect;
-        lv5Effect = other.lv5Effect;
-        damage = other.damage;
-        cooldown = other.cooldown;
-    }
-}

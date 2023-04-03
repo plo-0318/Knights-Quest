@@ -28,10 +28,12 @@ public class AnimatorController : MonoBehaviour
     [System.NonSerialized]
     public float deathAnimationLength;
 
+    protected float animatorSpeed;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
-        animatedObj = GetComponent<IAnimatable>();
+        GetAnimatedObject();
 
         if (death.Length != 0)
         {
@@ -50,6 +52,8 @@ public class AnimatorController : MonoBehaviour
                 deathAnimationLength = deathClip.length;
             }
         }
+
+        animatorSpeed = animator.speed;
     }
 
     private void FixedUpdate()
@@ -78,5 +82,15 @@ public class AnimatorController : MonoBehaviour
         animator.Play(newState);
 
         currentState = newState;
+    }
+
+    private void GetAnimatedObject()
+    {
+        if (TryGetComponent<IAnimatable>(out animatedObj))
+        {
+            return;
+        }
+
+        animatedObj = GetComponentInParent<IAnimatable>();
     }
 }
