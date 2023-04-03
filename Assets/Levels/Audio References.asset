@@ -33,4 +33,8 @@ MonoBehaviour:
   sfxPickupShield: {fileID: 8300000, guid: 883d0a8afeebff4499b5212cd2acad00, type: 3}
   sfxPickupPouch: {fileID: 8300000, guid: d9ad6801762d11b448b1267933cf641a, type: 3}
   sfxDaggerUse: {fileID: 8300000, guid: 3b0041396f9aad340bfd60a30134e475, type: 3}
-  sfxSwordUse: {fileID: 8300000, guid: 246cba7d32fd8ed44a6d315a171438a9, type: 3}
+  sfxSwordUse1: {fileID: 8300000, guid: 246cba7d32fd8ed44a6d315a171438a9, type: 3}
+  sfxSwordUse2: {fileID: 8300000, guid: f8705a99e1a70a04b824925bad17b935, type: 3}
+  sfxSwordUse3: {fileID: 8300000, guid: 3e42726a064659d4d843da74bf3057c1, type: 3}
+  sfxSHammerUse1: {fileID: 8300000, guid: 193d16014d6a4f84584820289566cc7c, type: 3}
+  sfxSHammerUse2: {fileID: 8300000, guid: 4b68d4bbf0b2be942b27fec33f79f64a, type: 3}

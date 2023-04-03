@@ -108,7 +108,6 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
             fx.transform.parent = gameObject.transform;
         }
 
-        //TODO: INSERT SHOW DAMAGE POPUP HERE
         DamagePopup.ShowDamagePopup(amount, transform, Quaternion.identity);
 
         soundManager.PlayClip(soundManager.audioRefs.sfxEnemyHurt);

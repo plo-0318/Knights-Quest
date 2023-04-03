@@ -4,28 +4,43 @@ using UnityEngine;
 
 public class SkillHammer : Skill
 {
-    private GameObject hammer;
+    private GameObject hammerPrefab;
     private float cooldownTimer;
     private float cooldownTime;
 
-    private const float BASE_DAMAGE = 1f;
-    private const float BASE_COOLDOWN_TIME = 3f;
+    private readonly float BASE_DAMAGE;
+    private readonly float BASE_COOLDOWN_TIME;
+    private readonly float BASE_SWING_SPEED;
+    private readonly float BASE_DEGREE_TO_ROTATE;
 
     private float damage,
-        speed;
+        degreeToRotate,
+        swingSpeed;
+
+    private SoundManager soundManager;
+    private List<AudioClip> SFXs;
 
     public SkillHammer()
     {
-        name = "Hammer";
-        hammer = Resources.Load<GameObject>("hammer");
-
+        name = "hammer";
+        hammerPrefab = Resources.Load<GameObject>("hammer");
+        type = Type.ATTACK;
         level = 1;
 
+        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        BASE_SWING_SPEED = 350f;
+        BASE_DEGREE_TO_ROTATE = 140f;
+
         cooldownTime = BASE_COOLDOWN_TIME;
-        cooldownTimer = .5f;
+        cooldownTimer = 0.5f;
 
         damage = BASE_DAMAGE;
-        speed = 8f;
+        swingSpeed = BASE_SWING_SPEED;
+        degreeToRotate = BASE_DEGREE_TO_ROTATE;
+
+        soundManager = GameManager.SoundManager();
+        LoadSFX();
     }
 
     public override void Upgrade()
@@ -34,23 +49,27 @@ public class SkillHammer : Skill
 
         if (level == 2)
         {
-            damage = BASE_DAMAGE * 1.25f;
+            damage = BASE_DAMAGE * 1.3f;
         }
 
         if (level == 3)
         {
             cooldownTime = BASE_COOLDOWN_TIME - .5f;
+            degreeToRotate = BASE_DEGREE_TO_ROTATE * 1.3f;
+            swingSpeed = BASE_SWING_SPEED * 1.15f;
         }
 
         if (level == 4)
         {
-            damage = BASE_DAMAGE * 1.5f;
+            damage = BASE_DAMAGE * 1.6f;
         }
 
         if (level == 5)
         {
-            damage = BASE_DAMAGE * 1.75f;
+            damage = BASE_DAMAGE * 2f;
             cooldownTime = BASE_COOLDOWN_TIME - 1f;
+            degreeToRotate = BASE_DEGREE_TO_ROTATE * 1.6f;
+            swingSpeed = BASE_SWING_SPEED * 1.25f;
         }
     }
 
@@ -58,7 +77,8 @@ public class SkillHammer : Skill
     {
         if (cooldownTimer <= 0)
         {
-            Fire();
+            Swing();
+            cooldownTimer = cooldownTime;
         }
         else
         {
@@ -66,66 +86,129 @@ public class SkillHammer : Skill
         }
     }
 
-    private void Fire()
+    // Spawn and initialize the hammer
+    private void Swing()
     {
-        float playerPosXOffset = .6f,
-            playerPosYOffset = .6f;
+        // float playerPosYOffset = 1.5f;
+        // GameObject hammerObject = SpawnHammer(new Vector2(0, playerPosYOffset), 0f);
+        // Hammer hammer = hammerObject.GetComponent<Hammer>();
+        // hammer.Init(
+        //     damage,
+        //     degreeToRotate,
+        //     swingSpeed,
+        //     false,
+        //     GameManager.PlayerMovement().transform
+        // );
 
-        SpawnHammer(new Vector2(0, playerPosYOffset), 0, Vector2.up);
-        SpawnHammer(new Vector2(-playerPosXOffset, 0), 90, Vector2.left);
-        SpawnHammer(new Vector2(0, -playerPosYOffset), 180, Vector2.down);
-        SpawnHammer(new Vector2(playerPosXOffset, 0), 270, Vector2.right);
+        // Get the normalized angle between the mouse and the player
+        float angle = PlayerDirectionArrow.AngleBetweenMouseAndPlayerNormalized();
 
-        if (level == 5)
-        {
-            // Top left
-            SpawnHammer(
-                new Vector2(-playerPosXOffset, playerPosYOffset),
-                45,
-                (Vector2.up + Vector2.left).normalized
-            );
-            // Bottom left
-            SpawnHammer(
-                new Vector2(-playerPosXOffset, -playerPosYOffset),
-                135,
-                (Vector2.down + Vector2.left).normalized
-            );
-            // Bottom right
-            SpawnHammer(
-                new Vector2(playerPosXOffset, -playerPosYOffset),
-                225,
-                (Vector2.down + Vector2.right).normalized
-            );
-            // Top right
-            SpawnHammer(
-                new Vector2(playerPosXOffset, playerPosYOffset),
-                315,
-                (Vector2.up + Vector2.right).normalized
-            );
-        }
+        // Create variables to store the data
+        bool rotateCW = false;
+        float zRotation = 0;
 
-        cooldownTimer = cooldownTime;
+        Hammer spawnedHammer = SpawnHammer(angle, ref rotateCW, ref zRotation);
+
+        soundManager.PlayClip(SFXs[Random.Range(1, SFXs.Count)]);
+
+        spawnedHammer.Init(damage, degreeToRotate, zRotation, swingSpeed, rotateCW);
     }
 
-    private GameObject SpawnHammer(Vector2 offset, float zRotation, Vector2 velocity)
+    private Hammer SpawnHammer(float angle, ref bool rotateCW, ref float zRotation)
     {
-        Vector2 playerPos = GameManager.PlayerMovement().transform.position;
+        // Get the player game object transform
+        Transform player = GameManager.PlayerMovement().transform;
 
-        float playerPosBaseOffset = -.2f;
-        playerPos.y += playerPosBaseOffset;
-
-        GameObject spawnedHammer = GameObject.Instantiate(
-            hammer,
-            new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
-            Quaternion.identity
+        // Instantiate the hammer. Set its parent to the player. Get the Hammer component from its children
+        GameObject hammerHolder = GameObject.Instantiate(
+            hammerPrefab,
+            player.position,
+            Quaternion.identity,
+            player
         );
 
-        float baseRotation = 45f;
+        // Calculate whether to rotate left or rotate right
+        // Rotate clockwise if angle is in Q1 or Q4, else rotate counter-clockwise
+        rotateCW = (angle >= 0 && angle < 90f) || (angle > 270f && angle <= 360);
 
-        spawnedHammer.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
+        // Calculate the rotation of the hammer based on the degree to rotate and the direction to rotate
+        // If rotating clockwise, angle += degreeToRotate / 2, else angle -= degreeToRotate / 2
+        float angleOffset = rotateCW ? degreeToRotate / 2 : degreeToRotate / -2;
+        angle += angleOffset;
 
-        spawnedHammer.GetComponent<Hammer>().Init(damage, velocity * speed);
+        // Storing the z-rotation for Hammer script to use
+        zRotation = angle;
 
-        return spawnedHammer;
+        // Rotate the spawned hammer
+        hammerHolder.transform.rotation = Quaternion.Euler(
+            hammerPrefab.transform.rotation.x,
+            hammerPrefab.transform.rotation.y,
+            angle
+        );
+
+        return hammerHolder.GetComponentInChildren<Hammer>();
     }
+
+    private void LoadSFX()
+    {
+        SFXs = new List<AudioClip>();
+
+        SFXs.Add(soundManager.audioRefs.sfxSHammerUse1);
+        SFXs.Add(soundManager.audioRefs.sfxSHammerUse2);
+    }
+
+    // private GameObject SpawnHammer(Vector2 offset, float zRotation)
+    // {
+    //     // Get the player position
+    //     Vector2 playerPos = GameManager.PlayerMovement().transform.position;
+
+    //     // Get the mouse position
+    //     Vector2 mousePos = GameManager.PlayerMovement().MousePos;
+
+    //     // Calculate the direction vector from the player to the mouse
+    //     // Vector2 direction = Vector2.Perpendicular(mousePos - playerPos).normalized;
+    //     // direction.Normalize();
+
+    //     // Calculate the direction vector from the player to the mouse, then find the perpendicular vector
+    //     Vector2 initialDirection = (mousePos - playerPos).normalized;
+    //     Vector2 perpendicularDirection = -1 * Vector2.Perpendicular(initialDirection);
+    //     Vector2 direction = Vector2
+    //         .Lerp(initialDirection, perpendicularDirection, lerpFactor)
+    //         .normalized;
+
+    //     // Calculate the spawn position as the player position plus the direction vector scaled by the offset distance
+    //     Vector2 spawnPos = playerPos + direction * offset.magnitude;
+
+    //     // Editing radius of the player
+    //     float playerPosBaseOffset = -.2f;
+    //     playerPos.y += playerPosBaseOffset;
+
+    //     GameObject hammerParent = new GameObject("HammerMovement");
+    //     hammerParent.transform.position = new Vector3(spawnPos.x, spawnPos.y, 0);
+
+    //     // Attaching the hammer parent
+    //     HammerMovement hammerParentScript = hammerParent.AddComponent<HammerMovement>();
+    //     hammerParentScript.SetPlayer(GameManager.PlayerMovement().gameObject);
+
+    //     // Creating the hammer as a child of the parent object
+    //     GameObject spawnedHammer = GameObject.Instantiate(
+    //         hammer,
+    //         Vector3.zero,
+    //         Quaternion.identity,
+    //         hammerParent.transform
+    //     );
+
+    //     // Set the initial rotation of the hammer based on the angle between the direction vector and the x-axis
+    //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    //     float baseRotation = angle - 90f;
+    //     spawnedHammer.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation + 45);
+
+    //     // Set the local position of the hammer to the offset distance along the direction vector
+    //     spawnedHammer.transform.localPosition = direction * offset.magnitude;
+
+    //     Rigidbody2D rb = spawnedHammer.GetComponent<Rigidbody2D>();
+    //     rb.isKinematic = true;
+
+    //     return spawnedHammer;
+    // }
 }

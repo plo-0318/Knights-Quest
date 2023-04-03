@@ -26,16 +26,15 @@ public class SkillDagger : Skill
     {
         name = "dagger";
         dagger = Resources.Load<GameObject>("dagger");
-
+        type = Type.ATTACK;
         level = 1;
 
         BASE_DAMAGE = GameManager.GetSkillData(name).damage;
         BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
-
         BASE_SPEED = 8f;
 
         cooldownTime = BASE_COOLDOWN_TIME;
-        cooldownTimer = .5f;
+        cooldownTimer = 0.5f;
 
         damage = BASE_DAMAGE;
         speed = BASE_SPEED;
@@ -52,8 +51,6 @@ public class SkillDagger : Skill
         }
 
         soundManager = GameManager.SoundManager();
-
-        type = Type.ATTACK;
     }
 
     public override void Upgrade()
