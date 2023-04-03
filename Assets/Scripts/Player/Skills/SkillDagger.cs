@@ -20,6 +20,8 @@ public class SkillDagger : Skill
 
     private bool piercing;
 
+    private SoundManager soundManager;
+
     public SkillDagger()
     {
         name = "dagger";
@@ -48,6 +50,10 @@ public class SkillDagger : Skill
         {
             spawnRadius = 0.5f;
         }
+
+        soundManager = GameManager.SoundManager();
+
+        type = Type.ATTACK;
     }
 
     public override void Upgrade()
@@ -110,6 +116,8 @@ public class SkillDagger : Skill
             currentDeg += degBetweenSpawner;
         }
 
+        soundManager.PlayClip(soundManager.audioRefs.sfxDaggerUse);
+
         cooldownTimer = cooldownTime;
     }
 
@@ -128,6 +136,8 @@ public class SkillDagger : Skill
         spawnedDagger.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
 
         spawnedDagger.GetComponent<Dagger>().Init(damage, direction * speed, piercing);
+
+        spawnedDagger.transform.parent = GameManager.GameSession().skillParent;
 
         return spawnedDagger;
     }

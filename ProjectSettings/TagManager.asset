@@ -4,7 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Collectable
+  - Enemy
+  - Field
   layers:
   - Default
   - TransparentFX
@@ -15,10 +16,10 @@ TagManager:
   - Player
   - Enemy
   - EnemyBody
+  - Skill
   - Collectable
   - CollectablePickup
-  - 
-  - 
+  - MapBorder
   - 
   - 
   - 
@@ -47,6 +48,9 @@ TagManager:
     locked: 0
   - name: Icon
     uniqueID: 2354842137
+    locked: 0
+  - name: SkillBelowEnemy
+    uniqueID: 272368585
     locked: 0
   - name: Enemy
     uniqueID: 385439543

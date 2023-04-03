@@ -48,6 +48,11 @@ public class WalkingEnemy : Enemy
         );
     }
 
+    protected override void OnKilledByPlayer()
+    {
+        base.OnKilledByPlayer();
+    }
+
     protected override void ProcessDeath()
     {
         canMove = false;
@@ -60,4 +65,10 @@ public class WalkingEnemy : Enemy
     public override bool IsIdle() => false;
 
     public override bool IsMoving() => !isDead;
+
+    //TODO: Delete this
+    public void TEST_DisableMovement()
+    {
+        canMove = false;
+    }
 }

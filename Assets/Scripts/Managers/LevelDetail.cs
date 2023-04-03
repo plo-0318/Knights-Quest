@@ -22,10 +22,4 @@ public struct LevelEnemyDetail
     public float spawnDuration;
 
     public Enemy[] enemiesToSpawn;
-
-    // public LevelEnemyDetail(float spawnDuration, Enemy[] enemiesToSpawn)
-    // {
-    //     this.spawnDuration = spawnDuration;
-    //     this.enemiesToSpawn = enemiesToSpawn;
-    // }
 }

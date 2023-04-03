@@ -1,0 +1,588 @@
+fileFormatVersion: 2
+guid: 2a4fa6fb74e55d5419c218d698022b9a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4204556850042623117
+    second: Dungeon Icons trans_0
+  - first:
+      213: -5169320839857673868
+    second: Dungeon Icons trans_1
+  - first:
+      213: 7549094909536045010
+    second: Dungeon Icons trans_2
+  - first:
+      213: -8700851554645502060
+    second: Dungeon Icons trans_3
+  - first:
+      213: -4990095119043531836
+    second: Dungeon Icons trans_4
+  - first:
+      213: 9033683423651118724
+    second: Dungeon Icons trans_5
+  - first:
+      213: -1012832637955311536
+    second: Dungeon Icons trans_6
+  - first:
+      213: -1170038349079928277
+    second: Dungeon Icons trans_7
+  - first:
+      213: -6468417862181312468
+    second: Dungeon Icons trans_8
+  - first:
+      213: -808782740181387032
+    second: Dungeon Icons trans_9
+  - first:
+      213: 4707270622629024926
+    second: Dungeon Icons trans_10
+  - first:
+      213: 415762775376729136
+    second: Dungeon Icons trans_11
+  - first:
+      213: 7999105424202693505
+    second: Dungeon Icons trans_12
+  - first:
+      213: 8370005552272317229
+    second: Dungeon Icons trans_13
+  - first:
+      213: -6224280198434651217
+    second: Dungeon Icons trans_14
+  - first:
+      213: 560730199893761201
+    second: Dungeon Icons trans_15
+  - first:
+      213: 8057202215399620970
+    second: Dungeon Icons trans_16
+  - first:
+      213: -5854882498284509825
+    second: Dungeon Icons trans_17
+  - first:
+      213: 1695812810843513973
+    second: Dungeon Icons trans_18
+  - first:
+      213: -4894973166521830230
+    second: Dungeon Icons trans_19
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Dungeon Icons trans_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37b264352d966a5c0800000000000000
+      internalID: -4204556850042623117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_1
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 160
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 479624a9512e248b0800000000000000
+      internalID: -5169320839857673868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_2
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 160
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d70b9ac2d5c3c860800000000000000
+      internalID: 7549094909536045010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_3
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 160
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49713f13c9d504780800000000000000
+      internalID: -8700851554645502060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_4
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 127
+        width: 29
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cbeff98dee9fbab0800000000000000
+      internalID: -4990095119043531836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_5
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 124
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48e3f0816371e5d70800000000000000
+      internalID: 9033683423651118724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_6
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 124
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05870cdf412b1f1f0800000000000000
+      internalID: -1012832637955311536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_7
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 124
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b22a185125033cfe0800000000000000
+      internalID: -1170038349079928277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 88
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2824e9b9309b36a0800000000000000
+      internalID: -6468417862181312468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_9
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 88
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e875070260a6c4f0800000000000000
+      internalID: -808782740181387032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_10
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 88
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e945f6be0b5935140800000000000000
+      internalID: 4707270622629024926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_11
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 88
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03419299a0615c500800000000000000
+      internalID: 415762775376729136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 52
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18b70829008820f60800000000000000
+      internalID: 7999105424202693505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_13
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 52
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2b1d3f14bb382470800000000000000
+      internalID: 8370005552272317229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_14
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 52
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa30ecd132aee99a0800000000000000
+      internalID: -6224280198434651217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_15
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 52
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bc508b552d18c700800000000000000
+      internalID: 560730199893761201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a61826cd9bee0df60800000000000000
+      internalID: 8057202215399620970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_17
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 16
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f75a91863674fbea0800000000000000
+      internalID: -5854882498284509825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_18
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 16
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57462e344ccb88710800000000000000
+      internalID: 1695812810843513973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dungeon Icons trans_19
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 16
+        width: 34
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa4b568f6df811cb0800000000000000
+      internalID: -4894973166521830230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

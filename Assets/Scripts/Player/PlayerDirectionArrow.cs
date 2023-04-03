@@ -28,6 +28,11 @@ public class PlayerDirectionArrow : MonoBehaviour
         Rotate();
     }
 
+    private void Update()
+    {
+        // Debug.Log(AngleBetweenMouseAndPlayer());
+    }
+
     public void Rotate()
     {
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(gatherInput.mousePos); //+ Vector3.forward * 10f);
@@ -42,5 +47,14 @@ public class PlayerDirectionArrow : MonoBehaviour
     float AngleBetweenPoints(Vector3 a, Vector3 b)
     {
         return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+    }
+
+    public static float AngleBetweenMouseAndPlayerNormalized()
+    {
+        Vector3 mousePos = GameManager.PlayerMovement().MousePos;
+        Vector3 playerPos = GameManager.PlayerMovement().transform.position;
+
+        return Mathf.Atan2(playerPos.y - mousePos.y, playerPos.x - mousePos.x) * Mathf.Rad2Deg
+            + 180f;
     }
 }
