@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
     ////////// ////////// ////////// ////////// ////////// //////////
 
     //////////////////////// RESOURCES GETTERS ////////////////////////
-    public static GameObject damagePopupText => gameManager.damagePopupTextPrefab;
+    public static GameObject DamagePopupText => gameManager.damagePopupTextPrefab;
 
     public static Collectable GetCollectable(Collectable.Type type)
     {

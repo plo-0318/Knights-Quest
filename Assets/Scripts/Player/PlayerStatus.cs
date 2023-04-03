@@ -152,7 +152,7 @@ public class PlayerStatus : MonoBehaviour
         float currentTime = 0;
         float oscillationSpeed = 6f;
 
-        var sprite = GetComponent<SpriteRenderer>();
+        var sprite = playerMovement.SpriteRender;
         Color originalColor = new Color(
             sprite.color.r,
             sprite.color.g,

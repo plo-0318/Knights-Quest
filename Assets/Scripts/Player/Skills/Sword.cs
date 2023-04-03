@@ -33,7 +33,7 @@ public class Sword : MonoBehaviour
 
     private void Update()
     {
-        transform.position = playerTransform.position + (Vector3)positionOffset;
+        // transform.position = playerTransform.position + (Vector3)positionOffset;
     }
 
     public void Init(float damage, Vector2 positionOffset, float scaleMultiplier = 1f)

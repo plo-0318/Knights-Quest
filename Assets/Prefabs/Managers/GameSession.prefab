@@ -79,10 +79,6 @@ MonoBehaviour:
   maxEnemyPerWave: 30
   maxEnemyTotal: 100
   timeBetweenWaves: 15
-  enemyParent: {fileID: 7122828056516350655}
-  damagePopupParent: {fileID: 4763912369602767861}
-  skillParent: {fileID: 7270934482483922278}
-  collectableParent: {fileID: 726115273252963238}
 --- !u!1 &5910658509227773572
 GameObject:
   m_ObjectHideFlags: 0

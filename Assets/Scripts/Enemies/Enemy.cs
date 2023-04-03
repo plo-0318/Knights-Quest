@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(DamagePopup))]
 public abstract class Enemy : MonoBehaviour, IAnimatable
 {
     protected GameSession gameSession;
@@ -12,11 +11,14 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     protected Collider2D col;
 
     [Header("References")]
+    [Tooltip("The enemy sprite renderer")]
+    [SerializeField]
+    protected SpriteRenderer spriteRenderer;
+
     [Tooltip("The enemy to enemy collider")]
     [SerializeField]
     protected Collider2D enemyBodyCollider;
     protected CollectableSpawner collectableSpawner;
-    protected DamagePopup damagePopup;
 
     protected Stat _stat;
     protected bool isDead;
@@ -31,7 +33,6 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        damagePopup = GetComponent<DamagePopup>();
         collectableSpawner = GetComponent<CollectableSpawner>();
 
         gameSession = GameManager.GameSession();
@@ -68,7 +69,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
             transform.localScale.z
         );
 
-        transform.localScale = newScale;
+        spriteRenderer.transform.localScale = newScale;
     }
 
     public virtual void Init(Modifier[] modifiers)
@@ -107,7 +108,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
             fx.transform.parent = gameObject.transform;
         }
 
-        damagePopup.ShowDamagePopup(amount);
+        //TODO: INSERT SHOW DAMAGE POPUP HERE
+        DamagePopup.ShowDamagePopup(amount, transform, Quaternion.identity);
 
         soundManager.PlayClip(soundManager.audioRefs.sfxEnemyHurt);
 
@@ -138,7 +140,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         // soundManager.PlayClip(soundManager.audioRefs.sfxEnemyDeath);
 
         // Try to get the length of the death animation
-        if (TryGetComponent<AnimatorController>(out var animatorController))
+        if (spriteRenderer.TryGetComponent<AnimatorController>(out var animatorController))
         {
             OnDeath(animatorController.deathAnimationLength);
         }

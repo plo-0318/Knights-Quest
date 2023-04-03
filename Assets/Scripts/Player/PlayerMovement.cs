@@ -13,6 +13,12 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     private Vector3 BASE_LOCALSCALE;
 
     [SerializeField]
+    private SpriteRenderer spriteRenderer;
+
+    [SerializeField]
+    private Collider2D playerCollider;
+
+    [SerializeField]
     private float knockBackForce = 5f;
 
     [SerializeField]
@@ -86,18 +92,20 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
         if (hasHorizontalSpeed)
         {
-            transform.localScale = new Vector2(Mathf.Sign(rb.velocity.x) * BASE_LOCALSCALE.x, 1f);
-        }
-    }
+            //TODO: Delete this when everyone is using the new player
+            if (spriteRenderer == null)
+            {
+                transform.localScale = new Vector2(
+                    Mathf.Sign(rb.velocity.x) * BASE_LOCALSCALE.x,
+                    1f
+                );
+                return;
+            }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.TryGetComponent<Enemy>(out Enemy enemy))
-        {
-            float damage = enemy.GetStat(Stat.DAMAGE);
-            Vector2 direction = transform.position - enemy.transform.position;
-
-            playerStatus.Hurt(damage, direction);
+            spriteRenderer.gameObject.transform.localScale = new Vector2(
+                Mathf.Sign(rb.velocity.x) * BASE_LOCALSCALE.x,
+                1f
+            );
         }
     }
 
@@ -125,7 +133,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     private void HandlePlayerDeath()
     {
         canMove = false;
-        col.enabled = false;
+        playerCollider.enabled = false;
     }
 
     public bool IsDead() => playerStatus.IsDead;
@@ -133,6 +141,9 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     public bool IsIdle() => !canMove ? true : rb.velocity.magnitude <= Mathf.Epsilon;
 
     public bool IsMoving() => !IsIdle();
+
+    public SpriteRenderer SpriteRender => spriteRenderer;
+    public Collider2D PlayerCollider => playerCollider;
 
     public Vector3 MousePos => Camera.main.ScreenToWorldPoint(gatherInput.mousePos);
 

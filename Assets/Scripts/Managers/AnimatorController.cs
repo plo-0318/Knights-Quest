@@ -33,7 +33,7 @@ public class AnimatorController : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        animatedObj = GetComponent<IAnimatable>();
+        GetAnimatedObject();
 
         if (death.Length != 0)
         {
@@ -84,13 +84,13 @@ public class AnimatorController : MonoBehaviour
         currentState = newState;
     }
 
-    public void Pause()
+    private void GetAnimatedObject()
     {
-        animator.speed = 0;
-    }
+        if (TryGetComponent<IAnimatable>(out animatedObj))
+        {
+            return;
+        }
 
-    public void Play()
-    {
-        animator.speed = animatorSpeed;
+        animatedObj = GetComponentInParent<IAnimatable>();
     }
 }

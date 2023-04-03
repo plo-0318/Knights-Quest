@@ -66,17 +66,15 @@ public class SkillField : Skill
         //Instantiate Forcefield here, but only if there isn't one already.
         if (!hasField)
         {
-            Vector2 playerPos = GameManager.PlayerMovement().transform.position;
+            Transform player = GameManager.PlayerMovement().transform;
 
             field = GameObject
-                .Instantiate(FieldPrefab, playerPos, Quaternion.identity)
+                .Instantiate(FieldPrefab, player.position, Quaternion.identity, player)
                 .GetComponent<Field>();
 
             field.Init(damage, BASE_COOLDOWN_TIME);
 
             hasField = true;
-
-            field.transform.parent = GameManager.GameSession().skillParent;
         }
     }
 }

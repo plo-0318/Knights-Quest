@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Field : MonoBehaviour
 {
-    private Transform playerTransform;
-
     private CircleCollider2D col;
     private Vector3 BASE_SCALE;
     private float damage;
@@ -41,8 +39,6 @@ public class Field : MonoBehaviour
 
     private void Start()
     {
-        playerTransform = GameManager.PlayerMovement().transform;
-
         GameManager.GameSession().onGameLost += () =>
         {
             StartCoroutine(FadeOut());
@@ -51,8 +47,6 @@ public class Field : MonoBehaviour
 
     private void Update()
     {
-        transform.position = playerTransform.position;
-
         cooldownTimer -= Time.deltaTime;
     }
 

@@ -33,7 +33,7 @@ public class GameSession : MonoBehaviour
 
 
     ////////////////// SPAWNING ENEMY //////////////////
-    [Header("Enemy")]
+    [Header("Enemy Spawn")]
     [SerializeField]
     private int maxEnemyPerWave = 30;
 
@@ -63,17 +63,16 @@ public class GameSession : MonoBehaviour
     /////////////////////////////////////////////////////
 
     ////////////////// OBJECT HOLDERS //////////////////
-    [Header("Object Holders")]
-    [Tooltip("All the spawned enemies will be the children of this game object")]
+    [NonSerialized]
     public Transform enemyParent;
 
-    [Tooltip("All the spawned damage popups will be the children of this game object")]
+    [NonSerialized]
     public Transform damagePopupParent;
 
-    [Tooltip("All the spawned skills will be the children of this game object")]
+    [NonSerialized]
     public Transform skillParent;
 
-    [Tooltip("All the spawned collectables will be the children of this game object")]
+    [NonSerialized]
     public Transform collectableParent;
 
     /////////////////////////////////////////////////////
@@ -103,6 +102,8 @@ public class GameSession : MonoBehaviour
                 enemyModifiers[i].id = gameObject.GetInstanceID();
             }
         }
+
+        CreateObjectHolders();
     }
 
     private void Start()
@@ -128,6 +129,7 @@ public class GameSession : MonoBehaviour
 
     private void OnDestroy() { }
 
+    ////////////////////////// HELPERS //////////////////////////
     public float Timer => timer;
 
     private void TickTimer()
@@ -138,6 +140,46 @@ public class GameSession : MonoBehaviour
         }
     }
 
+    public string GetTimeString()
+    {
+        int seconds = Mathf.RoundToInt(timer);
+        int minutes = seconds / 60;
+        seconds %= 60;
+
+        string timerStr = minutes.ToString() + ":";
+
+        if (seconds < 10)
+        {
+            timerStr += "0";
+        }
+
+        timerStr += seconds.ToString();
+
+        return timerStr;
+    }
+
+    public void CreateObjectHolders()
+    {
+        GameObject objectHolder = new GameObject("Object Holder");
+        GameObject skillHolder = new GameObject("Skills");
+        GameObject damageTextHolder = new GameObject("Damage Texts");
+        GameObject enemyHolder = new GameObject("Enemies");
+        GameObject collectableHolder = new GameObject("Collectables");
+
+        skillHolder.transform.parent = objectHolder.transform;
+        damageTextHolder.transform.parent = objectHolder.transform;
+        enemyHolder.transform.parent = objectHolder.transform;
+        collectableHolder.transform.parent = objectHolder.transform;
+
+        skillParent = skillHolder.transform;
+        damagePopupParent = damageTextHolder.transform;
+        enemyParent = enemyHolder.transform;
+        collectableParent = collectableHolder.transform;
+    }
+
+    ////////////////////////// ////// //////////////////////////
+
+    ////////////////////////// EVENTS //////////////////////////
     public void StartGame()
     {
         if (gameStarted)
@@ -190,24 +232,9 @@ public class GameSession : MonoBehaviour
         onGameLost?.Invoke();
     }
 
-    public string GetTimeString()
-    {
-        int seconds = Mathf.RoundToInt(timer);
-        int minutes = seconds / 60;
-        seconds %= 60;
+    ////////////////////////// //////// //////////////////////////
 
-        string timerStr = minutes.ToString() + ":";
-
-        if (seconds < 10)
-        {
-            timerStr += "0";
-        }
-
-        timerStr += seconds.ToString();
-
-        return timerStr;
-    }
-
+    ////////////////////////// ENEMIES //////////////////////////
     private void SpawnEnemy()
     {
         if (!canSpawnEnemy)
@@ -317,7 +344,13 @@ public class GameSession : MonoBehaviour
         return nClosestEnemyPos.ToList<Vector3>();
     }
 
+    ////////////////////////// //////// //////////////////////////
+
+    //////////////////////// STATE GETTERS ////////////////////////
     public bool GamePaused => gamePaused;
+
+    ////////////////////////// //////// //////////////////////////
+
 
     // TODO: delete these test functions
     public void TEST_ToggleSpawn()

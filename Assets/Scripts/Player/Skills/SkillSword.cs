@@ -106,21 +106,26 @@ public class SkillSword : Skill
 
     private GameObject SpawnSword(float angle)
     {
-        Vector2 playerPos = GameManager.PlayerMovement().transform.position;
+        Transform player = GameManager.PlayerMovement().transform;
 
         Vector2 spawnOffset =
             new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad))
             * spawnRadius;
 
-        Vector3 spawnPos = playerPos + spawnOffset;
+        Vector3 spawnPos = player.position + (Vector3)spawnOffset;
 
-        GameObject spawnedSword = GameObject.Instantiate(sword, spawnPos, Quaternion.identity);
+        GameObject spawnedSword = GameObject.Instantiate(
+            sword,
+            spawnPos,
+            Quaternion.identity,
+            player
+        );
 
         spawnedSword.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         spawnedSword.GetComponent<Sword>().Init(damage, spawnOffset, scaleMultiplier);
 
-        spawnedSword.transform.parent = GameManager.GameSession().skillParent;
+        // spawnedSword.transform.parent = GameManager.GameSession().skillParent;
 
         return spawnedSword;
     }
