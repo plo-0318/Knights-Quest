@@ -35,5 +35,9 @@ public class AudioReferences : ScriptableObject
 
     [Header("SFX Skill")]
     public AudioClip sfxDaggerUse;
-    public AudioClip sfxSwordUse;
+    public AudioClip sfxSwordUse1;
+    public AudioClip sfxSwordUse2;
+    public AudioClip sfxSwordUse3;
+    public AudioClip sfxSHammerUse1;
+    public AudioClip sfxSHammerUse2;
 }

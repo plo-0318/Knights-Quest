@@ -28,9 +28,9 @@ public class PlayerSkillUITest : MonoBehaviour
             lvText.text = text;
         }
 
-        public void SetButtonActive(bool active)
+        public void SetButtonInteractable(bool interactable)
         {
-            levelUpButton.gameObject.SetActive(active);
+            levelUpButton.interactable = interactable;
         }
 
         public static SkillUI NewSkillUI(GameObject obj, UnityAction e)
@@ -77,9 +77,9 @@ public class PlayerSkillUITest : MonoBehaviour
     {
         skillUIs.Add("dagger", SkillUI.NewSkillUI(dagger, TEST_AddDaggerSkill));
         skillUIs.Add("field", SkillUI.NewSkillUI(field, TEST_AddFieldSkill));
-        skillUIs.Add("Arrow", SkillUI.NewSkillUI(arrow, TEST_AddArrowSkill));
-        skillUIs.Add("Fireball", SkillUI.NewSkillUI(fireball, TEST_AddFireballSkill));
-        skillUIs.Add("Hammer", SkillUI.NewSkillUI(hammer, TEST_AddHammerSkill));
+        skillUIs.Add("arrow", SkillUI.NewSkillUI(arrow, TEST_AddArrowSkill));
+        skillUIs.Add("fireball", SkillUI.NewSkillUI(fireball, TEST_AddFireballSkill));
+        skillUIs.Add("hammer", SkillUI.NewSkillUI(hammer, TEST_AddHammerSkill));
         skillUIs.Add("sword", SkillUI.NewSkillUI(sword, TEST_AddSwordSkill));
     }
 
@@ -115,7 +115,7 @@ public class PlayerSkillUITest : MonoBehaviour
     {
         foreach (var kvp in skillUIs)
         {
-            kvp.Value.SetButtonActive(false);
+            kvp.Value.SetButtonInteractable(false);
         }
     }
 
@@ -135,7 +135,7 @@ public class PlayerSkillUITest : MonoBehaviour
 
     public void TEST_AddFireballSkill()
     {
-        Debug.Log("Fireball not implemented yet");
+        Debug.LogError("Fireball not implemented yet");
 
         // GameManager.PlayerStatus().AssignSkill(new SkillFireball());
 
@@ -144,7 +144,7 @@ public class PlayerSkillUITest : MonoBehaviour
 
     public void TEST_AddArrowSkill()
     {
-        Debug.Log("Arrow not implemented yet");
+        Debug.LogError("Arrow not implemented yet");
 
         // GameManager.PlayerStatus().AssignSkill(new SkillArrow());
 
@@ -153,9 +153,7 @@ public class PlayerSkillUITest : MonoBehaviour
 
     public void TEST_AddHammerSkill()
     {
-        Debug.Log("Hammer not implemented yet");
-
-        // GameManager.PlayerStatus().AssignSkill(new SkillHammer());
+        GameManager.PlayerStatus().AssignSkill(new SkillHammer());
 
         UpdateText();
     }

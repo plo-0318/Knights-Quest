@@ -15,6 +15,7 @@ public class SkillSword : Skill
 
     private float damage;
     private float scaleMultiplier;
+    private List<AudioClip> SFXs;
 
     private SoundManager soundManager;
 
@@ -22,7 +23,7 @@ public class SkillSword : Skill
     {
         name = "sword";
         sword = Resources.Load<GameObject>("sword");
-
+        type = Type.ATTACK;
         level = 1;
 
         BASE_DAMAGE = GameManager.GetSkillData(name).damage;
@@ -47,8 +48,7 @@ public class SkillSword : Skill
         spawnRadius *= SPAWN_RADIUS_OFFSET;
 
         soundManager = GameManager.SoundManager();
-
-        type = Type.ATTACK;
+        LoadSFX();
     }
 
     public override void Upgrade()
@@ -95,7 +95,7 @@ public class SkillSword : Skill
 
     private void SwingSword()
     {
-        soundManager.PlayClip(soundManager.audioRefs.sfxSwordUse);
+        soundManager.PlayClip(SFXs[Random.Range(1, SFXs.Count)]);
 
         float angle = PlayerDirectionArrow.AngleBetweenMouseAndPlayerNormalized();
 
@@ -125,8 +125,15 @@ public class SkillSword : Skill
 
         spawnedSword.GetComponent<Sword>().Init(damage, spawnOffset, scaleMultiplier);
 
-        // spawnedSword.transform.parent = GameManager.GameSession().skillParent;
-
         return spawnedSword;
+    }
+
+    private void LoadSFX()
+    {
+        SFXs = new List<AudioClip>();
+
+        SFXs.Add(soundManager.audioRefs.sfxSwordUse1);
+        SFXs.Add(soundManager.audioRefs.sfxSwordUse2);
+        SFXs.Add(soundManager.audioRefs.sfxSwordUse3);
     }
 }
