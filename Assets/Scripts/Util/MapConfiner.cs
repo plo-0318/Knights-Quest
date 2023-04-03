@@ -5,13 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(PolygonCollider2D))]
 public class MapConfiner : MonoBehaviour
 {
-    private PolygonCollider2D col;
-    private BoxCollider2D boxCol;
+    [SerializeField]
+    private PolygonCollider2D cameraConfinerCollider;
 
-    private void Awake()
-    {
-        col = GetComponent<PolygonCollider2D>();
-    }
+    [SerializeField]
+    private BoxCollider2D spawnAreaCollider;
+
+    private void Awake() { }
 
     private void Start()
     {
@@ -19,7 +19,7 @@ public class MapConfiner : MonoBehaviour
 
         if (cd)
         {
-            cd.Confine(col);
+            cd.Confine(cameraConfinerCollider);
         }
 
         GameManager.RegisterMapConfiner(this);
@@ -27,11 +27,13 @@ public class MapConfiner : MonoBehaviour
 
     public bool InsideMap(Vector2 position)
     {
-        return col.OverlapPoint(position);
+        return cameraConfinerCollider.OverlapPoint(position);
     }
 
     public bool InsideSpawnArea(Vector2 position)
     {
-        return boxCol.OverlapPoint(position);
+        return spawnAreaCollider.OverlapPoint(position);
     }
+
+    public BoxCollider2D SpawnAreaCollider => spawnAreaCollider;
 }
