@@ -23,6 +23,7 @@ MonoBehaviour:
   sfxTick: {fileID: 8300000, guid: cf74b46d8c33765419b365cd8750d1dc, type: 3}
   sfxStart: {fileID: 8300000, guid: 010ef40ab8bab6a4d8e8d5c031f81541, type: 3}
   sfxPlayerHurt: {fileID: 8300000, guid: 1c2ec734cba4aaa4b85f83cd7c12b881, type: 3}
+  sfxPlayerShieldBreak: {fileID: 8300000, guid: 38da7875e09d4074c8e114aa8762d79e, type: 3}
   sfxEnemyHurt: {fileID: 8300000, guid: 5840bf9ce754c4945871b11b18cbaa3e, type: 3}
   sfxEnemyDeath: {fileID: 8300000, guid: ab584c8682c326a4599e560e4749650f, type: 3}
   sfxVictory: {fileID: 8300000, guid: d9833017985f1e948b19cb7eac8cb696, type: 3}

@@ -9,12 +9,13 @@ public class PlayerStatus : MonoBehaviour
     private PlayerMovement playerMovement;
     private SoundManager soundManager;
     private GameSession gameSession;
+    private CircleCollider2D itemPickupCollider;
 
     /////////////////////////////////////////////////////
 
     ////////////////////// STATS //////////////////////
     [SerializeField]
-    private float baseHealth = 100f,
+    private float baseHealth = 1000f,
         baseDamage = 1f,
         baseSpeed = 6f;
 
@@ -35,6 +36,7 @@ public class PlayerStatus : MonoBehaviour
     ////////////////////// STATUS //////////////////////
     private bool isDead,
         isInvincible;
+
     private float invincibleTime = .75f;
 
     /////////////////////////////////////////////////////
@@ -50,9 +52,18 @@ public class PlayerStatus : MonoBehaviour
     {
         GameManager.RegisterPlayerStatus(this);
 
-        _stat = new PlayerStat(baseHealth, baseDamage, baseSpeed * DEFAULT_MOVE_SPEED_MULTIPLYER);
+        itemPickupCollider = GetComponentInChildren<CollectablePickup>()
+            .GetComponent<CircleCollider2D>();
 
-        isDead = isInvincible = readyForLevelUp = false;
+        _stat = new PlayerStat(
+            baseHealth,
+            baseDamage,
+            baseSpeed * DEFAULT_MOVE_SPEED_MULTIPLYER,
+            itemPickupCollider.radius
+        );
+
+        isDead = isInvincible = false;
+        readyForLevelUp = false;
 
         playerMovement = GetComponent<PlayerMovement>();
 
@@ -85,9 +96,17 @@ public class PlayerStatus : MonoBehaviour
             return;
         }
 
+        // If it is a consumable skill, just use it
         if (skillToAdd is SkillConsumable)
         {
             skillToAdd.Use();
+            return;
+        }
+
+        // If the player has the maximum number of skills, and trying to add a new skill,
+        // do nothing
+        if (skills.Count >= MAX_SKILL_COUNT && !skills.ContainsKey(skillToAdd.name))
+        {
             return;
         }
 
@@ -113,6 +132,25 @@ public class PlayerStatus : MonoBehaviour
         return _stat.GetStat(statType);
     }
 
+    private bool BreakShield()
+    {
+        Skill skill = null;
+
+        if (!skills.TryGetValue("shield", out skill))
+        {
+            return false;
+        }
+
+        if (!skill || !(skill is SkillShield))
+        {
+            return false;
+        }
+
+        SkillShield skillShield = (SkillShield)skill;
+
+        return skillShield.BreakShield();
+    }
+
     public void Hurt(float damage)
     {
         Hurt(damage, Vector2.zero);
@@ -122,6 +160,15 @@ public class PlayerStatus : MonoBehaviour
     {
         if (isInvincible)
         {
+            return;
+        }
+
+        // If shield breaks successfully, do not take damage
+        if (BreakShield())
+        {
+            isInvincible = true;
+            StartCoroutine(RecoverFromShieldBreak());
+
             return;
         }
 
@@ -142,6 +189,13 @@ public class PlayerStatus : MonoBehaviour
         }
 
         StartCoroutine(RecoverFromInvincible());
+    }
+
+    private IEnumerator RecoverFromShieldBreak()
+    {
+        yield return new WaitForSeconds(invincibleTime);
+
+        isInvincible = false;
     }
 
     private IEnumerator RecoverFromInvincible()
@@ -177,6 +231,10 @@ public class PlayerStatus : MonoBehaviour
 
     public void Heal(float amount)
     {
+        DamagePopup.ShowHealPopup(amount, transform, Quaternion.identity, transform);
+
+        soundManager.PlayClip(soundManager.audioRefs.sfxPickupPotion);
+
         _stat.ModifyHealth(amount);
     }
 
@@ -457,6 +515,27 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
+    public void IncrementKillCount()
+    {
+        _stat.IncrementKillCount();
+    }
+
+    public void AddModifier(Modifier modifier, bool replaceIfExits = true)
+    {
+        if (modifier != null && modifier.statType == PlayerStat.ITEM_PICKUP_RADIUS)
+        {
+            itemPickupCollider.radius = _stat.AddModifier(modifier, true);
+            return;
+        }
+
+        _stat.AddModifier(modifier, replaceIfExits);
+    }
+
+    public void RemoveModifier(Modifier modifier)
+    {
+        _stat.RemoveModifier(modifier);
+    }
+
     private void ProcessDeath()
     {
         isDead = true;
@@ -464,8 +543,10 @@ public class PlayerStatus : MonoBehaviour
         GameManager.GameSession().HandleGameLost();
     }
 
-    public PlayerStat stat => _stat;
-
+    public float Level => _stat.level;
+    public float Exp => _stat.exp;
+    public float KillCount => _stat.killCount;
+    public float Health => _stat.health;
     public bool IsDead => isDead;
 
     // public bool HasSkill(string name)

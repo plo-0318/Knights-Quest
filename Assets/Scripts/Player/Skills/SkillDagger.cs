@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillDagger : Skill
 {
-    private GameObject dagger;
+    private GameObject daggerPrefab;
     private float cooldownTimer;
     private float cooldownTime;
 
@@ -25,7 +25,7 @@ public class SkillDagger : Skill
     public SkillDagger()
     {
         name = "dagger";
-        dagger = Resources.Load<GameObject>("dagger");
+        daggerPrefab = Resources.Load<GameObject>("dagger");
         type = Type.ATTACK;
         level = 1;
 
@@ -123,7 +123,7 @@ public class SkillDagger : Skill
         Vector2 playerPos = GameManager.PlayerMovement().transform.position;
 
         GameObject spawnedDagger = GameObject.Instantiate(
-            dagger,
+            daggerPrefab,
             new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
             Quaternion.identity
         );

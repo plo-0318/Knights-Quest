@@ -46,7 +46,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
         gameSession.OnEnemySpawn(this);
         gameSession.onKillAllEnemies += ProcessDeath;
-        gameSession.onRemoveModifier += stat.RemoveModifier;
+        gameSession.onRemoveModifier += _stat.RemoveModifier;
     }
 
     protected virtual void FixedUpdate()
@@ -58,7 +58,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     {
         gameSession.OnEnemyDestroy(this);
         gameSession.onKillAllEnemies -= ProcessDeath;
-        gameSession.onRemoveModifier -= stat.RemoveModifier;
+        gameSession.onRemoveModifier -= _stat.RemoveModifier;
     }
 
     protected void Flip()
@@ -124,7 +124,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
     protected virtual void OnKilledByPlayer()
     {
-        GameManager.PlayerStatus().stat.IncrementKillCount();
+        GameManager.PlayerStatus().IncrementKillCount();
 
         collectableSpawner.SpawnRandomCollectable(transform.position, Quaternion.identity);
     }
@@ -160,11 +160,19 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         Destroy(gameObject, destroyTime);
     }
 
+    public void AddModifier(Modifier modifier, bool replaceIfExits = true)
+    {
+        _stat.AddModifier(modifier, replaceIfExits);
+    }
+
+    public void RemoveModifier(Modifier modifier)
+    {
+        _stat.RemoveModifier(modifier);
+    }
+
     public abstract bool IsDead();
 
     public abstract bool IsIdle();
 
     public abstract bool IsMoving();
-
-    public Stat stat => _stat;
 }

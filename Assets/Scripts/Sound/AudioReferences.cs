@@ -21,6 +21,7 @@ public class AudioReferences : ScriptableObject
 
     [Header("SFX Game")]
     public AudioClip sfxPlayerHurt;
+    public AudioClip sfxPlayerShieldBreak;
     public AudioClip sfxEnemyHurt;
     public AudioClip sfxEnemyDeath;
     public AudioClip sfxVictory;

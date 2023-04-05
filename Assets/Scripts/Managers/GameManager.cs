@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     // RESOURCES
     private Dictionary<string, SkillData> skillDatum;
     private GameObject damagePopupTextPrefab;
+    private GameObject healPopupTextPrefab;
     private Dictionary<Collectable.Type, Collectable> collectablePrefabs;
 
     private void Awake()
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour
         }
 
         LoadSkillData();
-        LoadDamagePopupText();
+        LoadPopupTexts();
         LoadCollectables();
     }
 
@@ -169,9 +170,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void LoadDamagePopupText()
+    private void LoadPopupTexts()
     {
         damagePopupTextPrefab = Resources.Load<GameObject>("Damage Popup Text");
+        healPopupTextPrefab = Resources.Load<GameObject>("Heal Popup Text");
     }
 
     private void LoadCollectables()
@@ -212,6 +214,7 @@ public class GameManager : MonoBehaviour
 
     //////////////////////// RESOURCES GETTERS ////////////////////////
     public static GameObject DamagePopupText => gameManager.damagePopupTextPrefab;
+    public static GameObject HealPopupText => gameManager.healPopupTextPrefab;
 
     public static Collectable GetCollectable(Collectable.Type type)
     {

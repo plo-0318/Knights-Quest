@@ -6,39 +6,38 @@ using UnityEngine;
 
 public class Stat
 {
+    public enum StatType
+    {
+        MAX_HEALTH,
+        DAMAGE,
+        SPEED
+    }
+
     public const int MAX_HEALTH = 0;
     public const int DAMAGE = 1;
     public const int SPEED = 2;
-    public const int PROJECTILE_SPEED = 3;
-    public const int SCALE = 4;
 
     protected int NUMBER_OF_STATS;
+
     protected List<float> BASE_STATS;
     protected List<float> stats;
-    protected List<Dictionary<int, float>> modifierList;
+
+    protected List<HashSet<Modifier>> modifierList;
 
     protected float currentHealth;
 
     public Stat()
         : this(1f, 1f, 1f) { }
 
-    public Stat(
-        float maxHealth,
-        float damage,
-        float speed,
-        float prjectileSpeed = 1f,
-        float scale = 1f
-    )
+    public Stat(float maxHealth, float damage, float speed)
     {
-        NUMBER_OF_STATS = 5;
+        NUMBER_OF_STATS = 3;
 
         stats = new List<float>();
 
         stats.Add(maxHealth);
         stats.Add(damage);
         stats.Add(speed);
-        stats.Add(prjectileSpeed);
-        stats.Add(scale);
 
         BASE_STATS = new List<float>(stats);
 
@@ -56,41 +55,47 @@ public class Stat
 
     protected void InitModifiers()
     {
-        modifierList = new List<Dictionary<int, float>>();
+        modifierList = new List<HashSet<Modifier>>();
 
         for (int i = 0; i < NUMBER_OF_STATS; i++)
         {
-            modifierList.Add(new Dictionary<int, float>());
+            modifierList.Add(new HashSet<Modifier>());
         }
     }
 
-    public void AddModifier(Modifier modifier, bool replaceIfExits = true)
+    public float AddModifier(Modifier newModifier, bool replaceIfExits = true)
     {
+        // if new modifier is null, return
+        if (!newModifier)
+        {
+            return 0;
+        }
+
         // Get the list of modifiers for this stat type
-        Dictionary<int, float> statModifiers = modifierList[modifier.statType];
+        HashSet<Modifier> statModifiers = modifierList[newModifier.statType];
 
         // See if the modifier already exists
-        if (statModifiers.TryGetValue(modifier.id, out float multiplier))
-        {
-            if (!replaceIfExits)
-            {
-                return;
-            }
+        Modifier existingModifier = statModifiers.FirstOrDefault(mod => mod.Equals(newModifier));
 
-            statModifiers[modifier.id] = modifier.multiplier;
-        }
-        else
+        // Already have this modifier, and replacing is false
+        if (existingModifier && !replaceIfExits)
         {
-            statModifiers.Add(modifier.id, modifier.multiplier);
+            return stats[newModifier.statType];
         }
+
+        // Add the new modifer, if it exists, replace it
+        statModifiers.Remove(existingModifier);
+        statModifiers.Add(newModifier);
 
         // Recaculate the stat
-        stats[modifier.statType] = CalculateStat(modifier.statType);
+        stats[newModifier.statType] = CalculateStat(newModifier.statType);
+
+        return stats[newModifier.statType];
     }
 
     public void RemoveModifier(Modifier modifier)
     {
-        if (modifierList[modifier.statType].Remove(modifier.id))
+        if (modifierList[modifier.statType].Remove(modifier))
         {
             stats[modifier.statType] = CalculateStat(modifier.statType);
         }
@@ -98,7 +103,8 @@ public class Stat
 
     protected float CalculateStat(int statIndex)
     {
-        Dictionary<int, float> statModifiers = modifierList[statIndex];
+        HashSet<Modifier> statModifiers = modifierList[statIndex];
+
         float baseStat = BASE_STATS[statIndex];
 
         if (statModifiers.Count == 0)
@@ -121,42 +127,39 @@ public class Stat
         // return baseStat;
     }
 
-    protected float CalculateModifierDefault(Dictionary<int, float> statModifiers)
+    protected float CalculateModifierDefault(HashSet<Modifier> statModifiers)
     {
-        float multiplier = 1f + statModifiers.Values.Sum();
-
-        // float x = multiplier > 0 ? multiplier : 0.01f;
-        // Debug.Log("\tnew multiplier = " + x);
+        float multiplier = 1f + statModifiers.Sum(mod => mod.multiplier);
 
         return multiplier > 0 ? multiplier : 0.01f;
     }
 
     // Probably not using this
-    protected float CalculateSpeedModifier(Dictionary<int, float> statModifiers)
-    {
-        float max = statModifiers.Values.Max();
-        float min = statModifiers.Values.Min();
+    // protected float CalculateSpeedModifier(Dictionary<int, float> statModifiers)
+    // {
+    //     float max = statModifiers.Values.Max();
+    //     float min = statModifiers.Values.Min();
 
-        if (max == min)
-        {
-            return max;
-        }
+    //     if (max == min)
+    //     {
+    //         return max;
+    //     }
 
-        // max > 0, min > 0
-        if (max > 0 && min > 0)
-        {
-            return max;
-        }
+    //     // max > 0, min > 0
+    //     if (max > 0 && min > 0)
+    //     {
+    //         return max;
+    //     }
 
-        // max < 0, min < 0
-        if (max < 0 && min < 0)
-        {
-            return min;
-        }
+    //     // max < 0, min < 0
+    //     if (max < 0 && min < 0)
+    //     {
+    //         return min;
+    //     }
 
-        // max > 0, min < 0
-        return max + min;
-    }
+    //     // max > 0, min < 0
+    //     return max + min;
+    // }
 
     public float ModifyHealth(float amount)
     {
@@ -185,23 +188,24 @@ public class Stat
     }
 }
 
-[System.Serializable]
-public struct Modifier
-{
-    public int statType;
 
-    [System.NonSerialized]
-    public int id;
 
-    [Tooltip(
-        "The multiplie for the stat in decimal. Enter either positive or negative value (Example: 0.25 means a increase of 25%. -0.4 means a decrease of 40%)"
-    )]
-    public float multiplier;
+// public struct Modifier
+// {
+//     public int statType;
 
-    public Modifier(int statType, int id, float multiplier)
-    {
-        this.statType = statType;
-        this.id = id;
-        this.multiplier = multiplier;
-    }
-}
+//     [System.NonSerialized]
+//     public int id;
+
+//     [Tooltip(
+//         "The multiplie for the stat in decimal. Enter either positive or negative value (Example: 0.25 means a increase of 25%. -0.4 means a decrease of 40%)"
+//     )]
+//     public float multiplier;
+
+//     public Modifier(int statType, int id, float multiplier)
+//     {
+//         this.statType = statType;
+//         this.id = id;
+//         this.multiplier = multiplier;
+//     }
+// }
