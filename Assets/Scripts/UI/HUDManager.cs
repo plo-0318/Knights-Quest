@@ -63,6 +63,9 @@ public class HUDManager : MonoBehaviour
     // Start is called before the first frame update
     void Start() 
     {
+        // Enable HUD UI
+        ShowHUD(startOffset: 1f);
+
         // TODO DEFINE INITIAL VALUES
         
         // Player HP
@@ -279,6 +282,18 @@ public class HUDManager : MonoBehaviour
     }
 
     // -- GENERAL FUNCTIONS --
+
+    public void ShowHUD(float startOffset = 0f) 
+    {
+        var uiAnimation = gameObject.GetComponent<InAndOutAnimation>();
+        uiAnimation.MoveInAnimation(startOffset);
+    }
+
+    public void HideHUD(float startOffset = 0f) 
+    {
+        var uiAnimation = gameObject.GetComponent<InAndOutAnimation>();
+        uiAnimation.MoveOutAnimation(startOffset);
+    }
     
     // Calculate the length of the bar relative to the max value and the current value
     private void UpdateBarValue(GameObject obj, float current, float target, HUD_ELEMENTS type) 

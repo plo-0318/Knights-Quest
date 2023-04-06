@@ -14,27 +14,30 @@ struct AnimatedObject
 public class InAndOutAnimation : MonoBehaviour {
     
     [SerializeField] private AnimatedObject[] objects;
-    [SerializeField] private bool entryExitAnimation;
-    
+    [SerializeField] private bool startPosIn;
+
     void Start()
     {
-        foreach (var obj in objects) 
-        {
-            // Setup the initial positions when the scene starts
-            obj.gameObject.transform.position = obj.posOut.transform.position;
-            
-            // Run all the Entry Animations
-            MoveAnimation(obj.gameObject, obj.posIn.transform.position, obj.delay);
+        foreach (var obj in objects) {
+            // Setup the initial positions when the scene starts 
+            obj.gameObject.transform.position = startPosIn ? obj.posIn.transform.position : obj.posOut.transform.position;
         }
     }
 
-    public void MoveInAnimation() {
+    public void MoveInAnimation(float startOffset = 0f) {
         foreach (var obj in objects) 
         {
-            MoveAnimation(obj.gameObject, obj.posIn.transform.position, obj.delay);
+            MoveAnimation(obj.gameObject, obj.posIn.transform.position, obj.delay + startOffset);
         }
     }
-    
+
+    public void MoveOutAnimation(float startOffset = 0f) {
+        foreach (var obj in objects) 
+        {
+            MoveAnimation(obj.gameObject, obj.posOut.transform.position, obj.delay + startOffset);
+        }
+    }
+
     // Tween Move Animation
     private void MoveAnimation(GameObject obj, Vector3 newPos, float delay = 0f)
     {
