@@ -159,14 +159,21 @@ public class GameManager : MonoBehaviour
     {
         skillDatum = new Dictionary<string, SkillData>();
 
-        TextAsset jsonFile = Resources.Load<TextAsset>("Data/skillData");
-        SkillData[] data = JsonHelper.FromJson<SkillData>(jsonFile.text);
+        // TextAsset jsonFile = Resources.Load<TextAsset>("Data/skillData");
+        // SkillData[] data = JsonHelper.FromJson<SkillData>(jsonFile.text);
 
-        foreach (SkillData skill in data)
+        // foreach (SkillData skill in data)
+        // {
+        //     skill.sprite = Util.LoadSprite(skill.iconPath, skill.iconSubName);
+
+        //     skillDatum.Add(skill.skillName, skill);
+        // }
+
+        SkillData[] datum = Resources.LoadAll<SkillData>("Data/skill datum");
+
+        foreach (SkillData data in datum)
         {
-            skill.sprite = Util.LoadSprite(skill.iconPath, skill.iconSubName);
-
-            skillDatum.Add(skill.name, skill);
+            skillDatum.Add(data.SkillName, data);
         }
     }
 
@@ -242,7 +249,7 @@ public class GameManager : MonoBehaviour
 
         foreach (var kvp in gameManager.skillDatum)
         {
-            if (kvp.Value.type == type)
+            if (kvp.Value.Type == type)
             {
                 typeSkillData.Add(kvp.Key, kvp.Value);
             }
@@ -258,9 +265,9 @@ public class GameManager : MonoBehaviour
 
     public static SkillData GetSkillData(string name)
     {
-        if (gameManager.skillDatum.TryGetValue(name, out SkillData skill))
+        if (gameManager.skillDatum.TryGetValue(name, out SkillData data))
         {
-            return new SkillData(skill);
+            return data;
         }
 
         return null;

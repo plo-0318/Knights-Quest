@@ -29,8 +29,8 @@ public class SkillDagger : Skill
         type = Type.ATTACK;
         level = 1;
 
-        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        BASE_DAMAGE = GameManager.GetSkillData(name).Damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
         BASE_SPEED = 8f;
 
         cooldownTime = BASE_COOLDOWN_TIME;
@@ -53,10 +53,8 @@ public class SkillDagger : Skill
         soundManager = GameManager.SoundManager();
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;

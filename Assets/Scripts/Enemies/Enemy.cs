@@ -82,17 +82,22 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         return _stat.GetStat(statType);
     }
 
-    public virtual void Hurt(float amount)
+    public virtual void Hurt(float amount, AudioClip onHitSfx = null)
     {
-        Hurt(amount, null);
+        Hurt(amount, null, onHitSfx);
     }
 
-    public virtual void Hurt(float amount, GameObject onHitFx)
+    public virtual void Hurt(float amount, GameObject onHitFx, AudioClip onHitSfx = null)
     {
-        Hurt(amount, onHitFx, (Vector2)transform.position);
+        Hurt(amount, onHitFx, (Vector2)transform.position, onHitSfx);
     }
 
-    public virtual void Hurt(float amount, GameObject onHitFx, Vector2 fromPos)
+    public virtual void Hurt(
+        float amount,
+        GameObject onHitFx,
+        Vector2 fromPos,
+        AudioClip onHitSfx = null
+    )
     {
         // Spawn the on-hit special effects
         if (onHitFx != null)
@@ -110,7 +115,9 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
         DamagePopup.ShowDamagePopup(amount, transform, Quaternion.identity);
 
-        soundManager.PlayClip(soundManager.audioRefs.sfxEnemyHurt);
+        AudioClip _onHitSfx = onHitSfx == null ? soundManager.audioRefs.sfxEnemyHurt : onHitSfx;
+
+        soundManager.PlayClip(_onHitSfx, SoundManager.TimedSFX.ENEMY_HURT);
 
         // Get the new health
         float newHealth = _stat.ModifyHealth(-amount);

@@ -19,10 +19,8 @@ public class SkillBoots : Skill
         appliedModifier = false;
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             speedModifier.multiplier = 0.2f;

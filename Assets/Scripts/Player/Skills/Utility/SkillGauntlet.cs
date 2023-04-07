@@ -8,6 +8,8 @@ public class SkillGauntlet : Skill
     private Modifier itemPickupRadiusModifier;
     private PlayerStatus playerStatus;
 
+    private bool init;
+
     public SkillGauntlet()
     {
         name = "gauntlet";
@@ -15,7 +17,9 @@ public class SkillGauntlet : Skill
 
         level = 1;
 
-        multiplier = 1f;
+        init = false;
+        multiplier = 0.8f;
+
         itemPickupRadiusModifier = new Modifier(
             PlayerStat.ITEM_PICKUP_RADIUS,
             "SkillGauntlet",
@@ -23,31 +27,27 @@ public class SkillGauntlet : Skill
         );
 
         playerStatus = GameManager.PlayerStatus();
-
-        IncreaseItemPickupScale(multiplier);
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
-            multiplier += 1f;
+            multiplier += 0.8f;
 
             IncreaseItemPickupScale(multiplier);
         }
 
         if (level == 3)
         {
-            multiplier += 1f;
+            multiplier += 0.8f;
 
             IncreaseItemPickupScale(multiplier);
         }
 
         if (level == 4)
         {
-            multiplier += 1f;
+            multiplier += 0.8f;
 
             IncreaseItemPickupScale(multiplier);
         }
@@ -60,7 +60,14 @@ public class SkillGauntlet : Skill
         }
     }
 
-    public override void Use() { }
+    public override void Use()
+    {
+        if (!init)
+        {
+            IncreaseItemPickupScale(multiplier);
+            init = true;
+        }
+    }
 
     private void IncreaseItemPickupScale(float multiplier)
     {

@@ -14,6 +14,11 @@ public class CollectableGem : Collectable
         pickupSFX = soundManager.audioRefs.sfxPickupGem;
     }
 
+    protected override void PlayPickupSFX()
+    {
+        GameManager.SoundManager().PlayClip(pickupSFX, SoundManager.TimedSFX.GEM);
+    }
+
     public override void Use()
     {
         //TODO: USE LOGIC HERE

@@ -22,7 +22,7 @@ public class SkillShield : Skill
 
         blocksTwice = false;
 
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
 
         cooldownTimer = 0.5f;
         cooldownTime = BASE_COOLDOWN_TIME;
@@ -31,10 +31,8 @@ public class SkillShield : Skill
         soundManager = GameManager.SoundManager();
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             cooldownTime--;

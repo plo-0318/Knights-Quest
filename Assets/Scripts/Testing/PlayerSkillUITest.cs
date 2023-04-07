@@ -55,6 +55,7 @@ public class PlayerSkillUITest : MonoBehaviour
         hammer,
         arrow,
         fireball,
+        bolt,
         boots,
         shield,
         gauntlet,
@@ -77,6 +78,11 @@ public class PlayerSkillUITest : MonoBehaviour
         GameManager.GameSession().onGameLost += DisableButtons;
     }
 
+    private void FixedUpdate()
+    {
+        UpdateText();
+    }
+
     private void Init()
     {
         skillUIs.Add("dagger", SkillUI.NewSkillUI(dagger, TEST_AddDaggerSkill));
@@ -85,6 +91,7 @@ public class PlayerSkillUITest : MonoBehaviour
         skillUIs.Add("fireball", SkillUI.NewSkillUI(fireball, TEST_AddFireballSkill));
         skillUIs.Add("hammer", SkillUI.NewSkillUI(hammer, TEST_AddHammerSkill));
         skillUIs.Add("sword", SkillUI.NewSkillUI(sword, TEST_AddSwordSkill));
+        skillUIs.Add("bolt", SkillUI.NewSkillUI(bolt, TEST_AddBoltSkill));
         skillUIs.Add("boots", SkillUI.NewSkillUI(boots, TEST_AddBootsSkill));
         skillUIs.Add("shield", SkillUI.NewSkillUI(shield, TEST_AddShieldSkill));
         skillUIs.Add("gauntlet", SkillUI.NewSkillUI(gauntlet, TEST_AddGauntletSkill));
@@ -169,6 +176,13 @@ public class PlayerSkillUITest : MonoBehaviour
     public void TEST_AddFieldSkill()
     {
         GameManager.PlayerStatus().AssignSkill(new SkillField());
+
+        UpdateText();
+    }
+
+    public void TEST_AddBoltSkill()
+    {
+        GameManager.PlayerStatus().AssignSkill(new SkillBolt());
 
         UpdateText();
     }

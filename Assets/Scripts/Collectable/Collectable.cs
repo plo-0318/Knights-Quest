@@ -90,11 +90,16 @@ public abstract class Collectable : MonoBehaviour
         deflect = true;
     }
 
+    protected virtual void PlayPickupSFX()
+    {
+        GameManager.SoundManager().PlayClip(pickupSFX);
+    }
+
     public virtual void Use()
     {
         if (pickupSFX != null)
         {
-            GameManager.SoundManager().PlayClip(pickupSFX);
+            PlayPickupSFX();
         }
 
         if (deflectCoroutine != null)

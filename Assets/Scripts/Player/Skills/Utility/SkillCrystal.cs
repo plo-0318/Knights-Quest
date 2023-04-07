@@ -20,7 +20,7 @@ public class SkillCrystal : Skill
 
         level = 1;
 
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
 
         cooldownTimer = 0.5f;
         cooldownTime = BASE_COOLDOWN_TIME;
@@ -31,10 +31,8 @@ public class SkillCrystal : Skill
         soundManager = GameManager.SoundManager();
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             healPercentage = 0.075f;

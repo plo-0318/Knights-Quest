@@ -29,7 +29,7 @@
       "iconSubName": "dagger_10"
     },
     {
-      "displayName": "Repellent Field (TBD)",
+      "displayName": "Field (TBD)",
       "name": "field",
       "type": "ATTACK",
       "description": "Spawns a field around the player. Enemies inside the field will take damage every second",
@@ -83,6 +83,20 @@
       "cooldown": 3.0,
       "iconPath": "skill icons/hammers",
       "iconSubName": "hammers_35"
+    },
+    {
+      "displayName": "Bolt (TBD)",
+      "name": "bolt",
+      "type": "ATTACK",
+      "description": "Fires a bolt repeteadly in the target direction dealing damage to the first enemy hit",
+      "lv2Effect": "lv2 effect",
+      "lv3Effect": "lv3 effect",
+      "lv4Effect": "lv4 effect",
+      "lv5Effect": "lv5 effec5",
+      "damage": 150.0,
+      "cooldown": 1.5,
+      "iconPath": "skill icons/bolt",
+      "iconSubName": ""
     },
     {
       "displayName": "Boots of Ace",

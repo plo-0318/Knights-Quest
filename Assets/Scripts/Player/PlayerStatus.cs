@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using System;
 using System.Linq;
 
@@ -27,6 +28,8 @@ public class PlayerStatus : MonoBehaviour
 
     ////////////////////// SKILLS //////////////////////
     private Dictionary<string, Skill> skills;
+    private int numAttackingSkill,
+        numUtilitySkill;
     private const int MAX_SKILL_COUNT = 7;
     private const int MAX_ATTACK_SKILL_COUNT = 4;
     private const int MAX_UTILITY_SKILL_COUNT = 3;
@@ -42,7 +45,8 @@ public class PlayerStatus : MonoBehaviour
     /////////////////////////////////////////////////////
 
     ////////////////////// LEVEL UP //////////////////////
-    public event Action<LevelUpUISkillCardData[]> onLevelUp;
+    // public event Action<LevelUpUISkillCardData> onLevelUp;
+    public event Action<SkillData[]> onLevelUp;
     private bool readyForLevelUp;
 
     /////////////////////////////////////////////////////
@@ -68,6 +72,7 @@ public class PlayerStatus : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
 
         skills = new Dictionary<string, Skill>();
+        numAttackingSkill = numUtilitySkill = 0;
     }
 
     private void Start()
@@ -103,9 +108,7 @@ public class PlayerStatus : MonoBehaviour
             return;
         }
 
-        // If the player has the maximum number of skills, and trying to add a new skill,
-        // do nothing
-        if (skills.Count >= MAX_SKILL_COUNT && !skills.ContainsKey(skillToAdd.name))
+        if (!AllowedToAddSkill(skillToAdd))
         {
             return;
         }
@@ -113,6 +116,15 @@ public class PlayerStatus : MonoBehaviour
         // If player has not learned this skill, add it
         if (!skills.TryGetValue(skillToAdd.name, out Skill skill))
         {
+            if (skillToAdd.SkillType == Skill.Type.ATTACK)
+            {
+                numAttackingSkill++;
+            }
+            else if (skillToAdd.SkillType == Skill.Type.UTILITY)
+            {
+                numUtilitySkill++;
+            }
+
             skills.Add(skillToAdd.name, skillToAdd);
         }
         // else level up this skill
@@ -120,6 +132,27 @@ public class PlayerStatus : MonoBehaviour
         {
             skill.Upgrade();
         }
+    }
+
+    private bool AllowedToAddSkill(Skill skillToAdd)
+    {
+        // Check if the player has the maximum number of skills
+
+        if (
+            numAttackingSkill >= MAX_ATTACK_SKILL_COUNT && skillToAdd.SkillType == Skill.Type.ATTACK
+        )
+        {
+            return skills.ContainsKey(skillToAdd.name);
+        }
+
+        if (
+            numUtilitySkill >= MAX_UTILITY_SKILL_COUNT && skillToAdd.SkillType == Skill.Type.UTILITY
+        )
+        {
+            return skills.ContainsKey(skillToAdd.name);
+        }
+
+        return true;
     }
 
     public Dictionary<string, Skill> GetSkills()
@@ -248,6 +281,16 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
+    public UnityAction OnUISkillSelect(Skill skill)
+    {
+        return () =>
+        {
+            AssignSkill(skill);
+            readyForLevelUp = true;
+            FindObjectOfType<LevelUpUITest>().Hide();
+        };
+    }
+
     private List<Skill> GenerateLevelUpSkills()
     {
         //TODO: delete this test
@@ -349,151 +392,152 @@ public class PlayerStatus : MonoBehaviour
     }
 
     //TODO: this is for testing level up ui, THIS IS TEMPORARY ! SHOULD DELETE
-    public LevelUpUISkillCardData[] AvailableLevelUpSkills()
-    {
-        // var skills = new Dictionary<string, Skill>();
-        // var skillSword = new SkillSword();
-        // var skillDagger = new SkillDagger();
-        // var skillFIeld = new SkillField();
-        // var skillArrow = new SkillArrow();
-        // var skillFireball = new SkillFireball();
-        // var skillHammer = new SkillHammer();
+    // public LevelUpUISkillCardData[] AvailableLevelUpSkills()
+    // {
+    //     // var skills = new Dictionary<string, Skill>();
+    //     // var skillSword = new SkillSword();
+    //     // var skillDagger = new SkillDagger();
+    //     // var skillFIeld = new SkillField();
+    //     // var skillArrow = new SkillArrow();
+    //     // var skillFireball = new SkillFireball();
+    //     // var skillHammer = new SkillHammer();
 
-        // var skillBoots = new SkillBoots();
-        // var skillShield = new SkillShield();
-        // var skillCrystal = new SkillCrystal();
-        // var skillGauntlet = new SkillGauntlet();
+    //     // var skillBoots = new SkillBoots();
+    //     // var skillShield = new SkillShield();
+    //     // var skillCrystal = new SkillCrystal();
+    //     // var skillGauntlet = new SkillGauntlet();
 
-        // skills.Add(skillArrow.name, skillArrow);
-        // skillArrow.Upgrade();
-        // skillArrow.Upgrade();
-        // skillArrow.Upgrade();
-        // skills.Add(skillDagger.name, skillDagger);
-        // skillDagger.Upgrade();
-        // skillDagger.Upgrade();
-        // skillDagger.Upgrade();
-        // skills.Add(skillShield.name, skillShield);
-        // skills.Add(skillGauntlet.name, skillGauntlet);
+    //     // skills.Add(skillArrow.name, skillArrow);
+    //     // skillArrow.Upgrade();
+    //     // skillArrow.Upgrade();
+    //     // skillArrow.Upgrade();
+    //     // skills.Add(skillDagger.name, skillDagger);
+    //     // skillDagger.Upgrade();
+    //     // skillDagger.Upgrade();
+    //     // skillDagger.Upgrade();
+    //     // skills.Add(skillShield.name, skillShield);
+    //     // skills.Add(skillGauntlet.name, skillGauntlet);
 
-        var availableSkills = GenerateLevelUpSkills();
+    //     var availableSkills = GenerateLevelUpSkills();
 
-        List<Skill> levelUpSkills = new List<Skill>();
+    //     List<Skill> levelUpSkills = new List<Skill>();
 
-        Func<List<Skill>, List<Skill>> getThreeRandomSkills = availSkills =>
-        {
-            if (availSkills.Count <= 3)
-            {
-                return availSkills;
-            }
+    //     Func<List<Skill>, List<Skill>> getThreeRandomSkills = availSkills =>
+    //     {
+    //         if (availSkills.Count <= 3)
+    //         {
+    //             return availSkills;
+    //         }
 
-            List<Skill> tempSkills = new List<Skill>();
+    //         List<Skill> tempSkills = new List<Skill>();
 
-            while (tempSkills.Count < 3)
-            {
-                int rand = UnityEngine.Random.Range(0, availSkills.Count);
+    //         while (tempSkills.Count < 3)
+    //         {
+    //             int rand = UnityEngine.Random.Range(0, availSkills.Count);
 
-                if (!tempSkills.Contains(availSkills[rand]))
-                {
-                    tempSkills.Add(availSkills[rand]);
-                }
-            }
+    //             if (!tempSkills.Contains(availSkills[rand]))
+    //             {
+    //                 tempSkills.Add(availSkills[rand]);
+    //             }
+    //         }
 
-            return tempSkills;
-        };
+    //         return tempSkills;
+    //     };
 
-        levelUpSkills = getThreeRandomSkills(availableSkills);
+    //     levelUpSkills = getThreeRandomSkills(availableSkills);
 
-        while (levelUpSkills.Count < 3)
-        {
-            levelUpSkills.Add(SkillConsumable.GenerateRandomConsumable());
-        }
+    //     while (levelUpSkills.Count < 3)
+    //     {
+    //         levelUpSkills.Add(SkillConsumable.GenerateRandomConsumable());
+    //     }
 
-        List<LevelUpUISkillCardData> skillCardDatum = new List<LevelUpUISkillCardData>();
+    //     List<LevelUpUISkillCardData> skillCardDatum = new List<LevelUpUISkillCardData>();
 
-        foreach (var skill in levelUpSkills)
-        {
-            string displayName;
-            Sprite sprite;
-            string description;
-            int level;
+    //     foreach (var skill in levelUpSkills)
+    //     {
+    //         string displayName;
+    //         Sprite sprite;
+    //         string description;
+    //         int level;
 
-            if (skill is SkillConsumable)
-            {
-                var skillCon = (SkillConsumable)skill;
-                displayName = skillCon.displayName;
-                sprite = skillCon.sprite;
-                description = skillCon.description;
-                level = 0;
-            }
-            else
-            {
-                string skillName = skill.name.ToLower();
-                displayName = GameManager.GetSkillData(skillName).displayName;
-                sprite = GameManager.GetSkillData(skillName).sprite;
-                description = GameManager.GetSkillData(skillName).description;
-                level = 1;
+    //         if (skill is SkillConsumable)
+    //         {
+    //             var skillCon = (SkillConsumable)skill;
+    //             displayName = skillCon.displayName;
+    //             sprite = skillCon.sprite;
+    //             description = skillCon.description;
+    //             level = 0;
+    //         }
+    //         else
+    //         {
+    //             string skillName = skill.name.ToLower();
+    //             displayName = GameManager.GetSkillData(skillName).displayName;
+    //             sprite = GameManager.GetSkillData(skillName).sprite;
+    //             description = GameManager.GetSkillData(skillName).description;
+    //             level = 1;
 
-                if (skills.TryGetValue(skillName, out Skill s))
-                {
-                    displayName += " Lv" + (s.Level() + 1).ToString();
-                    level = s.Level() + 1;
+    //             if (skills.TryGetValue(skillName, out Skill s))
+    //             {
+    //                 displayName += " Lv" + (s.Level() + 1).ToString();
+    //                 level = s.Level() + 1;
 
-                    switch (s.Level() + 1)
-                    {
-                        case 2:
-                            description = GameManager.GetSkillData(skillName).lv2Effect;
-                            break;
-                        case 3:
-                            description = GameManager.GetSkillData(skillName).lv3Effect;
-                            break;
-                        case 4:
-                            description = GameManager.GetSkillData(skillName).lv4Effect;
-                            break;
-                        case 5:
-                            description = GameManager.GetSkillData(skillName).lv5Effect;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
+    //                 switch (s.Level() + 1)
+    //                 {
+    //                     case 2:
+    //                         description = GameManager.GetSkillData(skillName).lv2Effect;
+    //                         break;
+    //                     case 3:
+    //                         description = GameManager.GetSkillData(skillName).lv3Effect;
+    //                         break;
+    //                     case 4:
+    //                         description = GameManager.GetSkillData(skillName).lv4Effect;
+    //                         break;
+    //                     case 5:
+    //                         description = GameManager.GetSkillData(skillName).lv5Effect;
+    //                         break;
+    //                     default:
+    //                         break;
+    //                 }
+    //             }
+    //         }
 
-            skillCardDatum.Add(
-                new LevelUpUISkillCardData(
-                    displayName,
-                    sprite,
-                    description,
-                    level,
-                    () =>
-                    {
-                        AssignSkill(skill);
-                        readyForLevelUp = true;
-                        FindObjectOfType<LevelUpUITest>().Hide();
-                    }
-                )
-            );
-        }
+    //         skillCardDatum.Add(
+    //             new LevelUpUISkillCardData(
+    //                 displayName,
+    //                 sprite,
+    //                 description,
+    //                 level,
+    //                 () =>
+    //                 {
+    //                     AssignSkill(skill);
+    //                     readyForLevelUp = true;
+    //                     FindObjectOfType<LevelUpUITest>().Hide();
+    //                 }
+    //             )
+    //         );
+    //     }
 
-        // foreach (var card in skillCardDatum)
-        // {
-        //     Debug.Log(
-        //         card.nameText
-        //             + " | "
-        //             + card.iconSprite
-        //             + " | "
-        //             + card.descriptionText
-        //             + " | "
-        //             + card.onSelect
-        //     );
-        // }
+    //     // foreach (var card in skillCardDatum)
+    //     // {
+    //     //     Debug.Log(
+    //     //         card.nameText
+    //     //             + " | "
+    //     //             + card.iconSprite
+    //     //             + " | "
+    //     //             + card.descriptionText
+    //     //             + " | "
+    //     //             + card.onSelect
+    //     //     );
+    //     // }
 
-        return skillCardDatum.ToArray<LevelUpUISkillCardData>();
-    }
+    //     return skillCardDatum.ToArray<LevelUpUISkillCardData>();
+    // }
 
     private IEnumerator HandleLevelUp(int levelUps)
     {
         // Show level up UI
-        onLevelUp?.Invoke(AvailableLevelUpSkills());
+        // onLevelUp?.Invoke(AvailableLevelUpSkills());
+        onLevelUp?.Invoke(AvailableLevelUpSkillData());
         gameSession.PauseGame();
         readyForLevelUp = false;
 
@@ -507,6 +551,9 @@ public class PlayerStatus : MonoBehaviour
 
         if (levelUps > 0)
         {
+            gameSession.ResumeGame();
+            yield return new WaitForSeconds(0.5f);
+
             StartCoroutine(HandleLevelUp(levelUps));
         }
         else
@@ -553,4 +600,59 @@ public class PlayerStatus : MonoBehaviour
     // {
     //     return skills.ContainsKey(name);
     // }
+
+    //TODO: this is for testing level up ui, THIS IS TEMPORARY ! SHOULD DELETE
+    public SkillData[] AvailableLevelUpSkillData()
+    {
+        var availableSkills = GenerateLevelUpSkills();
+
+        List<Skill> levelUpSkills = new List<Skill>();
+
+        Func<List<Skill>, List<Skill>> getThreeRandomSkills = availSkills =>
+        {
+            if (availSkills.Count <= 3)
+            {
+                return availSkills;
+            }
+
+            List<Skill> tempSkills = new List<Skill>();
+
+            while (tempSkills.Count < 3)
+            {
+                int rand = UnityEngine.Random.Range(0, availSkills.Count);
+
+                if (!tempSkills.Contains(availSkills[rand]))
+                {
+                    tempSkills.Add(availSkills[rand]);
+                }
+            }
+
+            return tempSkills;
+        };
+
+        levelUpSkills = getThreeRandomSkills(availableSkills);
+
+        while (levelUpSkills.Count < 3)
+        {
+            levelUpSkills.Add(SkillConsumable.GenerateRandomConsumable());
+        }
+
+        List<SkillData> skillDatum = new List<SkillData>();
+
+        foreach (var skill in levelUpSkills)
+        {
+            if (!(skill is SkillConsumable))
+            {
+                skillDatum.Add(GameManager.GetSkillData(skill.name.ToLower()));
+            }
+            else
+            {
+                skillDatum.Add(SkillData.FromSkillConsumable((SkillConsumable)skill));
+            }
+        }
+
+        foreach (var s in skillDatum) { }
+
+        return skillDatum.ToArray();
+    }
 }

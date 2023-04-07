@@ -5,6 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class SoundManager : MonoBehaviour
 {
+    public enum TimedSFX
+    {
+        ENEMY_HURT,
+        GEM,
+        NONE
+    }
+
     private AudioSource audioSource;
 
     [SerializeField]
@@ -80,16 +87,16 @@ public class SoundManager : MonoBehaviour
         audioSource.Play();
     }
 
-    public void PlayClip(AudioClip audioClip)
+    public void PlayClip(AudioClip audioClip, TimedSFX timed = TimedSFX.NONE)
     {
         // If not playing timed sfx
-        if (audioClip != audioRefs.sfxPickupGem && audioClip != audioRefs.sfxEnemyHurt)
+        if (timed == TimedSFX.NONE)
         {
             AudioSource.PlayClipAtPoint(audioClip, Camera.main.transform.position, sfxVolume);
             return;
         }
 
-        HandleTimedSFX(audioClip);
+        HandleTimedSFX(audioClip, timed);
     }
 
     private void SetMusicVolume(float value)
@@ -109,9 +116,9 @@ public class SoundManager : MonoBehaviour
         SetSFXVolume(PlayerPrefsController.GetSFXVolume());
     }
 
-    private void HandleTimedSFX(AudioClip sfx)
+    private void HandleTimedSFX(AudioClip sfx, TimedSFX timed)
     {
-        if (sfx == audioRefs.sfxPickupGem)
+        if (timed == TimedSFX.GEM)
         {
             if (gemSFXTimer > 0)
             {
@@ -120,7 +127,7 @@ public class SoundManager : MonoBehaviour
 
             gemSFXTimer = TIME_BETWEEN_GEM_SFX;
         }
-        else if (sfx == audioRefs.sfxEnemyHurt)
+        else if (timed == TimedSFX.ENEMY_HURT)
         {
             if (enemyHurtSFXTimer > 0)
             {

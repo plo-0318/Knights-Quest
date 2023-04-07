@@ -28,8 +28,8 @@ public class SkillSword : Skill
         type = Type.ATTACK;
         level = 1;
 
-        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        BASE_DAMAGE = GameManager.GetSkillData(name).Damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
 
         scaleMultiplier = 1f;
 
@@ -58,10 +58,8 @@ public class SkillSword : Skill
         LoadSFX();
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;

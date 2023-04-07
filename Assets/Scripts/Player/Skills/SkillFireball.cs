@@ -17,7 +17,7 @@ public class SkillFireball : Skill
     public SkillFireball()
     {
         name = "Fireball";
-        //fireball = Resources.Load<GameObject>("fireball"); 
+        //fireball = Resources.Load<GameObject>("fireball");
         fireball = Resources.Load<GameObject>("dagger"); // TESTING STUFF
 
         level = 1;
@@ -29,10 +29,8 @@ public class SkillFireball : Skill
         speed = 8f;
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;

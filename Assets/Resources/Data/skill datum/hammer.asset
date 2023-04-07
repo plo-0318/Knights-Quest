@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fbc309ebbaadf346a975338cb1dd718, type: 3}
+  m_Name: hammer
+  m_EditorClassIdentifier: 
+  displayName: Hammer (TBD)
+  skillName: hammer
+  type: ATTACK
+  description: Swing a hammer in the target direction damaging and knocking back
+    enemies hit
+  lv2Effect: lv2 effect
+  lv3Effect: lv3 effect
+  lv4Effect: lv4 effect
+  lv5Effect: lv5 effect
+  damage: 150
+  cooldown: 3
+  iconPath: skill icons/hammers
+  iconSubName: hammers_35
+  sprite: {fileID: 8414190229883720008, guid: e39799c79cfe0f941a6d6d12c701de79, type: 3}
