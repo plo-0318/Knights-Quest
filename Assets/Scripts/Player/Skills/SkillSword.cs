@@ -24,7 +24,7 @@ public class SkillSword : Skill
     public SkillSword()
     {
         name = "sword";
-        sword = Resources.Load<GameObject>("sword");
+        sword = Resources.Load<GameObject>(name);
         type = Type.ATTACK;
         level = 1;
 

@@ -46,25 +46,6 @@ public class SkillData : ScriptableObject
     [SerializeField]
     private Sprite sprite;
 
-    public SkillData() { }
-
-    public SkillData(SkillData other)
-    {
-        displayName = other.displayName;
-        skillName = other.skillName;
-        type = other.type;
-        description = other.description;
-        lv2Effect = other.lv2Effect;
-        lv3Effect = other.lv3Effect;
-        lv4Effect = other.lv4Effect;
-        lv5Effect = other.lv5Effect;
-        damage = other.damage;
-        cooldown = other.cooldown;
-        iconPath = other.iconPath;
-        iconSubName = other.iconSubName;
-        sprite = other.sprite;
-    }
-
     public string DisplayName => displayName;
     public string SkillName => skillName;
     public string Type => type;

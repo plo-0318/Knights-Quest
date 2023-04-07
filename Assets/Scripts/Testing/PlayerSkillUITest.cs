@@ -150,9 +150,7 @@ public class PlayerSkillUITest : MonoBehaviour
 
     public void TEST_AddFireballSkill()
     {
-        Debug.Log("Fireball not implemented yet");
-
-        // GameManager.PlayerStatus().AssignSkill(new SkillFireball());
+        GameManager.PlayerStatus().AssignSkill(new SkillFireball());
 
         UpdateText();
     }
