@@ -5,9 +5,8 @@ using System;
 
 public class PlayerStat : Stat
 {
-    public const int ITEM_PICKUP_SCALE = 5;
+    public const int ITEM_PICKUP_RADIUS = 3;
 
-    protected float itemPickupScale;
     protected int _killCount;
     protected float _exp;
     protected int _level;
@@ -19,35 +18,26 @@ public class PlayerStat : Stat
 
     /////////////////////////////////////////////////////
 
-    public PlayerStat(
-        float maxHealth,
-        float damage,
-        float speed,
-        float prjectileSpeed = 1f,
-        float scale = 1f,
-        float itemPickupScale = 1f
-    )
+    public PlayerStat(float maxHealth, float damage, float speed, float itemPickupRadius)
     {
-        NUMBER_OF_STATS = 6;
+        NUMBER_OF_STATS = 4;
 
         stats = new List<float>();
 
         stats.Add(maxHealth);
         stats.Add(damage);
         stats.Add(speed);
-        stats.Add(prjectileSpeed);
-        stats.Add(scale);
-        stats.Add(itemPickupScale);
+        stats.Add(itemPickupRadius);
 
         BASE_STATS = new List<float>(stats);
 
         currentHealth = GetStat(MAX_HEALTH);
 
+        InitModifiers();
+
         _killCount = 0;
         _exp = 0;
         _level = 0;
-
-        InitModifiers();
 
         //TODO: Delete this log
         // for (int i = 1; i <= 30; i++)
@@ -85,6 +75,6 @@ public class PlayerStat : Stat
     }
 
     public int killCount => _killCount;
-    public double exp => _exp;
+    public float exp => _exp;
     public int level => _level;
 }

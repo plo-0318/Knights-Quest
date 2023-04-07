@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class SkillArrow : Skill
 {
     private GameObject arrow;
@@ -32,10 +31,8 @@ public class SkillArrow : Skill
         speed = 8f;
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;
@@ -74,7 +71,7 @@ public class SkillArrow : Skill
     {
         float playerPosXOffset = .6f,
             playerPosYOffset = .6f;
-    
+
         //SpawnArrow(new Vector2(0, playerPosYOffset), 0, Vector2.up);
         SpawnArrow(new Vector2(0, playerPosYOffset), 90, Vector2.up);
         //SpawnArrow(new Vector2(-playerPosXOffset, 0), 90, Vector2.left);
@@ -115,7 +112,6 @@ public class SkillArrow : Skill
     private GameObject SpawnArrow(Vector2 offset, float zRotation, Vector2 velocity)
     {
         Vector2 playerPos = GameManager.PlayerMovement().transform.position;
-        
 
         float playerPosBaseOffset = -.2f;
         playerPos.y += playerPosBaseOffset;
@@ -133,15 +129,15 @@ public class SkillArrow : Skill
         );
 
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(gatherInput.mousePos);
-         
-         //Angle between mouse and t$$anonymous$$s object
-         float angle = AngleBetweenPoints(spawnedArrow.transform.position, mouseWorldPosition);
-         
-         //Ta daa
-         spawnedArrow.transform.rotation =  Quaternion.Euler (new Vector3(0f,0f,angle + zRotation));
+
+        //Angle between mouse and t$$anonymous$$s object
+        float angle = AngleBetweenPoints(spawnedArrow.transform.position, mouseWorldPosition);
+
+        //Ta daa
+        spawnedArrow.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + zRotation));
 
         //float baseRotation = 45f;
-        
+
 
         // spawnedArrow.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
 
@@ -151,9 +147,9 @@ public class SkillArrow : Skill
 
         return spawnedArrow;
     }
-    
 
-    float AngleBetweenPoints(Vector3 a, Vector3 b) {
-            return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
-        }
+    float AngleBetweenPoints(Vector3 a, Vector3 b)
+    {
+        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+    }
 }

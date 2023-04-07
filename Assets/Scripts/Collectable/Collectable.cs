@@ -17,6 +17,12 @@ public abstract class Collectable : MonoBehaviour
     }
 
     protected const float flySpeed = 15f;
+
+    private float deflectDuration;
+    private float deflectSpeed;
+    private bool deflect;
+    private Coroutine deflectCoroutine;
+
     protected bool pickedUp;
     protected Transform destination;
 
@@ -28,6 +34,10 @@ public abstract class Collectable : MonoBehaviour
     protected void Awake()
     {
         pickedUp = false;
+        deflect = false;
+
+        deflectDuration = 0.25f;
+        deflectSpeed = 5f;
 
         collectables.Add(this);
     }
@@ -39,7 +49,7 @@ public abstract class Collectable : MonoBehaviour
 
     private void Update()
     {
-        if (pickedUp)
+        if (pickedUp && deflect)
         {
             transform.position = Vector2.MoveTowards(
                 transform.position,
@@ -58,13 +68,43 @@ public abstract class Collectable : MonoBehaviour
 
         pickedUp = true;
         this.destination = destination;
+
+        Vector3 direction = transform.position - destination.position;
+
+        deflectCoroutine = StartCoroutine(Deflect(direction.normalized));
+    }
+
+    private IEnumerator Deflect(Vector3 direction)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < deflectDuration)
+        {
+            transform.Translate(direction * deflectSpeed * Time.deltaTime);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        deflect = true;
+    }
+
+    protected virtual void PlayPickupSFX()
+    {
+        GameManager.SoundManager().PlayClip(pickupSFX);
     }
 
     public virtual void Use()
     {
         if (pickupSFX != null)
         {
-            GameManager.SoundManager().PlayClip(pickupSFX);
+            PlayPickupSFX();
+        }
+
+        if (deflectCoroutine != null)
+        {
+            StopCoroutine(deflectCoroutine);
         }
 
         Destroy(gameObject);

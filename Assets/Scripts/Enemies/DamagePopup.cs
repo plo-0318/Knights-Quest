@@ -7,24 +7,49 @@ public class DamagePopup
 {
     private static GameSession gameSession = null;
     private static GameObject damageTextPrefab = null;
+    private static GameObject healTextPrefab = null;
 
     private static bool SetReferences()
     {
         gameSession = GameManager.GameSession();
         damageTextPrefab = GameManager.DamagePopupText;
+        healTextPrefab = GameManager.HealPopupText;
 
-        return gameSession != null && damageTextPrefab != null;
+        return gameSession != null && damageTextPrefab != null && healTextPrefab != null;
     }
 
     private static bool ValidReferences()
     {
-        return gameSession != null && damageTextPrefab != null;
+        return gameSession != null && damageTextPrefab != null && healTextPrefab != null;
     }
 
     public static void ShowDamagePopup(
         float damage,
         Transform transform,
         Quaternion quaternion,
+        DamagePopupOptions options = null
+    )
+    {
+        ShowPopup(true, damage, transform, quaternion, null, options);
+    }
+
+    public static void ShowHealPopup(
+        float damage,
+        Transform transform,
+        Quaternion quaternion,
+        Transform parent,
+        DamagePopupOptions options = null
+    )
+    {
+        ShowPopup(false, damage, transform, quaternion, parent, options);
+    }
+
+    private static void ShowPopup(
+        bool isDamage,
+        float damage,
+        Transform transform,
+        Quaternion quaternion,
+        Transform parent = null,
         DamagePopupOptions options = null
     )
     {
@@ -39,6 +64,8 @@ public class DamagePopup
             }
         }
 
+        GameObject popupText = isDamage ? damageTextPrefab : healTextPrefab;
+
         // If no damage popup options are passed in, use the default one
         options = options == null ? DamagePopupOptions.DEFAULT : options;
 
@@ -52,11 +79,14 @@ public class DamagePopup
         //     rotationAmount = rotationAmount * -1;
         // }
 
+        Transform parentTrans =
+            parent == null ? GameManager.GameSession().damagePopupParent : parent;
+
         GameObject damageText = GameObject.Instantiate(
-            damageTextPrefab,
+            popupText,
             transform.position,
             quaternion,
-            GameManager.GameSession().damagePopupParent
+            parentTrans
         );
 
         damageText.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(damageStr);

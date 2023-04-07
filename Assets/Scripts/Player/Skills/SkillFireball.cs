@@ -4,35 +4,46 @@ using UnityEngine;
 
 public class SkillFireball : Skill
 {
-    private GameObject fireball;
+    private GameObject fireballPrefab;
+    private GameObject fireballExplosionPrefab;
     private float cooldownTimer;
     private float cooldownTime;
 
-    private const float BASE_DAMAGE = 1f;
-    private const float BASE_COOLDOWN_TIME = 3f;
+    private readonly float BASE_DAMAGE;
+    private readonly float BASE_COOLDOWN_TIME;
 
     private float damage,
         speed;
+    private int numFireball;
+
+    private bool spawning;
+    private Vector2 SpawnOffset;
+    private Coroutine summonFireballCoroutine;
 
     public SkillFireball()
     {
-        name = "Fireball";
-        //fireball = Resources.Load<GameObject>("fireball"); 
-        fireball = Resources.Load<GameObject>("dagger"); // TESTING STUFF
-
+        name = "fireball";
+        fireballPrefab = Resources.Load<GameObject>(name);
+        fireballExplosionPrefab = Resources.Load<GameObject>("fireball explosion");
+        type = Type.ATTACK;
         level = 1;
+
+        BASE_DAMAGE = GameManager.GetSkillData(name).Damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
 
         cooldownTime = BASE_COOLDOWN_TIME;
         cooldownTimer = .5f;
 
         damage = BASE_DAMAGE;
-        speed = 8f;
+        speed = 6.5f;
+        numFireball = 1;
+
+        SpawnOffset = new Vector2(2f, 4f);
+        spawning = false;
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;
@@ -40,26 +51,33 @@ public class SkillFireball : Skill
 
         if (level == 3)
         {
-            cooldownTime = BASE_COOLDOWN_TIME - .5f;
+            cooldownTime = BASE_COOLDOWN_TIME - 1f;
+            numFireball++;
         }
 
         if (level == 4)
         {
-            damage = BASE_DAMAGE * 1.5f;
+            damage = BASE_DAMAGE * 1.75f;
         }
 
         if (level == 5)
         {
-            damage = BASE_DAMAGE * 1.75f;
-            cooldownTime = BASE_COOLDOWN_TIME - 1f;
+            damage = BASE_DAMAGE * 2f;
+            cooldownTime = BASE_COOLDOWN_TIME - 2f;
+            numFireball++;
         }
     }
 
     public override void Use()
     {
+        if (spawning)
+        {
+            return;
+        }
+
         if (cooldownTimer <= 0)
         {
-            Fire();
+            Summon();
         }
         else
         {
@@ -67,67 +85,73 @@ public class SkillFireball : Skill
         }
     }
 
-    private void Fire()
+    private void Summon()
     {
-        float playerPosXOffset = .6f,
-            playerPosYOffset = .6f;
+        summonFireballCoroutine = GameManager.GameSession().StartCoroutine(SummonFireballs());
+    }
 
-        SpawnFireball(new Vector2(0, playerPosYOffset), 0, Vector2.up);
-        SpawnFireball(new Vector2(-playerPosXOffset, 0), 90, Vector2.left);
-        SpawnFireball(new Vector2(0, -playerPosYOffset), 180, Vector2.down);
-        SpawnFireball(new Vector2(playerPosXOffset, 0), 270, Vector2.right);
+    private IEnumerator SummonFireballs()
+    {
+        int numFireballToSummon = numFireball;
 
-        if (level == 5)
+        spawning = true;
+
+        while (numFireballToSummon > 0)
         {
-            // Top left
-            SpawnFireball(
-                new Vector2(-playerPosXOffset, playerPosYOffset),
-                45,
-                (Vector2.up + Vector2.left).normalized
-            );
-            // Bottom left
-            SpawnFireball(
-                new Vector2(-playerPosXOffset, -playerPosYOffset),
-                135,
-                (Vector2.down + Vector2.left).normalized
-            );
-            // Bottom right
-            SpawnFireball(
-                new Vector2(playerPosXOffset, -playerPosYOffset),
-                225,
-                (Vector2.down + Vector2.right).normalized
-            );
-            // Top right
-            SpawnFireball(
-                new Vector2(playerPosXOffset, playerPosYOffset),
-                315,
-                (Vector2.up + Vector2.right).normalized
-            );
+            Vector3 targetPos = GetRandomPositionAroundPlayer();
+
+            Fireball spawnedFireball = SpawnFireball(targetPos);
+
+            Vector2 velocity = SpawnOffset.normalized * -speed;
+
+            spawnedFireball.Init(damage, velocity, targetPos, fireballExplosionPrefab);
+
+            numFireballToSummon--;
+
+            if (numFireball > 0)
+            {
+                yield return new WaitForSeconds(0.25f);
+            }
         }
 
+        spawning = false;
         cooldownTimer = cooldownTime;
     }
 
-    private GameObject SpawnFireball(Vector2 offset, float zRotation, Vector2 velocity)
+    private Fireball SpawnFireball(Vector3 pos)
     {
-        Vector2 playerPos = GameManager.PlayerMovement().transform.position;
-
-        float playerPosBaseOffset = -.2f;
-        playerPos.y += playerPosBaseOffset;
+        Vector3 spawnPos = pos + (Vector3)SpawnOffset;
 
         GameObject spawnedFireball = GameObject.Instantiate(
-            fireball,
-            new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
-            Quaternion.identity
+            fireballPrefab,
+            spawnPos,
+            Quaternion.identity,
+            GameManager.GameSession().skillParent
         );
 
-        float baseRotation = 45f;
+        float angle = AngleBetween(pos, spawnPos);
 
-        spawnedFireball.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
+        spawnedFireball.transform.rotation = Quaternion.Euler(0, 0, angle + 180f);
 
-        //spawnedFireball.GetComponent<Fireball>().Init(damage, velocity * speed);
-        spawnedFireball.GetComponent<Dagger>().Init(damage, velocity * speed); // TESTING STUFF
+        return spawnedFireball.GetComponent<Fireball>();
+    }
 
-        return spawnedFireball;
+    private float AngleBetween(Vector3 pos1, Vector3 pos2)
+    {
+        return Mathf.Atan2(pos1.y - pos2.y, pos1.x - pos2.x) * Mathf.Rad2Deg + 180f;
+    }
+
+    public Vector2 GetRandomPositionAroundPlayer()
+    {
+        Transform player = GameManager.PlayerMovement().transform;
+
+        float randomAngle = Random.Range(0, 361);
+        float offset = 3f;
+
+        return new Vector2(
+                Mathf.Cos(randomAngle * Mathf.Deg2Rad),
+                Mathf.Sin(randomAngle * Mathf.Deg2Rad)
+            ) * offset
+            + (Vector2)player.position;
     }
 }

@@ -23,7 +23,9 @@ MonoBehaviour:
   sfxTick: {fileID: 8300000, guid: cf74b46d8c33765419b365cd8750d1dc, type: 3}
   sfxStart: {fileID: 8300000, guid: 010ef40ab8bab6a4d8e8d5c031f81541, type: 3}
   sfxPlayerHurt: {fileID: 8300000, guid: 1c2ec734cba4aaa4b85f83cd7c12b881, type: 3}
+  sfxPlayerShieldBreak: {fileID: 8300000, guid: 38da7875e09d4074c8e114aa8762d79e, type: 3}
   sfxEnemyHurt: {fileID: 8300000, guid: 5840bf9ce754c4945871b11b18cbaa3e, type: 3}
+  sfxEnemyHurtBolt: {fileID: 8300000, guid: 0374898e4719f404a9dbcbc984f99e86, type: 3}
   sfxEnemyDeath: {fileID: 8300000, guid: ab584c8682c326a4599e560e4749650f, type: 3}
   sfxVictory: {fileID: 8300000, guid: d9833017985f1e948b19cb7eac8cb696, type: 3}
   sfxDefeat: {fileID: 8300000, guid: 69fa50ab1a250194bbe14ebf74c30196, type: 3}
@@ -36,5 +38,9 @@ MonoBehaviour:
   sfxSwordUse1: {fileID: 8300000, guid: 246cba7d32fd8ed44a6d315a171438a9, type: 3}
   sfxSwordUse2: {fileID: 8300000, guid: f8705a99e1a70a04b824925bad17b935, type: 3}
   sfxSwordUse3: {fileID: 8300000, guid: 3e42726a064659d4d843da74bf3057c1, type: 3}
-  sfxSHammerUse1: {fileID: 8300000, guid: 193d16014d6a4f84584820289566cc7c, type: 3}
-  sfxSHammerUse2: {fileID: 8300000, guid: 4b68d4bbf0b2be942b27fec33f79f64a, type: 3}
+  sfxHammerUse1: {fileID: 8300000, guid: 193d16014d6a4f84584820289566cc7c, type: 3}
+  sfxHammerUse2: {fileID: 8300000, guid: 4b68d4bbf0b2be942b27fec33f79f64a, type: 3}
+  sfxBoltUse1: {fileID: 8300000, guid: d113df6d07bc0f9469f0a04762e49c21, type: 3}
+  sfxBoltUse2: {fileID: 8300000, guid: 8571e8d1adcb06c4894cf47f3c8b9c9f, type: 3}
+  sfxBoltUse3: {fileID: 8300000, guid: 538aa4bb11ba51a43a040c8cfca89857, type: 3}
+  sfxBoltBurst: {fileID: 8300000, guid: 15525dbfd863df64d9d63d2500a04d5d, type: 3}

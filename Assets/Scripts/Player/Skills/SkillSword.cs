@@ -15,19 +15,21 @@ public class SkillSword : Skill
 
     private float damage;
     private float scaleMultiplier;
-    private List<AudioClip> SFXs;
+
+    private PlayerBodyAnimatorController playerAnimatorController;
 
     private SoundManager soundManager;
+    private List<AudioClip> SFXs;
 
     public SkillSword()
     {
         name = "sword";
-        sword = Resources.Load<GameObject>("sword");
+        sword = Resources.Load<GameObject>(name);
         type = Type.ATTACK;
         level = 1;
 
-        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        BASE_DAMAGE = GameManager.GetSkillData(name).Damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
 
         scaleMultiplier = 1f;
 
@@ -36,7 +38,9 @@ public class SkillSword : Skill
 
         damage = BASE_DAMAGE;
 
-        if (GameManager.PlayerMovement().TryGetComponent<Collider2D>(out Collider2D col))
+        PlayerMovement playerMovement = GameManager.PlayerMovement();
+
+        if (playerMovement.TryGetComponent<Collider2D>(out Collider2D col))
         {
             spawnRadius = Mathf.Max(col.bounds.size.x, col.bounds.size.y);
         }
@@ -45,16 +49,17 @@ public class SkillSword : Skill
             spawnRadius = 0.5f;
         }
 
+        playerAnimatorController =
+            playerMovement.GetComponentInChildren<PlayerBodyAnimatorController>();
+
         spawnRadius *= SPAWN_RADIUS_OFFSET;
 
         soundManager = GameManager.SoundManager();
         LoadSFX();
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;
@@ -100,6 +105,8 @@ public class SkillSword : Skill
         float angle = PlayerDirectionArrow.AngleBetweenMouseAndPlayerNormalized();
 
         SpawnSword(angle);
+
+        playerAnimatorController.HandlePlayerAttack();
 
         cooldownTimer = cooldownTime;
     }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6623269058752981962}
   - component: {fileID: 6623269058752981963}
   - component: {fileID: 6623269058752981972}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: speed up feield (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6623269058752981973}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.5045805, y: 10.02732, z: 1.484121}
+  m_LocalPosition: {x: 4.5045805, y: 10.02732, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 6623269060011267227}
@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -468315465
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -4052549807471232597, guid: eee37fcb37eadfb448fc62ff3b9b7853, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 6623269058839861952}
   - component: {fileID: 6623269058839861953}
   - component: {fileID: 6623269058839861954}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: slow field (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6623269058839861955}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.265419, y: 10.61732, z: 1.484121}
+  m_LocalPosition: {x: -12.265419, y: 10.61732, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 6623269060011267227}
@@ -184,7 +184,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -468315465
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -4052549807471232597, guid: eee37fcb37eadfb448fc62ff3b9b7853, type: 3}
   m_Color: {r: 0.1088662, g: 0.4716981, b: 0.006674961, a: 0.47058824}
@@ -272,7 +272,7 @@ GameObject:
   - component: {fileID: 6623269060214599727}
   - component: {fileID: 6623269060214599720}
   - component: {fileID: 6623269060214599725}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: speed up feield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +287,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6623269060214599721}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.4345808, y: -6.1926794, z: 1.484121}
+  m_LocalPosition: {x: 2.4345808, y: -6.1926794, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 6623269060011267227}
@@ -331,7 +331,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -468315465
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -4052549807471232597, guid: eee37fcb37eadfb448fc62ff3b9b7853, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
@@ -385,7 +385,7 @@ GameObject:
   - component: {fileID: 6623269060511201434}
   - component: {fileID: 6623269060511201435}
   - component: {fileID: 6623269060511201432}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: slow field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,7 +400,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6623269060511201380}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.275419, y: -6.05268, z: 1.484121}
+  m_LocalPosition: {x: -12.275419, y: -6.05268, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 6623269060011267227}
@@ -444,7 +444,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -468315465
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -4052549807471232597, guid: eee37fcb37eadfb448fc62ff3b9b7853, type: 3}
   m_Color: {r: 0.1088662, g: 0.4716981, b: 0.006674961, a: 0.47058824}

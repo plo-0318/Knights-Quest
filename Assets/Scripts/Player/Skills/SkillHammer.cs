@@ -27,8 +27,8 @@ public class SkillHammer : Skill
         type = Type.ATTACK;
         level = 1;
 
-        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        BASE_DAMAGE = GameManager.GetSkillData(name).Damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
         BASE_SWING_SPEED = 350f;
         BASE_DEGREE_TO_ROTATE = 140f;
 
@@ -43,10 +43,8 @@ public class SkillHammer : Skill
         LoadSFX();
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.3f;
@@ -153,8 +151,8 @@ public class SkillHammer : Skill
     {
         SFXs = new List<AudioClip>();
 
-        SFXs.Add(soundManager.audioRefs.sfxSHammerUse1);
-        SFXs.Add(soundManager.audioRefs.sfxSHammerUse2);
+        SFXs.Add(soundManager.audioRefs.sfxHammerUse1);
+        SFXs.Add(soundManager.audioRefs.sfxHammerUse2);
     }
 
     // private GameObject SpawnHammer(Vector2 offset, float zRotation)
