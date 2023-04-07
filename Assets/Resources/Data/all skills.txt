@@ -1,0 +1,16 @@
+sword
+dagger
+field
+arrow
+fireball
+hammer
+bolt
+
+boots
+gauntlet
+crystal
+shield
+
+
+
+#DFAAFD

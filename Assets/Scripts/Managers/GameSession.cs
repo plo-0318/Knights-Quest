@@ -8,12 +8,19 @@ using System.Linq;
 public class GameSession : MonoBehaviour
 {
     private float timer;
-    private bool tickTimer;
 
     [SerializeField]
     private TextMeshProUGUI timerText;
 
-    PlayerStatus playerStatus;
+    private PlayerStatus playerStatus;
+    private SoundManager soundManager;
+
+    //////////////////// GAME STATE ////////////////////
+    private bool tickTimer;
+    private bool gameStarted;
+    private bool gamePaused;
+
+    /////////////////////////////////////////////////////
 
     //////////////////// LEVEL DETAIL ////////////////////
 
@@ -26,7 +33,7 @@ public class GameSession : MonoBehaviour
 
 
     ////////////////// SPAWNING ENEMY //////////////////
-    [Header("Enemy")]
+    [Header("Enemy Spawn")]
     [SerializeField]
     private int maxEnemyPerWave = 30;
 
@@ -35,9 +42,9 @@ public class GameSession : MonoBehaviour
 
     [SerializeField]
     private float timeBetweenWaves = 15f;
-    public event Action<Enemy, Modifier[]> OnSpawnEnemy;
-    public event Action OnKillAllEnemies;
-    public event Action<Modifier> OnRemoveModifier;
+    public event Action<Enemy, Modifier[]> onSpawnEnemy;
+    public event Action onKillAllEnemies;
+    public event Action<Modifier> onRemoveModifier;
     private HashSet<Enemy> enemyRefs;
 
     private bool canSpawnEnemy;
@@ -49,25 +56,36 @@ public class GameSession : MonoBehaviour
 
     /////////////////////////////////////////////////////
 
+    ////////////////// GAME EVENTS //////////////////
+    public event Action onGameStart;
+    public event Action onGameLost;
+
+    /////////////////////////////////////////////////////
+
     ////////////////// OBJECT HOLDERS //////////////////
-    [Header("Object Holders")]
-    [Tooltip("All the spawned enemies will be the children of this game object")]
+    [NonSerialized]
     public Transform enemyParent;
 
-    [Tooltip("All the spawned damage popups will be the children of this game object")]
+    [NonSerialized]
     public Transform damagePopupParent;
+
+    [NonSerialized]
+    public Transform skillParent;
+
+    [NonSerialized]
+    public Transform collectableParent;
 
     /////////////////////////////////////////////////////
 
     private void Awake()
     {
         GameManager.RegisterGameSession(this);
-    }
 
-    private void Start()
-    {
         timer = enemySpawnTimer = 0f;
-        tickTimer = true;
+        tickTimer = false;
+
+        gameStarted = false;
+        gamePaused = false;
 
         spawnWaveTimer = timeBetweenWaves;
         enemyRefs = new HashSet<Enemy>();
@@ -81,13 +99,17 @@ public class GameSession : MonoBehaviour
 
             for (int i = 0; i < enemyModifiers.Length; i++)
             {
-                enemyModifiers[i].id = gameObject.GetInstanceID();
+                enemyModifiers[i].name = gameObject.name;
             }
         }
 
-        playerStatus = GameManager.PlayerStatus();
+        CreateObjectHolders();
+    }
 
-        playerStatus.onPlayerDeath += HandleGameOver;
+    private void Start()
+    {
+        playerStatus = GameManager.PlayerStatus();
+        soundManager = GameManager.SoundManager();
     }
 
     private void Update()
@@ -105,11 +127,9 @@ public class GameSession : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        playerStatus.onPlayerDeath -= HandleGameOver;
-    }
+    private void OnDestroy() { }
 
+    ////////////////////////// HELPERS //////////////////////////
     public float Timer => timer;
 
     private void TickTimer()
@@ -119,8 +139,6 @@ public class GameSession : MonoBehaviour
             timer += Time.deltaTime;
         }
     }
-
-    private void InitSession() { }
 
     public string GetTimeString()
     {
@@ -140,6 +158,83 @@ public class GameSession : MonoBehaviour
         return timerStr;
     }
 
+    public void CreateObjectHolders()
+    {
+        GameObject objectHolder = new GameObject("Object Holder");
+        GameObject skillHolder = new GameObject("Skills");
+        GameObject damageTextHolder = new GameObject("Damage Texts");
+        GameObject enemyHolder = new GameObject("Enemies");
+        GameObject collectableHolder = new GameObject("Collectables");
+
+        skillHolder.transform.parent = objectHolder.transform;
+        damageTextHolder.transform.parent = objectHolder.transform;
+        enemyHolder.transform.parent = objectHolder.transform;
+        collectableHolder.transform.parent = objectHolder.transform;
+
+        skillParent = skillHolder.transform;
+        damagePopupParent = damageTextHolder.transform;
+        enemyParent = enemyHolder.transform;
+        collectableParent = collectableHolder.transform;
+    }
+
+    ////////////////////////// ////// //////////////////////////
+
+    ////////////////////////// EVENTS //////////////////////////
+    public void StartGame()
+    {
+        if (gameStarted)
+        {
+            return;
+        }
+
+        soundManager.PlayMusic(soundManager.GetRandomActionClip());
+
+        onGameStart?.Invoke();
+        gameStarted = true;
+    }
+
+    public void HandleStartEventEnd()
+    {
+        canSpawnEnemy = true;
+        tickTimer = true;
+    }
+
+    public void PauseGame()
+    {
+        if (gamePaused)
+        {
+            return;
+        }
+
+        gamePaused = true;
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        if (!gamePaused)
+        {
+            return;
+        }
+
+        Time.timeScale = 1f;
+        gamePaused = false;
+    }
+
+    public void HandleGameLost()
+    {
+        canSpawnEnemy = false;
+        tickTimer = false;
+
+        soundManager.PlayClip(soundManager.audioRefs.sfxDefeat);
+        soundManager.PlayMusic(soundManager.audioRefs.musicGameOver);
+
+        onGameLost?.Invoke();
+    }
+
+    ////////////////////////// //////// //////////////////////////
+
+    ////////////////////////// ENEMIES //////////////////////////
     private void SpawnEnemy()
     {
         if (!canSpawnEnemy)
@@ -152,12 +247,12 @@ public class GameSession : MonoBehaviour
 
         if (enemyRefs.Count < maxEnemyPerWave)
         {
-            OnSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
+            onSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
         }
 
         if (spawnWaveTimer <= 0 && enemyRefs.Count <= maxEnemyTotal - maxEnemyPerWave)
         {
-            OnSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
+            onSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
 
             spawnWaveTimer = timeBetweenWaves;
         }
@@ -206,31 +301,26 @@ public class GameSession : MonoBehaviour
 
     public void KillAllEnemies()
     {
-        OnKillAllEnemies?.Invoke();
+        onKillAllEnemies?.Invoke();
     }
 
     public void RemoveModifierFromAllEnemies(Modifier mod)
     {
-        OnRemoveModifier?.Invoke(mod);
-    }
-
-    private void HandleGameOver()
-    {
-        canSpawnEnemy = false;
+        onRemoveModifier?.Invoke(mod);
     }
 
     // Get the closest enemy position to the point
-    public Vector3 closestEnemyPosition(Vector3 pos)
+    public List<Vector3> closestEnemyPosition(Vector3 pos)
     {
-        return closestEnemyPositions(pos, 1).First();
+        return closestEnemyPositions(pos, 1);
     }
 
     // Get the n closest enemy positions to the point
-    public IEnumerable<Vector3> closestEnemyPositions(Vector3 fromPos, int n)
+    public List<Vector3> closestEnemyPositions(Vector3 fromPos, int n)
     {
         if (enemyRefs.Count == 0 || n <= 0)
         {
-            return null;
+            return new List<Vector3>();
         }
 
         // Create a list of positions because enemy might get destroyed
@@ -244,14 +334,23 @@ public class GameSession : MonoBehaviour
             positions.Add(new Vector3(enemyPos.x, enemyPos.y, enemyPos.z));
         }
 
+        // Check if n is less than the amount of enemies
         int count = n <= positions.Count ? n : positions.Count;
 
         IEnumerable<Vector3> nClosestEnemyPos = positions
             .OrderBy(pos => (pos - fromPos).sqrMagnitude)
             .Take(n);
 
-        return nClosestEnemyPos;
+        return nClosestEnemyPos.ToList<Vector3>();
     }
+
+    ////////////////////////// //////// //////////////////////////
+
+    //////////////////////// STATE GETTERS ////////////////////////
+    public bool GamePaused => gamePaused;
+
+    ////////////////////////// //////// //////////////////////////
+
 
     // TODO: delete these test functions
     public void TEST_ToggleSpawn()
@@ -288,5 +387,81 @@ public class GameSession : MonoBehaviour
 
             var e = Instantiate(enemy, spawnPos, Quaternion.identity);
         }
+    }
+
+    public List<Enemy> TEST_GetNClosestEnemies(Vector3 fromPos, int n)
+    {
+        if (enemyRefs.Count == 0 || n <= 0)
+        {
+            return new List<Enemy>();
+        }
+
+        List<Enemy> enemies = new List<Enemy>();
+
+        foreach (Enemy enemy in enemyRefs)
+        {
+            enemies.Add(enemy);
+        }
+
+        int count = n <= enemies.Count ? n : enemies.Count;
+
+        IEnumerable<Enemy> nClosestEnemyPos = enemies
+            .OrderBy(enemy => (enemy.transform.position - fromPos).sqrMagnitude)
+            .Take(n);
+
+        return nClosestEnemyPos.ToList<Enemy>();
+    }
+
+    private IEnumerator TEST_BlinkEnemy(Enemy enemy)
+    {
+        float blinkDuration = 5f;
+        float currentTime = 0;
+        float oscillationSpeed = 6f;
+
+        var sprite = enemy.GetComponent<SpriteRenderer>();
+        Color originalColor = new Color(
+            sprite.color.r,
+            sprite.color.g,
+            sprite.color.b,
+            sprite.color.a
+        );
+
+        while (currentTime < blinkDuration)
+        {
+            var a = Mathf.PingPong(Time.time * oscillationSpeed, 1f);
+
+            sprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, a);
+
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        sprite.color = originalColor;
+    }
+
+    public void TEST_BlinkNClosestEnemies(int n)
+    {
+        var enemies = TEST_GetNClosestEnemies(GameManager.PlayerMovement().transform.position, n);
+
+        foreach (var enemy in enemies)
+        {
+            StartCoroutine(TEST_BlinkEnemy(enemy));
+        }
+    }
+
+    public void TEST_DisableAllEnemyMovement()
+    {
+        foreach (var enemy in enemyRefs)
+        {
+            if (enemy.TryGetComponent<WalkingEnemy>(out var we))
+            {
+                we.TEST_DisableMovement();
+            }
+        }
+    }
+
+    public void TEST_PickupAllCollectables()
+    {
+        Collectable.PickUpAllCollectables();
     }
 }

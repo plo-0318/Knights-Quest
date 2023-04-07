@@ -7,9 +7,6 @@ public class PlayerDirectionArrow : MonoBehaviour
     private Transform playerTrans;
     private GatherInput gatherInput;
 
-    private static GameObject currObject;
-
-
     // private float radius = 1f;
 
     private void Awake()
@@ -29,41 +26,35 @@ public class PlayerDirectionArrow : MonoBehaviour
         // Debug.Log("player pos: " + playerTrans.position);
 
         Rotate();
-        //AngleBetweenMouseAndPlayer();
+    }
+
+    private void Update()
+    {
+        // Debug.Log(AngleBetweenMouseAndPlayer());
     }
 
     public void Rotate()
     {
-        // Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(gatherInput.mousePos); //+ Vector3.forward * 10f);
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(gatherInput.mousePos); //+ Vector3.forward * 10f);
 
-        // //angle between mouse position and object
-        // float angle = AngleBetweenPoints(transform.position, mouseWorldPosition);
-
-        float angle = AngleBetweenMouseAndPlayer();
+        //angle between mouse position and object
+        float angle = AngleBetweenPoints(transform.position, mouseWorldPosition);
 
         //rotate object towards mouse
-        transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + 90f));
+        transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle + 90));
     }
 
-    // float AngleBetweenPoints(Vector3 a, Vector3 b)
-    // {
-    //     return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
-    // }
-
-    public static float AngleBetweenMouseAndPlayer()
+    float AngleBetweenPoints(Vector3 a, Vector3 b)
     {
-        Vector3 mousePos = GameManager.PlayerMovement().MousePos();
+        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+    }
+
+    public static float AngleBetweenMouseAndPlayerNormalized()
+    {
+        Vector3 mousePos = GameManager.PlayerMovement().MousePos;
         Vector3 playerPos = GameManager.PlayerMovement().transform.position;
 
-        return Mathf.Atan2(playerPos.y - mousePos.y, playerPos.x - mousePos.x) * Mathf.Rad2Deg; 
+        return Mathf.Atan2(playerPos.y - mousePos.y, playerPos.x - mousePos.x) * Mathf.Rad2Deg
+            + 180f;
     }
-
-    // public static Vector2 CurrentPos()
-    // {
-
-    //     Vector2 currentPosition;
-    //     currentPosition = GameObject.Find("direction arrow").transform.position;
-    //     //currentPosition = currObject.transform.position;
-    //     return currentPosition;
-    // }
 }

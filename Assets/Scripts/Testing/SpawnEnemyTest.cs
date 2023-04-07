@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SpawnEnemyTest : MonoBehaviour
 {
+    public Button startGameButton;
     public Button killAllEnemiesButton;
     public Button toggleSpawnButton;
 
@@ -12,6 +13,7 @@ public class SpawnEnemyTest : MonoBehaviour
     {
         var gs = GameManager.GameSession();
 
+        startGameButton.onClick.AddListener(gs.StartGame);
         killAllEnemiesButton.onClick.AddListener(gs.KillAllEnemies);
         toggleSpawnButton.onClick.AddListener(gs.TEST_ToggleSpawn);
     }

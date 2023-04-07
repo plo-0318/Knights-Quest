@@ -3,94 +3,140 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DamagePopup : MonoBehaviour
+public class DamagePopup
 {
-    private GameObject damageTextPrefab;
+    private static GameSession gameSession = null;
+    private static GameObject damageTextPrefab = null;
+    private static GameObject healTextPrefab = null;
 
-    //How much the text moves up
-    public float moveUp = 1.0f;
-
-    //How far out it goes
-    public float amplitude = 0.15f;
-
-    //How fast it goes side to side
-    public float frequency = 1.5f;
-
-    //How much it rotates left and right
-    public float rotationAmount = 5f;
-
-    //How fast the object moves up
-    public float moveSpeed = 2f;
-
-    //How long it takes to fade in the text
-    public float fadeInTime = .25f;
-
-    //When to destroy the object
-    //   public float whenDestroy = 1.0f;
-
-    private void Start()
+    private static bool SetReferences()
     {
-        damageTextPrefab = GameManager.damagePopupText;
+        gameSession = GameManager.GameSession();
+        damageTextPrefab = GameManager.DamagePopupText;
+        healTextPrefab = GameManager.HealPopupText;
+
+        return gameSession != null && damageTextPrefab != null && healTextPrefab != null;
     }
 
-    public void ShowDamagePopup(float damage)
+    private static bool ValidReferences()
     {
-        // string damageStr = Mathf.Round(damage).ToString();
+        return gameSession != null && damageTextPrefab != null && healTextPrefab != null;
+    }
 
-        // Generate a random damage, for testing only
-        // string damageStr = Random.Range(100, 1000).ToString();
-        string damageStr = damage.ToString();
+    public static void ShowDamagePopup(
+        float damage,
+        Transform transform,
+        Quaternion quaternion,
+        DamagePopupOptions options = null
+    )
+    {
+        ShowPopup(true, damage, transform, quaternion, null, options);
+    }
 
-        //Generate random movements for the rotation amount
-        int chooseSign = Random.Range(0, 2);
-        if (chooseSign == 1)
+    public static void ShowHealPopup(
+        float damage,
+        Transform transform,
+        Quaternion quaternion,
+        Transform parent,
+        DamagePopupOptions options = null
+    )
+    {
+        ShowPopup(false, damage, transform, quaternion, parent, options);
+    }
+
+    private static void ShowPopup(
+        bool isDamage,
+        float damage,
+        Transform transform,
+        Quaternion quaternion,
+        Transform parent = null,
+        DamagePopupOptions options = null
+    )
+    {
+        // Check if game session and damage text prefab references are set
+        // If not, set their references
+        // If unsuccessful, abort
+        if (!ValidReferences())
         {
-            rotationAmount = rotationAmount * -1;
+            if (!SetReferences())
+            {
+                return;
+            }
         }
 
-        GameObject damageText = Instantiate(
-            damageTextPrefab,
-            transform.position,
-            Quaternion.identity
-        );
+        GameObject popupText = isDamage ? damageTextPrefab : healTextPrefab;
 
-        damageText.transform.parent = GameManager.GameSession().damagePopupParent;
+        // If no damage popup options are passed in, use the default one
+        options = options == null ? DamagePopupOptions.DEFAULT : options;
+
+        // Round the damage number to the nearest integer
+        string damageStr = Mathf.RoundToInt(damage).ToString();
+
+        //Generate random movements for the rotation amount
+        // int chooseSign = Random.Range(0, 2);
+        // if (chooseSign == 1)
+        // {
+        //     rotationAmount = rotationAmount * -1;
+        // }
+
+        Transform parentTrans =
+            parent == null ? GameManager.GameSession().damagePopupParent : parent;
+
+        GameObject damageText = GameObject.Instantiate(
+            popupText,
+            transform.position,
+            quaternion,
+            parentTrans
+        );
 
         damageText.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(damageStr);
 
-        //Functions for moving and rotating text
-        StartCoroutine(MoveTextUpAndBounce(damageText, moveSpeed, amplitude, frequency));
-        // StartCoroutine(RotateText(damageText, rotationAmount));
-
         //Accessing TextMeshPro of child and calling the fading in function
-        TextMeshPro textrenderer = damageText.transform.GetChild(0).GetComponent<TextMeshPro>();
-        StartCoroutine(fadeIn(textrenderer, fadeInTime));
+        TextMeshPro textRenderer = damageText.transform.GetChild(0).GetComponent<TextMeshPro>();
+        gameSession.StartCoroutine(fadeIn(textRenderer, options));
+
+        //Functions for moving and rotating text
+        gameSession.StartCoroutine(MoveTextUpAndBounce(damageText, options));
+
+        // StartCoroutine(RotateText(damageText, rotationAmount));
     }
 
-    private IEnumerator MoveTextUpAndBounce(
-        GameObject obj,
-        float speed,
-        float amplitude,
-        float frequency
-    )
+    private static IEnumerator MoveTextUpAndBounce(GameObject obj, DamagePopupOptions options)
     {
         float elapsedTime = 0.0f;
-        Vector3 startPosition = obj.transform.position;
-        Vector3 endPosition = startPosition + Vector3.up * moveUp;
+        // Vector3 startPosition = obj.transform.position;
+        // Vector3 endPosition = startPosition + Vector3.up * options.moveUp;
 
-        while (elapsedTime < 1.0f)
+        // while (elapsedTime < 1.0f)
+        // {
+        //     float x = Mathf.PingPong(elapsedTime * options.frequency, 1.0f) * options.amplitude;
+        //     Vector3 offset = new Vector3(x, 0.0f, 0.0f);
+        //     obj.transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime) + offset;
+        //     elapsedTime += Time.deltaTime * options.moveSpeed;
+        //     yield return null;
+        // }
+
+
+        // obj.transform.position = endPosition;
+        // GameObject.Destroy(obj.gameObject);
+
+        // Changed the text to have an alive time
+        while (elapsedTime < options.aliveTime)
         {
-            float x = Mathf.PingPong(elapsedTime * frequency, 1.0f) * amplitude;
-            Vector3 offset = new Vector3(x, 0.0f, 0.0f);
-            obj.transform.position = Vector3.Lerp(startPosition, endPosition, elapsedTime) + offset;
-            elapsedTime += Time.deltaTime * speed;
+            float x = Mathf.PingPong(Time.time * options.frequency, 1f) * options.amplitude;
+            obj.transform.position = Vector3.Lerp(
+                obj.transform.position,
+                obj.transform.position + Vector3.up + new Vector3(x, 0, 0),
+                options.moveSpeed * Time.deltaTime
+            );
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
-        obj.transform.position = endPosition;
-        Destroy(obj);
+
+        GameObject.Destroy(obj.gameObject);
     }
 
-    private IEnumerator RotateText(GameObject obj, float rotation)
+    private static IEnumerator RotateText(GameObject obj, float rotation)
     {
         float elapsedTime = 0.0f;
         Quaternion startRotation = obj.transform.rotation;
@@ -105,24 +151,76 @@ public class DamagePopup : MonoBehaviour
         obj.transform.rotation = endRotation;
     }
 
-    private IEnumerator fadeIn(TextMeshPro textrenderer, float fadeInTime)
+    private static IEnumerator fadeIn(TextMeshPro textRenderer, DamagePopupOptions options)
     {
-        Debug.Log("Opacity should be changing");
+        // Commented out logging, changed targetAlpha from 1 to 0.8
+        // Debug.Log("Opacity should be changing");
         float elapsedTime = 0.0f;
         float startAlpha = 0.0f;
-        float targetAlpha = 1.0f;
+        float targetAlpha = 0.8f;
 
-        while (elapsedTime < fadeInTime)
+        // setting text alpha to 0, so it will actually fade in
+        textRenderer.alpha = 0;
+
+        while (elapsedTime < options.fadeInTime)
         {
-            float t = elapsedTime / fadeInTime;
-            // Debug.Log(textrenderer.alpha);
+            float t = elapsedTime / options.fadeInTime;
+            // Debug.Log(textRenderer.alpha);
             float alpha = Mathf.Lerp(startAlpha, targetAlpha, t);
-            textrenderer.alpha = alpha;
+            textRenderer.alpha = alpha;
             ;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        textrenderer.alpha = targetAlpha;
+        textRenderer.alpha = targetAlpha;
+    }
+}
+
+public class DamagePopupOptions
+{
+    //How much the text moves up
+    // public float moveUp;
+
+    //How far out it goes
+    public float amplitude;
+
+    //How fast it goes side to side
+    public float frequency;
+
+    //How much it rotates left and right
+    public float rotationAmount;
+
+    //How fast the object moves up
+    public float moveSpeed;
+
+    //How long it takes to fade in the text
+    public float fadeInTime;
+
+    //How long before the text is destroyed
+    public float aliveTime;
+
+    public static readonly DamagePopupOptions DEFAULT;
+
+    static DamagePopupOptions()
+    {
+        DEFAULT = new DamagePopupOptions();
+    }
+
+    public DamagePopupOptions(
+        float amplitude = .5f,
+        float frequency = 4f,
+        float rotationAmount = 5f,
+        float moveSpeed = 2.5f,
+        float fadeInTime = .25f,
+        float aliveTime = 0.5f
+    )
+    {
+        this.amplitude = amplitude;
+        this.frequency = frequency;
+        this.rotationAmount = rotationAmount;
+        this.moveSpeed = moveSpeed;
+        this.fadeInTime = fadeInTime;
+        this.aliveTime = aliveTime;
     }
 }

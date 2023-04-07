@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(DamagePopup))]
 public abstract class Enemy : MonoBehaviour, IAnimatable
 {
     protected GameSession gameSession;
@@ -12,12 +11,19 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     protected Collider2D col;
 
     [Header("References")]
+    [Tooltip("The enemy sprite renderer")]
+    [SerializeField]
+    protected SpriteRenderer spriteRenderer;
+
     [Tooltip("The enemy to enemy collider")]
     [SerializeField]
     protected Collider2D enemyBodyCollider;
-    protected DamagePopup damagePopup;
+    protected CollectableSpawner collectableSpawner;
+
     protected Stat _stat;
     protected bool isDead;
+
+    protected SoundManager soundManager;
 
     protected virtual void Awake()
     {
@@ -26,11 +32,12 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
     protected virtual void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        collectableSpawner = GetComponent<CollectableSpawner>();
+
         gameSession = GameManager.GameSession();
         playerTrans = GameManager.PlayerMovement().transform;
-
-        rb = GetComponent<Rigidbody2D>();
-        damagePopup = GetComponent<DamagePopup>();
+        soundManager = GameManager.SoundManager();
 
         if (TryGetComponent<Collider2D>(out Collider2D col))
         {
@@ -38,8 +45,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         }
 
         gameSession.OnEnemySpawn(this);
-        gameSession.OnKillAllEnemies += ProcessDeath;
-        gameSession.OnRemoveModifier += stat.RemoveModifier;
+        gameSession.onKillAllEnemies += ProcessDeath;
+        gameSession.onRemoveModifier += _stat.RemoveModifier;
     }
 
     protected virtual void FixedUpdate()
@@ -50,8 +57,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     protected virtual void OnDestroy()
     {
         gameSession.OnEnemyDestroy(this);
-        gameSession.OnKillAllEnemies -= ProcessDeath;
-        gameSession.OnRemoveModifier -= stat.RemoveModifier;
+        gameSession.onKillAllEnemies -= ProcessDeath;
+        gameSession.onRemoveModifier -= _stat.RemoveModifier;
     }
 
     protected void Flip()
@@ -62,7 +69,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
             transform.localScale.z
         );
 
-        transform.localScale = newScale;
+        spriteRenderer.transform.localScale = newScale;
     }
 
     public virtual void Init(Modifier[] modifiers)
@@ -75,17 +82,22 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         return _stat.GetStat(statType);
     }
 
-    public virtual void Hurt(float amount)
+    public virtual void Hurt(float amount, AudioClip onHitSfx = null)
     {
-        Hurt(amount, null);
+        Hurt(amount, null, onHitSfx);
     }
 
-    public virtual void Hurt(float amount, GameObject onHitFx)
+    public virtual void Hurt(float amount, GameObject onHitFx, AudioClip onHitSfx = null)
     {
-        Hurt(amount, onHitFx, (Vector2)transform.position);
+        Hurt(amount, onHitFx, (Vector2)transform.position, onHitSfx);
     }
 
-    public virtual void Hurt(float amount, GameObject onHitFx, Vector2 fromPos)
+    public virtual void Hurt(
+        float amount,
+        GameObject onHitFx,
+        Vector2 fromPos,
+        AudioClip onHitSfx = null
+    )
     {
         // Spawn the on-hit special effects
         if (onHitFx != null)
@@ -101,24 +113,40 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
             fx.transform.parent = gameObject.transform;
         }
 
-        damagePopup.ShowDamagePopup(amount);
+        DamagePopup.ShowDamagePopup(amount, transform, Quaternion.identity);
+
+        AudioClip _onHitSfx = onHitSfx == null ? soundManager.audioRefs.sfxEnemyHurt : onHitSfx;
+
+        soundManager.PlayClip(_onHitSfx, SoundManager.TimedSFX.ENEMY_HURT);
 
         // Get the new health
         float newHealth = _stat.ModifyHealth(-amount);
 
         if (newHealth <= 0)
         {
+            OnKilledByPlayer();
             ProcessDeath();
         }
     }
 
+    protected virtual void OnKilledByPlayer()
+    {
+        GameManager.PlayerStatus().IncrementKillCount();
+
+        collectableSpawner.SpawnRandomCollectable(transform.position, Quaternion.identity);
+    }
+
     protected virtual void ProcessDeath()
     {
+        // Setting isDead --> play the death animation
         isDead = true;
         col.enabled = false;
-        GameManager.PlayerStatus().stat.IncrementKillCount();
 
-        if (TryGetComponent<AnimatorController>(out var animatorController))
+        //TODO: Decide whether to keep enemy death sound
+        // soundManager.PlayClip(soundManager.audioRefs.sfxEnemyDeath);
+
+        // Try to get the length of the death animation
+        if (spriteRenderer.TryGetComponent<AnimatorController>(out var animatorController))
         {
             OnDeath(animatorController.deathAnimationLength);
         }
@@ -128,6 +156,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         }
     }
 
+    // Deestroy the gameobject after the death animation finishes
     protected void OnDeath(float destroyTime = 0)
     {
         if (enemyBodyCollider != null)
@@ -138,11 +167,19 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         Destroy(gameObject, destroyTime);
     }
 
+    public void AddModifier(Modifier modifier, bool replaceIfExits = true)
+    {
+        _stat.AddModifier(modifier, replaceIfExits);
+    }
+
+    public void RemoveModifier(Modifier modifier)
+    {
+        _stat.RemoveModifier(modifier);
+    }
+
     public abstract bool IsDead();
 
     public abstract bool IsIdle();
 
     public abstract bool IsMoving();
-
-    public Stat stat => _stat;
 }

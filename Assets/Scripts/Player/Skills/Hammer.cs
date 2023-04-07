@@ -4,36 +4,117 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
-    private float damage,
-        speed;
-    private bool strike;
+    private Transform hammerHolder;
+    private float damage;
+    private float swingSpeed;
+    private Transform swingPoint;
 
     [SerializeField]
-    private Rigidbody2D rb;
+    GameObject onHitFx;
 
-    private float destroyTimer;
-    private float destroyTime;
+    private float startRotate;
+    private float endRotate;
+    private float currentRotation;
+    private float degreeToRotate;
+    private bool rotateClockwise;
+    private float elapsedTime;
 
-    private void Start()
+    private void Awake()
     {
-        destroyTimer = 0f;
-        destroyTime = 3f;
+        hammerHolder = transform.parent;
+        elapsedTime = 0.0f;
     }
 
     private void Update()
     {
-        if (destroyTimer >= destroyTime)
-        {
-            Destroy(gameObject);
-        }
+        // UpdateParentPosition();
 
-        destroyTimer += Time.deltaTime;
+        // //Create the swinging
+        // if (elapsedTime < endRotate && swingPoint != null)
+        // {
+        //     elapsedTime += swingSpeed * Time.deltaTime;
+        //     float step = swingSpeed * Time.deltaTime;
+        //     transform.RotateAround(swingPoint.position, Vector3.forward, step);
+        // }
+        // else if (elapsedTime >= endRotate)
+        // {
+        //     Destroy(transform.parent.gameObject);
+        // }
+
+        Rotate();
     }
 
-    public void Init(float damage, Vector2 velocity, bool strike = false)
+    private void Rotate()
+    {
+        if (elapsedTime > degreeToRotate)
+        {
+            Destroy(hammerHolder.gameObject);
+        }
+
+        float step = swingSpeed * Time.deltaTime;
+        elapsedTime += step;
+
+        float zOffset = rotateClockwise ? -step : step;
+
+        currentRotation += zOffset;
+
+        hammerHolder.transform.rotation = Quaternion.Euler(
+            hammerHolder.transform.rotation.x,
+            hammerHolder.transform.rotation.y,
+            currentRotation
+        );
+    }
+
+    public void Init(
+        float damage,
+        float endRotate,
+        float swingSpeed,
+        bool strike = false,
+        Transform swingPoint = null
+    )
     {
         this.damage = damage;
-        rb.velocity = velocity;
-        this.strike = strike;
+        this.endRotate = endRotate;
+        this.swingSpeed = swingSpeed;
+        this.swingPoint = swingPoint;
+        elapsedTime = 0f;
+    }
+
+    public void Init(
+        float damage,
+        float degreeToRotate,
+        float currentRotation,
+        float rotateSpeed,
+        bool clockwise
+    )
+    {
+        this.damage = damage;
+        this.degreeToRotate = degreeToRotate;
+        this.currentRotation = currentRotation;
+        swingSpeed = rotateSpeed;
+        rotateClockwise = clockwise;
+    }
+
+    //Check the parent position
+    private void UpdateParentPosition()
+    {
+        if (swingPoint != null)
+        {
+            transform.parent.position = swingPoint.position;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            if (enemy is WalkingEnemy)
+            {
+                WalkingEnemy we = (WalkingEnemy)enemy;
+                we.KnockBack();
+            }
+
+            enemy.Hurt(damage, onHitFx, transform.position);
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillDagger : Skill
 {
-    private GameObject dagger;
+    private GameObject daggerPrefab;
     private float cooldownTimer;
     private float cooldownTime;
 
@@ -20,20 +20,21 @@ public class SkillDagger : Skill
 
     private bool piercing;
 
+    private SoundManager soundManager;
+
     public SkillDagger()
     {
         name = "dagger";
-        dagger = Resources.Load<GameObject>("dagger");
-
+        daggerPrefab = Resources.Load<GameObject>("dagger");
+        type = Type.ATTACK;
         level = 1;
 
-        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
-
+        BASE_DAMAGE = GameManager.GetSkillData(name).Damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
         BASE_SPEED = 8f;
 
         cooldownTime = BASE_COOLDOWN_TIME;
-        cooldownTimer = .5f;
+        cooldownTimer = 0.5f;
 
         damage = BASE_DAMAGE;
         speed = BASE_SPEED;
@@ -48,12 +49,12 @@ public class SkillDagger : Skill
         {
             spawnRadius = 0.5f;
         }
+
+        soundManager = GameManager.SoundManager();
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;
@@ -110,6 +111,8 @@ public class SkillDagger : Skill
             currentDeg += degBetweenSpawner;
         }
 
+        soundManager.PlayClip(soundManager.audioRefs.sfxDaggerUse);
+
         cooldownTimer = cooldownTime;
     }
 
@@ -118,7 +121,7 @@ public class SkillDagger : Skill
         Vector2 playerPos = GameManager.PlayerMovement().transform.position;
 
         GameObject spawnedDagger = GameObject.Instantiate(
-            dagger,
+            daggerPrefab,
             new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
             Quaternion.identity
         );
@@ -128,6 +131,8 @@ public class SkillDagger : Skill
         spawnedDagger.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
 
         spawnedDagger.GetComponent<Dagger>().Init(damage, direction * speed, piercing);
+
+        spawnedDagger.transform.parent = GameManager.GameSession().skillParent;
 
         return spawnedDagger;
     }

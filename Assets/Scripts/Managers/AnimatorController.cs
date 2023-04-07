@@ -28,10 +28,12 @@ public class AnimatorController : MonoBehaviour
     [System.NonSerialized]
     public float deathAnimationLength;
 
-    private void Start()
+    protected virtual void Start()
     {
         animator = GetComponent<Animator>();
-        animatedObj = GetComponent<IAnimatable>();
+        GetAnimatedObject();
+
+        deathAnimationLength = 0;
 
         if (death.Length != 0)
         {
@@ -52,7 +54,7 @@ public class AnimatorController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (animatedObj.IsDead())
         {
@@ -70,7 +72,7 @@ public class AnimatorController : MonoBehaviour
         }
     }
 
-    private void ChangeAnimationState(string newState)
+    protected void ChangeAnimationState(string newState)
     {
         if (newState == currentState)
             return;
@@ -78,5 +80,15 @@ public class AnimatorController : MonoBehaviour
         animator.Play(newState);
 
         currentState = newState;
+    }
+
+    protected void GetAnimatedObject()
+    {
+        if (TryGetComponent<IAnimatable>(out animatedObj))
+        {
+            return;
+        }
+
+        animatedObj = GetComponentInParent<IAnimatable>();
     }
 }
