@@ -7,6 +7,9 @@ public class PlayerDirectionArrow : MonoBehaviour
     private Transform playerTrans;
     private GatherInput gatherInput;
 
+    private static GameObject currObject;
+
+
     // private float radius = 1f;
 
     private void Awake()
@@ -54,4 +57,13 @@ public class PlayerDirectionArrow : MonoBehaviour
 
         return Mathf.Atan2(playerPos.y - mousePos.y, playerPos.x - mousePos.x) * Mathf.Rad2Deg; 
     }
+
+    // public static Vector2 CurrentPos()
+    // {
+
+    //     Vector2 currentPosition;
+    //     currentPosition = GameObject.Find("direction arrow").transform.position;
+    //     //currentPosition = currObject.transform.position;
+    //     return currentPosition;
+    // }
 }

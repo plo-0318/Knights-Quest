@@ -74,9 +74,17 @@ public class SkillArrow : Skill
     {
         float playerPosXOffset = .6f,
             playerPosYOffset = .6f;
-    
+
+        //Vector2 playerPosAngle = GameObject.Find("direction arrow").transform.position;
+        Vector3 mousePos = GameManager.PlayerMovement().MousePos();
+        
         //SpawnArrow(new Vector2(0, playerPosYOffset), 0, Vector2.up);
-        SpawnArrow(new Vector2(0, playerPosYOffset), 90, Vector2.up);
+
+        // SpawnArrow(new Vector2(0, playerPosYOffset), 180, Vector2.up);
+
+        SpawnArrow(new Vector2(0, playerPosYOffset), 180, mousePos);
+
+
         //SpawnArrow(new Vector2(-playerPosXOffset, 0), 90, Vector2.left);
         //SpawnArrow(new Vector2(0, -playerPosYOffset), 180, Vector2.down);
         //SpawnArrow(new Vector2(playerPosXOffset, 0), 270, Vector2.right);
@@ -112,10 +120,11 @@ public class SkillArrow : Skill
         cooldownTimer = cooldownTime;
     }
 
-    private GameObject SpawnArrow(Vector2 offset, float zRotation, Vector2 velocity)
+    // private GameObject SpawnArrow(Vector2 offset, float zRotation, Vector2 velocity)
+    private GameObject SpawnArrow(Vector2 offset, float zRotation, Vector3 velocity)
     {
-        Vector2 playerPos = GameManager.PlayerMovement().transform.position;
-        
+        //Vector2 playerPos = GameManager.PlayerMovement().transform.position;
+        Vector2 playerPos = GameObject.Find("direction arrow").transform.position;
 
         float playerPosBaseOffset = -.2f;
         playerPos.y += playerPosBaseOffset;
@@ -138,7 +147,7 @@ public class SkillArrow : Skill
         //  float angle = AngleBetweenPoints(spawnedArrow.transform.position, mouseWorldPosition);
          
          //Ta daa
-         spawnedArrow.transform.rotation =  Quaternion.Euler (new Vector3(0f,0f, PlayerDirectionArrow.AngleBetweenMouseAndPlayer() + zRotation));
+         spawnedArrow.transform.rotation =  Quaternion.Euler (new Vector3(0f,0f, PlayerDirectionArrow.AngleBetweenMouseAndPlayer() + zRotation - 45));
 
         //float baseRotation = 45f;
         
@@ -147,7 +156,8 @@ public class SkillArrow : Skill
 
         // spawnedArrow.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        spawnedArrow.GetComponent<Arrow>().Init(damage, velocity * speed);
+        // spawnedArrow.GetComponent<Arrow>().Init(damage, velocity * speed);
+        spawnedArrow.GetComponent<Arrow>().Init(damage, velocity);
 
         return spawnedArrow;
     }
