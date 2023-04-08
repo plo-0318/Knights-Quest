@@ -157,9 +157,7 @@ public class PlayerSkillUITest : MonoBehaviour
 
     public void TEST_AddArrowSkill()
     {
-        Debug.Log("Arrow not implemented yet");
-
-        // GameManager.PlayerStatus().AssignSkill(new SkillArrow());
+        GameManager.PlayerStatus().AssignSkill(new SkillArrow());
 
         UpdateText();
     }

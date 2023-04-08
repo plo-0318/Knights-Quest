@@ -6,13 +6,20 @@ public class Arrow : MonoBehaviour
 {
     private float damage,
         speed;
-    private bool strike;
 
-    [SerializeField]
     private Rigidbody2D rb;
+    private Modifier speedModifier;
 
     private float destroyTimer;
     private float destroyTime;
+
+    private SoundManager soundManager;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        soundManager = GameManager.SoundManager();
+    }
 
     private void Start()
     {
@@ -30,10 +37,23 @@ public class Arrow : MonoBehaviour
         destroyTimer += Time.deltaTime;
     }
 
-    public void Init(float damage, Vector2 velocity, bool strike = false)
+    public void Init(float damage, Vector2 velocity, Modifier modifier)
     {
         this.damage = damage;
         rb.velocity = velocity;
-        this.strike = strike;
+        speedModifier = modifier;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<Enemy>(out Enemy enemy))
+        {
+            if (speedModifier != null)
+            {
+                enemy.AddModifier(speedModifier);
+            }
+
+            enemy.Hurt(damage, soundManager.audioRefs.sfxEnemyHurtArrow);
+        }
     }
 }

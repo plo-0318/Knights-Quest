@@ -24,6 +24,7 @@ public class AudioReferences : ScriptableObject
     public AudioClip sfxPlayerShieldBreak;
     public AudioClip sfxEnemyHurt;
     public AudioClip sfxEnemyHurtBolt;
+    public AudioClip sfxEnemyHurtArrow;
     public AudioClip sfxEnemyDeath;
     public AudioClip sfxVictory;
     public AudioClip sfxDefeat;
@@ -46,4 +47,5 @@ public class AudioReferences : ScriptableObject
     public AudioClip sfxBoltUse2;
     public AudioClip sfxBoltUse3;
     public AudioClip sfxBoltBurst;
+    public AudioClip sfxArrowUse;
 }
