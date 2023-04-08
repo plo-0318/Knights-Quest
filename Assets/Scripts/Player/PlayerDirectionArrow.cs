@@ -30,7 +30,7 @@ public class PlayerDirectionArrow : MonoBehaviour
 
     private void Update()
     {
-        // Debug.Log(AngleBetweenMouseAndPlayer());
+        // Debug.Log(AngleBetweenMouseAndPlayerNormalized());
     }
 
     public void Rotate()

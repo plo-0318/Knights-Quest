@@ -41,9 +41,12 @@ public class SkillDagger : Skill
         numDaggers = 4;
         piercing = false;
 
-        if (GameManager.PlayerMovement().TryGetComponent<Collider2D>(out Collider2D col))
+        if (GameManager.PlayerMovement().PlayerCollider != null)
         {
-            spawnRadius = Mathf.Max(col.bounds.size.x, col.bounds.size.y);
+            spawnRadius = Mathf.Max(
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.x,
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.y
+            );
         }
         else
         {

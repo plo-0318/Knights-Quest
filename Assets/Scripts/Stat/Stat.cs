@@ -113,18 +113,6 @@ public class Stat
         }
 
         return CalculateModifierDefault(statModifiers) * baseStat;
-
-        // if (statType == Type.speed)
-        // {
-        //     return CalculateSpeedModifier(statModifiers) * baseStat;
-        // }
-
-        // if (statType == Type.MAX_HEALTH || statType == Type.DAMAGE)
-        // {
-        //     return statModifiers.Values.Sum() * baseStat;
-        // }
-
-        // return baseStat;
     }
 
     protected float CalculateModifierDefault(HashSet<Modifier> statModifiers)
@@ -187,25 +175,3 @@ public class Stat
         }
     }
 }
-
-
-
-// public struct Modifier
-// {
-//     public int statType;
-
-//     [System.NonSerialized]
-//     public int id;
-
-//     [Tooltip(
-//         "The multiplie for the stat in decimal. Enter either positive or negative value (Example: 0.25 means a increase of 25%. -0.4 means a decrease of 40%)"
-//     )]
-//     public float multiplier;
-
-//     public Modifier(int statType, int id, float multiplier)
-//     {
-//         this.statType = statType;
-//         this.id = id;
-//         this.multiplier = multiplier;
-//     }
-// }

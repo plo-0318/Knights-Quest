@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 {
     private GatherInput gatherInput;
     private Rigidbody2D rb;
-    private Collider2D col;
 
     private PlayerStatus playerStatus;
 
@@ -42,7 +41,6 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     {
         gatherInput = GetComponent<GatherInput>();
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<Collider2D>();
         playerStatus = GetComponent<PlayerStatus>();
 
         BASE_LOCALSCALE = new Vector3(
@@ -141,6 +139,16 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     public bool IsIdle() => !canMove ? true : rb.velocity.magnitude <= Mathf.Epsilon;
 
     public bool IsMoving() => !IsIdle();
+
+    public Vector3 GetIconSpawnPosition()
+    {
+        return transform.position + new Vector3(0, 0.8f, 0);
+    }
+
+    public Transform GetSpawnParent()
+    {
+        return transform;
+    }
 
     public SpriteRenderer SpriteRender => spriteRenderer;
     public Collider2D PlayerCollider => playerCollider;

@@ -11,7 +11,7 @@ public class SkillSword : Skill
     private readonly float BASE_DAMAGE;
     private readonly float BASE_COOLDOWN_TIME;
     private float spawnRadius;
-    private const float SPAWN_RADIUS_OFFSET = 2f;
+    private const float SPAWN_RADIUS_OFFSET = 1.6f;
 
     private float damage;
     private float scaleMultiplier;
@@ -40,9 +40,12 @@ public class SkillSword : Skill
 
         PlayerMovement playerMovement = GameManager.PlayerMovement();
 
-        if (playerMovement.TryGetComponent<Collider2D>(out Collider2D col))
+        if (GameManager.PlayerMovement().PlayerCollider != null)
         {
-            spawnRadius = Mathf.Max(col.bounds.size.x, col.bounds.size.y);
+            spawnRadius = Mathf.Max(
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.x,
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.y
+            );
         }
         else
         {

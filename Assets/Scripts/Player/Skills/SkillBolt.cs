@@ -43,9 +43,12 @@ public class SkillBolt : Skill
         damage = BASE_DAMAGE;
         speed = BASE_SPEED;
 
-        if (GameManager.PlayerMovement().TryGetComponent<Collider2D>(out Collider2D col))
+        if (GameManager.PlayerMovement().PlayerCollider != null)
         {
-            spawnRadius = Mathf.Max(col.bounds.size.x, col.bounds.size.y);
+            spawnRadius = Mathf.Max(
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.x,
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.y
+            );
         }
         else
         {
