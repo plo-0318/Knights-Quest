@@ -20,6 +20,9 @@ public class SkillFireball : Skill
     private Vector2 SpawnOffset;
     private Coroutine summonFireballCoroutine;
 
+    private SoundManager soundManager;
+    private List<AudioClip> SFXs;
+
     public SkillFireball()
     {
         name = "fireball";
@@ -35,11 +38,14 @@ public class SkillFireball : Skill
         cooldownTimer = .5f;
 
         damage = BASE_DAMAGE;
-        speed = 6.5f;
+        speed = 7.5f;
         numFireball = 1;
 
         SpawnOffset = new Vector2(2f, 4f);
         spawning = false;
+
+        soundManager = GameManager.SoundManager();
+        LoadSFX();
     }
 
     protected override void OnLevelUp()
@@ -94,20 +100,38 @@ public class SkillFireball : Skill
     {
         int numFireballToSummon = numFireball;
 
+        Transform player = GameManager.PlayerMovement().transform;
+
         spawning = true;
 
         while (numFireballToSummon > 0)
         {
-            Vector3 targetPos = GetRandomPositionAroundPlayer();
+            // Get the closest enemy
+            List<Enemy> closestEnemies = GameManager.GameSession().closestEnemy(player.position);
 
+            // Make sure the cloeset enemy reference is valid
+            Enemy closestEnemy =
+                closestEnemies.Count >= 1 && closestEnemies[0] != null ? closestEnemies[0] : null;
+
+            // If closest enemy is not found or not valid, generate a random target position
+            Vector3 targetPos =
+                closestEnemy == null
+                    ? (Vector3)GetRandomPositionAroundPlayer()
+                    : closestEnemy.transform.position;
+
+            // Spawn the fireball
             Fireball spawnedFireball = SpawnFireball(targetPos);
 
-            Vector2 velocity = SpawnOffset.normalized * -speed;
+            // Play the fireball use sfx
+            soundManager.PlayClip(SFXs[Random.Range(1, SFXs.Count)]);
 
-            spawnedFireball.Init(damage, velocity, targetPos, fireballExplosionPrefab);
+            // Initialize the fireball
+            spawnedFireball.Init(damage, speed, closestEnemy, targetPos, fireballExplosionPrefab);
 
+            // Decrease the number of fireballs to spawn
             numFireballToSummon--;
 
+            // If there are more fireballs to spawn, wait 0.25 seconds
             if (numFireball > 0)
             {
                 yield return new WaitForSeconds(0.25f);
@@ -129,16 +153,7 @@ public class SkillFireball : Skill
             GameManager.GameSession().skillParent
         );
 
-        float angle = AngleBetween(pos, spawnPos);
-
-        spawnedFireball.transform.rotation = Quaternion.Euler(0, 0, angle + 180f);
-
         return spawnedFireball.GetComponent<Fireball>();
-    }
-
-    private float AngleBetween(Vector3 pos1, Vector3 pos2)
-    {
-        return Mathf.Atan2(pos1.y - pos2.y, pos1.x - pos2.x) * Mathf.Rad2Deg + 180f;
     }
 
     public Vector2 GetRandomPositionAroundPlayer()
@@ -153,5 +168,14 @@ public class SkillFireball : Skill
                 Mathf.Sin(randomAngle * Mathf.Deg2Rad)
             ) * offset
             + (Vector2)player.position;
+    }
+
+    private void LoadSFX()
+    {
+        SFXs = new List<AudioClip>();
+
+        SFXs.Add(soundManager.audioRefs.sfxFireballUse1);
+        SFXs.Add(soundManager.audioRefs.sfxFireballUse2);
+        SFXs.Add(soundManager.audioRefs.sfxFireballUse3);
     }
 }

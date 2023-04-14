@@ -67,4 +67,9 @@ public class Util
         }
         return null;
     }
+
+    public static float GetNormalizedAngle(Vector3 pos1, Vector3 pos2)
+    {
+        return Mathf.Atan2(pos1.y - pos2.y, pos1.x - pos2.x) * Mathf.Rad2Deg + 180f;
+    }
 }

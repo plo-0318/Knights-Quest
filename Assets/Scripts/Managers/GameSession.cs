@@ -344,6 +344,33 @@ public class GameSession : MonoBehaviour
         return nClosestEnemyPos.ToList<Vector3>();
     }
 
+    // When using this method, should always if enemy reference is null
+    public List<Enemy> closestEnemy(Vector3 pos)
+    {
+        return closestEnemies(pos, 1);
+    }
+
+    // When using this method, should always if enemy reference is null
+    public List<Enemy> closestEnemies(Vector3 fromPos, int n)
+    {
+        if (enemyRefs.Count == 0 || n <= 0)
+        {
+            return new List<Enemy>();
+        }
+
+        // Create a list that contains all the enemies
+        List<Enemy> enemies = enemyRefs.ToList();
+
+        // Check if n is less than the amount of enemies
+        int count = n <= enemies.Count ? n : enemies.Count;
+
+        IEnumerable<Enemy> nClosestEnemies = enemies
+            .OrderBy(enemy => (enemy.transform.position - fromPos).sqrMagnitude)
+            .Take(n);
+
+        return nClosestEnemies.ToList<Enemy>();
+    }
+
     ////////////////////////// //////// //////////////////////////
 
     //////////////////////// STATE GETTERS ////////////////////////
