@@ -157,11 +157,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectables:
   - collectableType: 4
-    spawnChance: 25
+    spawnChance: 13
   - collectableType: 5
-    spawnChance: 25
+    spawnChance: 17
+  - collectableType: 0
+    spawnChance: 10
+  - collectableType: 1
+    spawnChance: 7
+  - collectableType: 2
+    spawnChance: 10
   - collectableType: 7
-    spawnChance: 50
+    spawnChance: 33
 --- !u!114 &8624474503053978360
 MonoBehaviour:
   m_ObjectHideFlags: 0
