@@ -52,6 +52,13 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
         canMove = true;
 
         GameManager.GameSession().onGameLost += HandlePlayerDeath;
+
+        Invoke(nameof(TEST_Border), 3f);
+    }
+
+    public void TEST_Border()
+    {
+        BossBorder.Spawn();
     }
 
     private void Update() { }
@@ -90,16 +97,6 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
         if (hasHorizontalSpeed)
         {
-            //TODO: Delete this when everyone is using the new player
-            if (spriteRenderer == null)
-            {
-                transform.localScale = new Vector2(
-                    Mathf.Sign(rb.velocity.x) * BASE_LOCALSCALE.x,
-                    1f
-                );
-                return;
-            }
-
             spriteRenderer.gameObject.transform.localScale = new Vector2(
                 Mathf.Sign(rb.velocity.x) * BASE_LOCALSCALE.x,
                 1f
