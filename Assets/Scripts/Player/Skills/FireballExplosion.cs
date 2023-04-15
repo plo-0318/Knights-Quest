@@ -14,6 +14,12 @@ public class FireballExplosion : MonoBehaviour
         DisableCollider();
     }
 
+    private void Start()
+    {
+        SoundManager soundManager = GameManager.SoundManager();
+        soundManager.PlayClip(soundManager.audioRefs.sfxEnemyHurtFireball);
+    }
+
     private void EnableCollider()
     {
         col.enabled = true;
@@ -24,7 +30,7 @@ public class FireballExplosion : MonoBehaviour
         col.enabled = false;
     }
 
-    private void Init(float damage)
+    public void Init(float damage)
     {
         this.damage = damage;
     }
