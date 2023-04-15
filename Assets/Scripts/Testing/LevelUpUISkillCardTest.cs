@@ -48,6 +48,17 @@ public class LevelUpUISkillCardTest : MonoBehaviour
         this.level = data.level;
         selectButton.onClick.AddListener(data.onSelect);
     }
+
+    public void SetSkillCard(SkillData skilldata)
+    {
+        selectButton.onClick.RemoveAllListeners();
+
+        nameText.text = skilldata.DisplayName;
+        skillIcon.sprite = skilldata.Sprite;
+        descriptionText.text = skilldata.GetCurrentDescription();
+        level = skilldata.GetCurrentLevel() + 1;
+        selectButton.onClick.AddListener(skilldata.GetOnUISelect());
+    }
 }
 
 public struct LevelUpUISkillCardData

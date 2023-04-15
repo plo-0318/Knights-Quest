@@ -99,7 +99,7 @@ public class GameSession : MonoBehaviour
 
             for (int i = 0; i < enemyModifiers.Length; i++)
             {
-                enemyModifiers[i].id = gameObject.GetInstanceID();
+                enemyModifiers[i].name = gameObject.name;
             }
         }
 

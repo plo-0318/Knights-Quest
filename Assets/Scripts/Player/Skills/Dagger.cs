@@ -24,7 +24,7 @@ public class Dagger : MonoBehaviour
     private void Start()
     {
         destroyTimer = 0f;
-        destroyTime = 3f;
+        destroyTime = 1.5f;
     }
 
     private void Update()

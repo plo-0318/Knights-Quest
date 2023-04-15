@@ -2,59 +2,80 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class SkillArrow : Skill
 {
-    private GameObject arrow;
+    private GameObject arrowPrefab;
     private float cooldownTimer;
     private float cooldownTime;
 
-    private const float BASE_DAMAGE = 1f;
-    private const float BASE_COOLDOWN_TIME = 3f;
-
-    //temp testing
-    private GatherInput gatherInput;
+    private readonly float BASE_DAMAGE;
+    private readonly float BASE_COOLDOWN_TIME;
+    private readonly float BASE_SPEED;
+    private float spawnRadius;
 
     private float damage,
         speed;
 
+    private Modifier speedModifier;
+    private SoundManager soundManager;
+
     public SkillArrow()
     {
-        name = "Arrow";
-        arrow = Resources.Load<GameObject>("arrow");
-
+        name = "arrow";
+        arrowPrefab = Resources.Load<GameObject>("arrow");
+        type = Type.ATTACK;
         level = 1;
 
+        BASE_DAMAGE = GameManager.GetSkillData(name).Damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
+        BASE_SPEED = 12f;
+
         cooldownTime = BASE_COOLDOWN_TIME;
-        cooldownTimer = .5f;
+        cooldownTimer = 0.5f;
 
         damage = BASE_DAMAGE;
-        speed = 8f;
+        speed = BASE_SPEED;
+
+        speedModifier = null;
+
+        if (GameManager.PlayerMovement().PlayerCollider != null)
+        {
+            spawnRadius = Mathf.Max(
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.x,
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.y
+            );
+        }
+        else
+        {
+            spawnRadius = 0.5f;
+        }
+
+        soundManager = GameManager.SoundManager();
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
-        {
-            damage = BASE_DAMAGE * 1.25f;
-        }
-
-        if (level == 3)
-        {
-            cooldownTime = BASE_COOLDOWN_TIME - .5f;
-        }
-
-        if (level == 4)
         {
             damage = BASE_DAMAGE * 1.5f;
         }
 
-        if (level == 5)
+        if (level == 3)
+        {
+            cooldownTime = BASE_COOLDOWN_TIME - 0.5f;
+        }
+
+        if (level == 4)
         {
             damage = BASE_DAMAGE * 1.75f;
-            cooldownTime = BASE_COOLDOWN_TIME - 1f;
+        }
+
+        if (level == 5)
+        {
+            damage = BASE_DAMAGE * 2f;
+            cooldownTime = BASE_COOLDOWN_TIME - 1.5f;
+
+            speedModifier = new Modifier(Stat.StatType.SPEED, "SkillArrow", -0.75f);
         }
     }
 
@@ -72,88 +93,54 @@ public class SkillArrow : Skill
 
     private void Fire()
     {
-        float playerPosXOffset = .6f,
-            playerPosYOffset = .6f;
-    
-        //SpawnArrow(new Vector2(0, playerPosYOffset), 0, Vector2.up);
-        SpawnArrow(new Vector2(0, playerPosYOffset), 90, Vector2.up);
-        //SpawnArrow(new Vector2(-playerPosXOffset, 0), 90, Vector2.left);
-        //SpawnArrow(new Vector2(0, -playerPosYOffset), 180, Vector2.down);
-        //SpawnArrow(new Vector2(playerPosXOffset, 0), 270, Vector2.right);
+        // Get the angle between player and mouse (normalized)
+        float angle = PlayerDirectionArrow.AngleBetweenMouseAndPlayerNormalized();
 
-        if (level == 5)
-        {
-            // Top left
-            SpawnArrow(
-                new Vector2(-playerPosXOffset, playerPosYOffset),
-                45,
-                (Vector2.up + Vector2.left).normalized
-            );
-            // Bottom left
-            SpawnArrow(
-                new Vector2(-playerPosXOffset, -playerPosYOffset),
-                135,
-                (Vector2.down + Vector2.left).normalized
-            );
-            // Bottom right
-            SpawnArrow(
-                new Vector2(playerPosXOffset, -playerPosYOffset),
-                225,
-                (Vector2.down + Vector2.right).normalized
-            );
-            // Top right
-            SpawnArrow(
-                new Vector2(playerPosXOffset, playerPosYOffset),
-                315,
-                (Vector2.up + Vector2.right).normalized
-            );
-        }
+        // Spawn the arrow and get its Arrow component
+        Arrow spawnedArrow = SpawnArrow(angle);
 
+        // Calculate the direction the arrow will be flying
+        Vector2 direction = new Vector2(
+            Mathf.Cos(angle * Mathf.Deg2Rad),
+            Mathf.Sin(angle * Mathf.Deg2Rad)
+        );
+
+        // Initialize the arrow with damage and velocity
+        spawnedArrow.Init(damage, direction * speed, speedModifier);
+
+        // Play the fire arrow sfx
+        soundManager.PlayClip(soundManager.audioRefs.sfxArrowUse);
+
+        // Reset the cooldown time
         cooldownTimer = cooldownTime;
     }
 
-    private GameObject SpawnArrow(Vector2 offset, float zRotation, Vector2 velocity)
+    private Arrow SpawnArrow(float angle)
     {
-        Vector2 playerPos = GameManager.PlayerMovement().transform.position;
-        
+        // The base rotation of the arrow
+        float baseRotation = 45f;
 
-        float playerPosBaseOffset = -.2f;
-        playerPos.y += playerPosBaseOffset;
-
-        // GameObject spawnedArrow = GameObject.Instantiate(
-        //     arrow,
-        //     new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
-        //     Quaternion.identity
-        // );
-
-        GameObject spawnedArrow = GameObject.Instantiate(
-            arrow,
-            new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
-            Quaternion.identity
+        // Calculate the spawn offset, so the arrow does not spawn directly on top of the player
+        Vector2 spawnOffset = new Vector2(
+            Mathf.Cos(angle * Mathf.Deg2Rad) * spawnRadius,
+            Mathf.Sin(angle * Mathf.Deg2Rad) * spawnRadius
         );
 
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(gatherInput.mousePos);
-         
-         //Angle between mouse and t$$anonymous$$s object
-         float angle = AngleBetweenPoints(spawnedArrow.transform.position, mouseWorldPosition);
-         
-         //Ta daa
-         spawnedArrow.transform.rotation =  Quaternion.Euler (new Vector3(0f,0f,angle + zRotation));
+        // Get the player position
+        Vector2 playerPos = GameManager.PlayerMovement().transform.position;
 
-        //float baseRotation = 45f;
-        
+        // Instantiate the arrow, and set its parent
+        GameObject spawnedArrow = GameObject.Instantiate(
+            arrowPrefab,
+            playerPos + spawnOffset,
+            Quaternion.identity,
+            GameManager.GameSession().skillParent
+        );
 
-        // spawnedArrow.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation);
+        // Rotate the arrow to face the right direction
+        spawnedArrow.transform.rotation = Quaternion.Euler(0, 0, angle - baseRotation);
 
-        // spawnedArrow.transform.rotation = Quaternion.Euler(0, 0, angle);
-
-        spawnedArrow.GetComponent<Arrow>().Init(damage, velocity * speed);
-
-        return spawnedArrow;
+        // Return the Arrow component
+        return spawnedArrow.GetComponent<Arrow>();
     }
-    
-
-    float AngleBetweenPoints(Vector3 a, Vector3 b) {
-            return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
-        }
 }

@@ -54,6 +54,8 @@ public abstract class Skill
         return hash;
     }
 
+    protected abstract void OnLevelUp();
+
     public virtual void Upgrade()
     {
         if (level >= 5)
@@ -62,10 +64,12 @@ public abstract class Skill
         }
 
         level++;
+        OnLevelUp();
     }
 
     public virtual void Use() { }
 
+    // TODO: change this to Level => level
     public int Level()
     {
         return level;

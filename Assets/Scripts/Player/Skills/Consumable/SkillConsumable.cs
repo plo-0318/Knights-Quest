@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SkillConsumable : Skill
 {
@@ -15,6 +16,8 @@ public class SkillConsumable : Skill
     {
         type = Skill.Type.CONSUMABLE;
     }
+
+    protected override void OnLevelUp() { }
 
     public string description => _description;
     public string displayName => _displayName;

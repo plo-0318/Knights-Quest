@@ -16,8 +16,8 @@ public class SkillField : Skill
         name = "field";
         FieldPrefab = Resources.Load<GameObject>("field");
 
-        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        BASE_DAMAGE = GameManager.GetSkillData(name).Damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
 
         level = 1;
         damage = BASE_DAMAGE;
@@ -27,10 +27,8 @@ public class SkillField : Skill
         type = Type.ATTACK;
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;

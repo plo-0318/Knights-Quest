@@ -54,7 +54,12 @@ public class PlayerSkillUITest : MonoBehaviour
         field,
         hammer,
         arrow,
-        fireball;
+        fireball,
+        bolt,
+        boots,
+        shield,
+        gauntlet,
+        crystal;
 
     private void Awake()
     {
@@ -73,6 +78,11 @@ public class PlayerSkillUITest : MonoBehaviour
         GameManager.GameSession().onGameLost += DisableButtons;
     }
 
+    private void FixedUpdate()
+    {
+        UpdateText();
+    }
+
     private void Init()
     {
         skillUIs.Add("dagger", SkillUI.NewSkillUI(dagger, TEST_AddDaggerSkill));
@@ -81,6 +91,11 @@ public class PlayerSkillUITest : MonoBehaviour
         skillUIs.Add("fireball", SkillUI.NewSkillUI(fireball, TEST_AddFireballSkill));
         skillUIs.Add("hammer", SkillUI.NewSkillUI(hammer, TEST_AddHammerSkill));
         skillUIs.Add("sword", SkillUI.NewSkillUI(sword, TEST_AddSwordSkill));
+        skillUIs.Add("bolt", SkillUI.NewSkillUI(bolt, TEST_AddBoltSkill));
+        skillUIs.Add("boots", SkillUI.NewSkillUI(boots, TEST_AddBootsSkill));
+        skillUIs.Add("shield", SkillUI.NewSkillUI(shield, TEST_AddShieldSkill));
+        skillUIs.Add("gauntlet", SkillUI.NewSkillUI(gauntlet, TEST_AddGauntletSkill));
+        skillUIs.Add("crystal", SkillUI.NewSkillUI(crystal, TEST_AddCrystalSkill));
     }
 
     private void AddClickSound()
@@ -135,18 +150,14 @@ public class PlayerSkillUITest : MonoBehaviour
 
     public void TEST_AddFireballSkill()
     {
-        Debug.LogError("Fireball not implemented yet");
-
-        // GameManager.PlayerStatus().AssignSkill(new SkillFireball());
+        GameManager.PlayerStatus().AssignSkill(new SkillFireball());
 
         UpdateText();
     }
 
     public void TEST_AddArrowSkill()
     {
-        Debug.LogError("Arrow not implemented yet");
-
-        // GameManager.PlayerStatus().AssignSkill(new SkillArrow());
+        GameManager.PlayerStatus().AssignSkill(new SkillArrow());
 
         UpdateText();
     }
@@ -161,6 +172,41 @@ public class PlayerSkillUITest : MonoBehaviour
     public void TEST_AddFieldSkill()
     {
         GameManager.PlayerStatus().AssignSkill(new SkillField());
+
+        UpdateText();
+    }
+
+    public void TEST_AddBoltSkill()
+    {
+        GameManager.PlayerStatus().AssignSkill(new SkillBolt());
+
+        UpdateText();
+    }
+
+    public void TEST_AddBootsSkill()
+    {
+        GameManager.PlayerStatus().AssignSkill(new SkillBoots());
+
+        UpdateText();
+    }
+
+    public void TEST_AddShieldSkill()
+    {
+        GameManager.PlayerStatus().AssignSkill(new SkillShield());
+
+        UpdateText();
+    }
+
+    public void TEST_AddGauntletSkill()
+    {
+        GameManager.PlayerStatus().AssignSkill(new SkillGauntlet());
+
+        UpdateText();
+    }
+
+    public void TEST_AddCrystalSkill()
+    {
+        GameManager.PlayerStatus().AssignSkill(new SkillCrystal());
 
         UpdateText();
     }

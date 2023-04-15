@@ -20,7 +20,7 @@ public class Field : MonoBehaviour
     {
         speedMultiplier = -0.5f;
 
-        speedMod = new Modifier(Stat.SPEED, gameObject.GetInstanceID(), speedMultiplier);
+        speedMod = new Modifier(Stat.SPEED, "SkillField", speedMultiplier);
 
         BASE_SCALE = new Vector3(
             transform.localScale.x,
@@ -102,7 +102,7 @@ public class Field : MonoBehaviour
 
             if (slowEnemy)
             {
-                enemy.stat.AddModifier(speedMod, false);
+                enemy.AddModifier(speedMod, false);
             }
         }
     }
@@ -113,7 +113,7 @@ public class Field : MonoBehaviour
         {
             if (slowEnemy)
             {
-                enemy.stat.RemoveModifier(speedMod);
+                enemy.RemoveModifier(speedMod);
             }
         }
     }

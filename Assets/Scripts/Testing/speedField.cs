@@ -10,7 +10,7 @@ public class speedField : MonoBehaviour
 
     private void Start()
     {
-        speedMod = new Modifier(Stat.SPEED, gameObject.GetInstanceID(), speedMultiplier);
+        speedMod = new Modifier(Stat.SPEED, "SpeedFieldTest", speedMultiplier);
 
         // Destroy(gameObject, UnityEngine.Random.Range(8f, 20f));
     }
@@ -19,7 +19,7 @@ public class speedField : MonoBehaviour
     {
         if (other.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.stat.AddModifier(speedMod, false);
+            enemy.AddModifier(speedMod, false);
         }
     }
 
@@ -27,7 +27,7 @@ public class speedField : MonoBehaviour
     {
         if (other.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.stat.RemoveModifier(speedMod);
+            enemy.RemoveModifier(speedMod);
         }
     }
 

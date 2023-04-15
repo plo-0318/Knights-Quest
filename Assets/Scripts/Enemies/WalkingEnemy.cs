@@ -12,7 +12,7 @@ public class WalkingEnemy : Enemy
     protected float baseHealth = 1000f;
 
     [SerializeField]
-    protected float baseDamage = 10f;
+    protected float baseDamage = 100f;
 
     protected float knockBackDuration = 0.3f;
     protected float knockBackForce = 5f;

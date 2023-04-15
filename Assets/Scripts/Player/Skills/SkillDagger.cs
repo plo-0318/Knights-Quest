@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SkillDagger : Skill
 {
-    private GameObject dagger;
+    private GameObject daggerPrefab;
     private float cooldownTimer;
     private float cooldownTime;
 
@@ -25,12 +25,12 @@ public class SkillDagger : Skill
     public SkillDagger()
     {
         name = "dagger";
-        dagger = Resources.Load<GameObject>("dagger");
+        daggerPrefab = Resources.Load<GameObject>("dagger");
         type = Type.ATTACK;
         level = 1;
 
-        BASE_DAMAGE = GameManager.GetSkillData(name).damage;
-        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).cooldown;
+        BASE_DAMAGE = GameManager.GetSkillData(name).Damage;
+        BASE_COOLDOWN_TIME = GameManager.GetSkillData(name).Cooldown;
         BASE_SPEED = 8f;
 
         cooldownTime = BASE_COOLDOWN_TIME;
@@ -41,9 +41,12 @@ public class SkillDagger : Skill
         numDaggers = 4;
         piercing = false;
 
-        if (GameManager.PlayerMovement().TryGetComponent<Collider2D>(out Collider2D col))
+        if (GameManager.PlayerMovement().PlayerCollider != null)
         {
-            spawnRadius = Mathf.Max(col.bounds.size.x, col.bounds.size.y);
+            spawnRadius = Mathf.Max(
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.x,
+                GameManager.PlayerMovement().PlayerCollider.bounds.size.y
+            );
         }
         else
         {
@@ -53,10 +56,8 @@ public class SkillDagger : Skill
         soundManager = GameManager.SoundManager();
     }
 
-    public override void Upgrade()
+    protected override void OnLevelUp()
     {
-        base.Upgrade();
-
         if (level == 2)
         {
             damage = BASE_DAMAGE * 1.25f;
@@ -123,7 +124,7 @@ public class SkillDagger : Skill
         Vector2 playerPos = GameManager.PlayerMovement().transform.position;
 
         GameObject spawnedDagger = GameObject.Instantiate(
-            dagger,
+            daggerPrefab,
             new Vector3(playerPos.x + offset.x, playerPos.y + offset.y, 0),
             Quaternion.identity
         );

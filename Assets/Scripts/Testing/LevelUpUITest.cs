@@ -35,6 +35,15 @@ public class LevelUpUITest : MonoBehaviour
         StartCoroutine(FadeIn());
     }
 
+    private void ShowLevelUpUI(SkillData[] skillDatum)
+    {
+        leftSkillCard.SetSkillCard(skillDatum[0]);
+        middleSkillCard.SetSkillCard(skillDatum[1]);
+        rightSkillCard.SetSkillCard(skillDatum[2]);
+
+        StartCoroutine(FadeIn());
+    }
+
     private void Show()
     {
         canvasGroup.alpha = 1f;

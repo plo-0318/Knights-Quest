@@ -89,7 +89,7 @@ MonoBehaviour:
   enemyBodyCollider: {fileID: 6356280227948998002}
   baseSpeed: 2.5
   baseHealth: 500
-  baseDamage: 10
+  baseDamage: 100
 --- !u!114 &8826375229637709143
 MonoBehaviour:
   m_ObjectHideFlags: 0
