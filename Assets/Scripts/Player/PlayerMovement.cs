@@ -52,13 +52,6 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
         canMove = true;
 
         GameManager.GameSession().onGameLost += HandlePlayerDeath;
-
-        Invoke(nameof(TEST_Border), 3f);
-    }
-
-    public void TEST_Border()
-    {
-        BossBorder.Spawn();
     }
 
     private void Update() { }
