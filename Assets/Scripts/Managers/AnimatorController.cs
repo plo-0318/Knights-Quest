@@ -82,7 +82,7 @@ public class AnimatorController : MonoBehaviour
         currentState = newState;
     }
 
-    protected void GetAnimatedObject()
+    protected virtual void GetAnimatedObject()
     {
         if (TryGetComponent<IAnimatable>(out animatedObj))
         {
