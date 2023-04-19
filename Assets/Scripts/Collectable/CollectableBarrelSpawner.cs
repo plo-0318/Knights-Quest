@@ -22,22 +22,17 @@ public class CollectableBarrelSpawner : MonoBehaviour
     {
         float radius = Random.Range(minRadius, maxRadius);
         Vector2 randomDirection = Random.insideUnitCircle.normalized * radius;
-        Vector3 spawnPos = new Vector3(
-            player.position.x + randomDirection.x,
-            player.position.y + randomDirection.y,
-            player.position.z
-        );
+
+        Vector3 spawnPos = createSpawnPos(randomDirection);
 
         if (IsWithinBounds(spawnPos))
         {
             GameObject spawnedBarrel = Instantiate(barrelPref, spawnPos, Quaternion.identity);
-
-            CollectableSpawner collectableSpawner =
-                spawnedBarrel.GetComponent<CollectableSpawner>();
-            // if (collectableSpawner != null)
-            // {
-            //     collectableSpawner.SpawnRandomCollectable(spawnPos, Quaternion.identity);
-            // }
+            CollectableSpawner collectableSpawner = spawnedBarrel.GetComponent<CollectableSpawner>();
+        }
+        else
+        {
+            SpawnBarrel();
         }
     }
 
@@ -47,5 +42,16 @@ public class CollectableBarrelSpawner : MonoBehaviour
         Vector3Int cellPosition = gameMap.WorldToCell(position);
 
         return mapBounds.Contains(cellPosition);
+    }
+
+    private Vector3 createSpawnPos(Vector2 randomDirection)
+    {
+        Vector3 spawnPos = new Vector3(
+            player.position.x + randomDirection.x,
+            player.position.y + randomDirection.y,
+            player.position.z
+        );
+
+        return spawnPos;
     }
 }
