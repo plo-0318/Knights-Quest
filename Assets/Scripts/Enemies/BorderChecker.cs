@@ -5,20 +5,15 @@ using UnityEngine.Tilemaps;
 
 public class BorderChecker : MonoBehaviour
 {
-    [SerializeField]
-    public GameObject player;
-    public Tilemap tileMap;
+    private static BossBorder bossBorder;
 
-    
-    // Start is called before the first frame update
-    void Start()
+    public static void Start()
     {
-        BoundsInt mapBounds = tileMap.cellBounds;
+        bossBorder = BossBorder.Instance;
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void Update(Transform playerTransform)
     {
-        
+        BossBorder.Spawn();
     }
 }
