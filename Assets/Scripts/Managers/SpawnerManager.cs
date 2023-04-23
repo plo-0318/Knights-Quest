@@ -10,25 +10,41 @@ public class SpawnerManager : MonoBehaviour
     [SerializeField]
     private GameObject enemySpawner;
 
-    [SerializeField]
-    private int numSpawners = 8;
+    // [SerializeField]
+    // private int numSpawners = 8;
 
     [Tooltip("The distance between the spawners and the player")]
     [SerializeField]
     private float distance = 10f;
 
+    private List<GameObject> spawners;
+
     private void Awake()
     {
         GameManager.RegisterSpawnerManager(this);
+
+        spawners = new List<GameObject>();
     }
 
     private void Start()
     {
-        InstantiateSpawners();
+        // InstantiateSpawners();
     }
 
-    private void InstantiateSpawners()
+    private void RemoveAllSpawners()
     {
+        foreach (GameObject spawner in spawners)
+        {
+            Destroy(spawner.gameObject);
+        }
+
+        spawners.Clear();
+    }
+
+    public void InstantiateSpawners(int numSpawners)
+    {
+        RemoveAllSpawners();
+
         float degBetweenSpawner = 360f / numSpawners;
         float currentDeg = 0f;
 
@@ -40,9 +56,14 @@ public class SpawnerManager : MonoBehaviour
                 transform.position.z
             );
 
-            GameObject spawner = Instantiate(enemySpawner, spawnPos, Quaternion.identity);
+            GameObject spawner = Instantiate(
+                enemySpawner,
+                spawnPos,
+                Quaternion.identity,
+                transform
+            );
 
-            spawner.transform.parent = transform;
+            spawners.Add(spawner);
 
             currentDeg += degBetweenSpawner;
         }

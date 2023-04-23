@@ -21,7 +21,7 @@ public class CollectableGem : Collectable
 
     public override void Use()
     {
-        //TODO: USE LOGIC HERE
+        GameManager.PlayerStatus().IncreaseExp(expAmount);
 
         base.Use();
     }

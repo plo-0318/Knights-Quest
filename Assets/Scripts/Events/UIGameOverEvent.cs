@@ -15,7 +15,7 @@ public class UIGameOverEvent : UIGameEvent
     {
         base.Awake();
 
-        fadeInSpeed = 1f;
+        popupTime = 0.8f;
 
         playAgainButton.onClick.AddListener(HandlePlayAgain);
         mainMenuButton.onClick.AddListener(HandleMainMenu);

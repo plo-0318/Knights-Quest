@@ -6,13 +6,15 @@ using System;
 [RequireComponent(typeof(CanvasGroup))]
 public abstract class UIGameEvent : MonoBehaviour
 {
+    [SerializeField]
+    protected GameObject uiHolder;
     protected CanvasGroup canvasGroup;
 
     protected event Action onEventFinish;
 
     protected List<Action> finishEventHandlers;
 
-    protected float fadeInSpeed;
+    protected float popupTime;
 
     protected virtual void Awake()
     {
@@ -20,7 +22,7 @@ public abstract class UIGameEvent : MonoBehaviour
 
         finishEventHandlers = new List<Action>();
 
-        fadeInSpeed = 0.8f;
+        popupTime = 0.3f;
 
         Hide();
     }
@@ -41,7 +43,7 @@ public abstract class UIGameEvent : MonoBehaviour
 
     public void PlayEvent()
     {
-        StartCoroutine(FadeIn());
+        StartCoroutine(Popup());
     }
 
     protected abstract void StartEvent();
@@ -58,11 +60,24 @@ public abstract class UIGameEvent : MonoBehaviour
         finishEventHandlers.Add(e);
     }
 
-    private IEnumerator FadeIn()
+    private IEnumerator Popup()
     {
-        while (canvasGroup.alpha < 1f)
+        RectTransform trans = uiHolder.GetComponent<RectTransform>();
+
+        trans.localScale = Vector3.zero;
+        canvasGroup.alpha = 1f;
+
+        float elapsedTime = 0;
+
+        while (elapsedTime < popupTime)
         {
-            canvasGroup.alpha += Time.deltaTime * fadeInSpeed;
+            float t = elapsedTime / popupTime;
+            float scale = Mathf.Lerp(0, 1f, t);
+
+            trans.localScale = new Vector3(scale, scale, scale);
+
+            elapsedTime += Time.deltaTime;
+
             yield return null;
         }
 

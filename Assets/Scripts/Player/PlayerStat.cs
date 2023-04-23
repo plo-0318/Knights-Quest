@@ -13,8 +13,8 @@ public class PlayerStat : Stat
 
     ///////////////////// _EXP FORMULA /////////////////////
     private const int BASE_EXP = 100;
-    private const int LINEAR_INCREMENT = 50;
-    private const int EXPONENTIAL_INCREMENT = 25;
+    private const int LINEAR_INCREMENT = 75;
+    private const int EXPONENTIAL_INCREMENT = 40;
 
     /////////////////////////////////////////////////////
 
@@ -42,7 +42,7 @@ public class PlayerStat : Stat
         //TODO: Delete this log
         // for (int i = 1; i <= 30; i++)
         // {
-        //     Debug.Log(ExpNeededToLevelUp(i));
+        //     Debug.Log("level " + i + ": " + ExpNeededToLevelUp(i));
         // }
     }
 

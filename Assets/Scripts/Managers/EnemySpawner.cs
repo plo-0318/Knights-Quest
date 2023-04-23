@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
         gameSession.onSpawnEnemy -= Spawn;
     }
 
-    private void Spawn(Enemy enemy, Modifier[] enemyModifiers)
+    private void Spawn(EnemySpawnUtil.EnemyToSpawn enemyToSpawn, Modifier[] enemyModifiers)
     {
         // If spawn is on cooldown, return
         if (spawnCooldownTimer < spawnCooldownTime + spawnTimeOffset)
@@ -50,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
         // Reset spawn timer, and instantiate the enemy game object
         spawnCooldownTimer = 0;
 
-        Enemy newEnemy = Instantiate(enemy, transform.position, Quaternion.identity);
+        Enemy newEnemy = Instantiate(enemyToSpawn(), transform.position, Quaternion.identity);
 
         // If there is a global enemy modifier, apply it
         if (enemyModifiers != null && enemyModifiers.Length > 0)

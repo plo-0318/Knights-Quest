@@ -75,7 +75,7 @@ public class SkillArrow : Skill
             damage = BASE_DAMAGE * 2f;
             cooldownTime = BASE_COOLDOWN_TIME - 1.5f;
 
-            speedModifier = new Modifier(Stat.StatType.SPEED, "SkillArrow", -0.75f);
+            speedModifier = new Modifier(Stat.StatType.SPEED, "SkillArrow", -0.75f, 2f);
         }
     }
 

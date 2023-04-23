@@ -8,9 +8,7 @@ public class Sword : MonoBehaviour
     private Vector3 BASE_SCALE;
 
     [SerializeField]
-    GameObject onHitFx;
-    private Transform playerTransform;
-    private Vector2 positionOffset;
+    private GameObject onHitFx;
 
     private Collider2D col;
 
@@ -26,20 +24,9 @@ public class Sword : MonoBehaviour
         col.enabled = false;
     }
 
-    private void Start()
-    {
-        playerTransform = GameManager.PlayerMovement().transform;
-    }
-
-    private void Update()
-    {
-        // transform.position = playerTransform.position + (Vector3)positionOffset;
-    }
-
-    public void Init(float damage, Vector2 positionOffset, float scaleMultiplier = 1f)
+    public void Init(float damage, float scaleMultiplier = 1f)
     {
         this.damage = damage;
-        this.positionOffset = positionOffset;
 
         transform.localScale = new Vector3(
             BASE_SCALE.x,

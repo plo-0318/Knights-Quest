@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SkillSword : Skill
 {
-    private GameObject sword;
+    private GameObject swordPrefab,
+        swordWavePrefab;
     private float cooldownTimer;
     private float cooldownTime;
 
@@ -16,6 +17,9 @@ public class SkillSword : Skill
     private float damage;
     private float scaleMultiplier;
 
+    private bool spawnSwordWave;
+    private float swordWaveSpeed;
+
     private PlayerBodyAnimatorController playerAnimatorController;
 
     private SoundManager soundManager;
@@ -24,7 +28,8 @@ public class SkillSword : Skill
     public SkillSword()
     {
         name = "sword";
-        sword = Resources.Load<GameObject>(name);
+        swordPrefab = Resources.Load<GameObject>(name);
+        swordWavePrefab = Resources.Load<GameObject>("sword wave");
         type = Type.ATTACK;
         level = 1;
 
@@ -37,6 +42,9 @@ public class SkillSword : Skill
         cooldownTimer = .5f;
 
         damage = BASE_DAMAGE;
+
+        spawnSwordWave = false;
+        swordWaveSpeed = 8f;
 
         PlayerMovement playerMovement = GameManager.PlayerMovement();
 
@@ -86,6 +94,8 @@ public class SkillSword : Skill
             damage = BASE_DAMAGE * 2f;
 
             scaleMultiplier = 2.5f;
+
+            spawnSwordWave = true;
         }
     }
 
@@ -109,12 +119,17 @@ public class SkillSword : Skill
 
         SpawnSword(angle);
 
+        if (spawnSwordWave)
+        {
+            SpawnSwordWaves(angle);
+        }
+
         playerAnimatorController.HandlePlayerAttack();
 
         cooldownTimer = cooldownTime;
     }
 
-    private GameObject SpawnSword(float angle)
+    private GameObject SpawnPrefab(float angle, GameObject prefab, Transform parent)
     {
         Transform player = GameManager.PlayerMovement().transform;
 
@@ -124,18 +139,50 @@ public class SkillSword : Skill
 
         Vector3 spawnPos = player.position + (Vector3)spawnOffset;
 
-        GameObject spawnedSword = GameObject.Instantiate(
-            sword,
+        GameObject spawnedPrefab = GameObject.Instantiate(
+            prefab,
             spawnPos,
             Quaternion.identity,
-            player
+            parent
         );
 
-        spawnedSword.transform.rotation = Quaternion.Euler(0, 0, angle);
+        spawnedPrefab.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        spawnedSword.GetComponent<Sword>().Init(damage, spawnOffset, scaleMultiplier);
+        return spawnedPrefab;
+    }
 
-        return spawnedSword;
+    private void SpawnSword(float angle)
+    {
+        GameObject spawnedSword = SpawnPrefab(
+            angle,
+            swordPrefab,
+            GameManager.PlayerMovement().transform
+        );
+
+        spawnedSword.GetComponent<Sword>().Init(damage, scaleMultiplier);
+    }
+
+    private void SpawnSwordWaves(float angle)
+    {
+        float[] angles = new float[] { angle - 25f, angle, angle + 25f };
+
+        foreach (float spawnAngle in angles)
+        {
+            GameObject spanwedSwordWave = SpawnPrefab(
+                spawnAngle,
+                swordWavePrefab,
+                GameManager.PlayerMovement().transform
+            );
+
+            Vector2 direction = new Vector2(
+                Mathf.Cos(spawnAngle * Mathf.Deg2Rad),
+                Mathf.Sin(spawnAngle * Mathf.Deg2Rad)
+            );
+
+            spanwedSwordWave
+                .GetComponent<SwordWave>()
+                .Init(damage / 2f, direction * swordWaveSpeed);
+        }
     }
 
     private void LoadSFX()

@@ -13,13 +13,21 @@ MonoBehaviour:
   m_Name: Test Level Detail
   m_EditorClassIdentifier: 
   levelEnemyDetails:
-  - spawnDuration: 10
-    enemiesToSpawn:
-    - {fileID: 6356280227500024681, guid: 1ec5a48721cf8624794c8edd55b43ab5, type: 3}
-  - spawnDuration: 10
-    enemiesToSpawn:
-    - {fileID: 380368792863149125, guid: 40ce984bd4f88144a81d5b002b3309f6, type: 3}
-  - spawnDuration: 10
-    enemiesToSpawn:
-    - {fileID: 5905434527080988604, guid: 15895b29c9451de41b348680a992494f, type: 3}
+  - spawnDuration: 45
+    levelEnemies:
+    - enemy: {fileID: 3493714190664849845, guid: a72ea4aa0b776494fbbc940cf19d3a23, type: 3}
+      proportion: 10
+    - enemy: {fileID: 4549619414186141260, guid: e69252669040b8b4fa65a80fd79a5e70, type: 3}
+      proportion: 1
+  - spawnDuration: 45
+    levelEnemies:
+    - enemy: {fileID: 4549619414186141260, guid: e69252669040b8b4fa65a80fd79a5e70, type: 3}
+      proportion: 10
+    - enemy: {fileID: 5905434527080988604, guid: 15895b29c9451de41b348680a992494f, type: 3}
+      proportion: 1
+  - spawnDuration: 90
+    levelEnemies:
+    - enemy: {fileID: 5905434527080988604, guid: 15895b29c9451de41b348680a992494f, type: 3}
+      proportion: 1
   enemyModifiers: []
+  bosses: []

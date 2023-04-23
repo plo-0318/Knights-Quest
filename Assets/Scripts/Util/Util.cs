@@ -72,4 +72,22 @@ public class Util
     {
         return Mathf.Atan2(pos1.y - pos2.y, pos1.x - pos2.x) * Mathf.Rad2Deg + 180f;
     }
+
+    public static string GetTimeString(float time)
+    {
+        int seconds = Mathf.RoundToInt(time);
+        int minutes = seconds / 60;
+        seconds %= 60;
+
+        string timerStr = minutes.ToString() + ":";
+
+        if (seconds < 10)
+        {
+            timerStr += "0";
+        }
+
+        timerStr += seconds.ToString();
+
+        return timerStr;
+    }
 }

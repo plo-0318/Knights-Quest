@@ -47,6 +47,13 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         gameSession.OnEnemySpawn(this);
         gameSession.onKillAllEnemies += ProcessDeath;
         gameSession.onRemoveModifier += _stat.RemoveModifier;
+
+        // Invoke("lol", 2f);
+    }
+
+    public void lol()
+    {
+        StartCoroutine(AnimationUtil.FallOver(1f, spriteRenderer.transform));
     }
 
     protected virtual void FixedUpdate()
@@ -63,10 +70,15 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
     protected void Flip()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         Vector3 newScale = new Vector3(
             playerTrans.position.x < transform.position.x ? -1f : 1f,
-            transform.localScale.y,
-            transform.localScale.z
+            spriteRenderer.transform.localScale.y,
+            spriteRenderer.transform.localScale.z
         );
 
         spriteRenderer.transform.localScale = newScale;
@@ -149,6 +161,19 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         if (spriteRenderer.TryGetComponent<AnimatorController>(out var animatorController))
         {
             OnDeath(animatorController.deathAnimationLength);
+
+            StartCoroutine(
+                AnimationUtil.DecreaseScaleOverTime(
+                    animatorController.deathAnimationLength,
+                    spriteRenderer.transform
+                )
+            );
+            StartCoroutine(
+                AnimationUtil.FallOver(
+                    animatorController.deathAnimationLength * 0.4f,
+                    spriteRenderer.transform
+                )
+            );
         }
         else
         {
@@ -164,6 +189,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
             enemyBodyCollider.enabled = false;
         }
 
+        StopAllCoroutines();
         Destroy(gameObject, destroyTime);
     }
 

@@ -83,12 +83,31 @@ public class Stat
             return stats[newModifier.statType];
         }
 
+        // If there is an exisiting modifier
+        if (existingModifier)
+        {
+            // Check if it is timed, if it is, stop the remove coroutine
+            if (existingModifier.removeModifierCoroutine != null)
+            {
+                GameManager.GameSession().StopCoroutine(existingModifier.removeModifierCoroutine);
+            }
+        }
+
         // Add the new modifer, if it exists, replace it
         statModifiers.Remove(existingModifier);
+
         statModifiers.Add(newModifier);
 
         // Recaculate the stat
         stats[newModifier.statType] = CalculateStat(newModifier.statType);
+
+        // Remove the modifier if it is timed
+        if (newModifier.duration > 0)
+        {
+            newModifier.removeModifierCoroutine = GameManager
+                .GameSession()
+                .StartCoroutine(RemoveModifierAfter(newModifier, newModifier.duration));
+        }
 
         return stats[newModifier.statType];
     }
@@ -98,6 +117,16 @@ public class Stat
         if (modifierList[modifier.statType].Remove(modifier))
         {
             stats[modifier.statType] = CalculateStat(modifier.statType);
+        }
+    }
+
+    private IEnumerator RemoveModifierAfter(Modifier modifier, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (this != null)
+        {
+            RemoveModifier(modifier);
         }
     }
 

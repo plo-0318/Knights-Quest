@@ -18,6 +18,8 @@ public class Modifier
         "The multiplie for the stat in decimal. Enter either positive or negative value (Example: 0.25 means a increase of 25%. -0.4 means a decrease of 40%)"
     )]
     public float multiplier;
+    public float duration;
+    public Coroutine removeModifierCoroutine;
 
     public static implicit operator bool(Modifier modifier)
     {
@@ -40,19 +42,23 @@ public class Modifier
         return name.GetHashCode();
     }
 
-    public Modifier(Stat.StatType type, string name, float multiplier)
+    public Modifier(Stat.StatType type, string name, float multiplier, float duration = 0)
     {
         this.type = type;
         this.statType = (int)type;
         this.name = name;
         this.multiplier = multiplier;
+        this.duration = duration;
+        this.removeModifierCoroutine = null;
     }
 
-    public Modifier(int type, string name, float multiplier)
+    public Modifier(int type, string name, float multiplier, float duration = 0)
     {
         this.type = (Stat.StatType)Enum.ToObject(typeof(Stat.StatType), type);
         this.statType = type;
         this.name = name;
         this.multiplier = multiplier;
+        this.duration = duration;
+        this.removeModifierCoroutine = null;
     }
 }

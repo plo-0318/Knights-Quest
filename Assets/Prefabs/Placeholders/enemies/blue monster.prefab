@@ -88,7 +88,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 3289533313232309958}
   enemyBodyCollider: {fileID: 6356280227948998002}
   baseSpeed: 2.5
-  baseHealth: 500
+  baseHealth: 250
   baseDamage: 100
 --- !u!114 &8826375229637709143
 MonoBehaviour:
@@ -223,7 +223,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 385439543
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 6350452448802780410, guid: 3af052a2f89a5654ea4602963fb73aa4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

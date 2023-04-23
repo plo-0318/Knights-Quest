@@ -45,6 +45,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerText: {fileID: 0}
   levelDetail: {fileID: 11400000, guid: ece8ce2f888c2c7479e0e74d5384963a, type: 2}
-  maxEnemyPerWave: 30
-  maxEnemyTotal: 100
-  timeBetweenWaves: 15

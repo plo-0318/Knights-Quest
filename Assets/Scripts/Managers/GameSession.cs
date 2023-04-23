@@ -12,6 +12,7 @@ public class GameSession : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI timerText;
 
+    private SpawnerManager spawnerManager;
     private PlayerStatus playerStatus;
     private SoundManager soundManager;
 
@@ -33,16 +34,11 @@ public class GameSession : MonoBehaviour
 
 
     ////////////////// SPAWNING ENEMY //////////////////
-    [Header("Enemy Spawn")]
-    [SerializeField]
-    private int maxEnemyPerWave = 30;
-
-    [SerializeField]
-    private int maxEnemyTotal = 100;
-
-    [SerializeField]
+    private int bossIndex;
+    private int maxEnemyPerWave = 5;
+    private int maxEnemyTotal = 10;
     private float timeBetweenWaves = 15f;
-    public event Action<Enemy, Modifier[]> onSpawnEnemy;
+    public event Action<EnemySpawnUtil.EnemyToSpawn, Modifier[]> onSpawnEnemy;
     public event Action onKillAllEnemies;
     public event Action<Modifier> onRemoveModifier;
     private HashSet<Enemy> enemyRefs;
@@ -51,14 +47,15 @@ public class GameSession : MonoBehaviour
 
     private float enemySpawnTimer,
         spawnWaveTimer;
-    private int currentEnemyListIndex,
-        currentEnemyIndex;
+    private int currentEnemyListIndex;
 
     /////////////////////////////////////////////////////
 
     ////////////////// GAME EVENTS //////////////////
     public event Action onGameStart;
     public event Action onGameLost;
+    public event Action onBossFight;
+    private TimedEvents timedEvents;
 
     /////////////////////////////////////////////////////
 
@@ -87,10 +84,11 @@ public class GameSession : MonoBehaviour
         gameStarted = false;
         gamePaused = false;
 
+        bossIndex = 0;
         spawnWaveTimer = timeBetweenWaves;
         enemyRefs = new HashSet<Enemy>();
         canSpawnEnemy = false;
-        currentEnemyListIndex = currentEnemyIndex = 0;
+        currentEnemyListIndex = 0;
 
         enemyModifiers = null;
         if (levelDetail.enemyModifiers.Length > 0)
@@ -104,17 +102,24 @@ public class GameSession : MonoBehaviour
         }
 
         CreateObjectHolders();
+        InitTimedEvents();
+
+        EnemySpawnUtil.Init(levelDetail);
     }
 
     private void Start()
     {
+        spawnerManager = GameManager.SpawnerManager();
         playerStatus = GameManager.PlayerStatus();
         soundManager = GameManager.SoundManager();
+
+        spawnerManager.InstantiateSpawners(maxEnemyPerWave);
     }
 
     private void Update()
     {
         TickTimer();
+        ExecTimedEvents();
         SpawnEnemy();
     }
 
@@ -123,7 +128,7 @@ public class GameSession : MonoBehaviour
         // TODO: Delete this test
         if (timerText)
         {
-            timerText.text = GetTimeString();
+            timerText.text = Util.GetTimeString(timer);
         }
     }
 
@@ -138,24 +143,6 @@ public class GameSession : MonoBehaviour
         {
             timer += Time.deltaTime;
         }
-    }
-
-    public string GetTimeString()
-    {
-        int seconds = Mathf.RoundToInt(timer);
-        int minutes = seconds / 60;
-        seconds %= 60;
-
-        string timerStr = minutes.ToString() + ":";
-
-        if (seconds < 10)
-        {
-            timerStr += "0";
-        }
-
-        timerStr += seconds.ToString();
-
-        return timerStr;
     }
 
     public void CreateObjectHolders()
@@ -232,9 +219,84 @@ public class GameSession : MonoBehaviour
         onGameLost?.Invoke();
     }
 
+    public void HandleBossFight()
+    {
+        tickTimer = false;
+        canSpawnEnemy = false;
+        KillAllEnemies();
+
+        // TODO: display boss ui?
+
+        onBossFight?.Invoke();
+    }
+
+    public void HandleBossEventEnd()
+    {
+        SpawnBoss();
+    }
+
+    private IEnumerator ResumeGameAfterBossDeath(float delay)
+    {
+        //TODO: delete this log
+        Debug.Log("boss fight end");
+
+        yield return new WaitForSeconds(delay);
+
+        tickTimer = true;
+        canSpawnEnemy = true;
+    }
+
+    public void HandleBossFightEnd()
+    {
+        StartCoroutine(ResumeGameAfterBossDeath(3f));
+    }
+
+    private Action GenerateEnemySpawnAction(int maxEnemyPerWave, int maxEnemyTotal, int numSpawners)
+    {
+        return () =>
+        {
+            this.maxEnemyPerWave = maxEnemyPerWave;
+            this.maxEnemyTotal = maxEnemyTotal;
+            spawnerManager.InstantiateSpawners(numSpawners);
+        };
+    }
+
+    public void InitTimedEvents()
+    {
+        timedEvents = new TimedEvents();
+
+        timedEvents.AddTimedEvent(30, GenerateEnemySpawnAction(10, 20, 8));
+        timedEvents.AddTimedEvent(60, GenerateEnemySpawnAction(15, 30, 10));
+        timedEvents.AddTimedEvent(90, GenerateEnemySpawnAction(20, 35, 11));
+        timedEvents.AddTimedEvent(120, HandleBossFight);
+    }
+
+    public void ExecTimedEvents()
+    {
+        if (timedEvents.Empty())
+        {
+            return;
+        }
+
+        bool reachedTime = timer >= timedEvents.NextEventTime();
+
+        if (reachedTime)
+        {
+            timedEvents.NextEvent()();
+            timedEvents.Shift();
+        }
+    }
+
     ////////////////////////// //////// //////////////////////////
 
     ////////////////////////// ENEMIES //////////////////////////
+    private void SpawnBoss()
+    {
+        // Enemy bossToSpawn = levelDetail.bosses[bossIndex++];
+        // TODO: delete this log
+        Debug.Log("spawnning boss...");
+    }
+
     private void SpawnEnemy()
     {
         if (!canSpawnEnemy)
@@ -247,18 +309,18 @@ public class GameSession : MonoBehaviour
 
         if (enemyRefs.Count < maxEnemyPerWave)
         {
-            onSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
+            onSpawnEnemy?.Invoke(_EnemyToSpawn, enemyModifiers);
         }
 
         if (spawnWaveTimer <= 0 && enemyRefs.Count <= maxEnemyTotal - maxEnemyPerWave)
         {
-            onSpawnEnemy?.Invoke(EnemyToSpawn(), enemyModifiers);
+            onSpawnEnemy?.Invoke(_EnemyToSpawn, enemyModifiers);
 
             spawnWaveTimer = timeBetweenWaves;
         }
     }
 
-    private Enemy EnemyToSpawn()
+    private Enemy _EnemyToSpawn()
     {
         // Get the spawn duration for each enemy list
         float duration = levelDetail.levelEnemyDetails[currentEnemyListIndex].spawnDuration;
@@ -273,18 +335,10 @@ public class GameSession : MonoBehaviour
             if (currentEnemyListIndex + 1 < levelDetail.levelEnemyDetails.Length)
             {
                 currentEnemyListIndex++;
-                currentEnemyIndex = 0;
             }
         }
 
-        Enemy[] enemies = levelDetail.levelEnemyDetails[currentEnemyListIndex].enemiesToSpawn;
-
-        Enemy enemy = enemies[currentEnemyIndex];
-
-        // Cycle through the enemies in the list
-        currentEnemyIndex = ++currentEnemyIndex < enemies.Length ? currentEnemyIndex : 0;
-
-        return enemy;
+        return EnemySpawnUtil.NextEnemyToSpawn(currentEnemyListIndex);
     }
 
     public int EnemyCount => enemyRefs.Count;
@@ -401,7 +455,7 @@ public class GameSession : MonoBehaviour
             maxX = 10f,
             maxY = 10f;
 
-        var enemy = levelDetail.levelEnemyDetails[0].enemiesToSpawn[0];
+        var enemy = EnemySpawnUtil.NextEnemyToSpawn(0);
 
         for (int i = 0; i < 10; i++)
         {
