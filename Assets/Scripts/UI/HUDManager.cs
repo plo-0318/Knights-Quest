@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 enum HUD_ELEMENTS {
@@ -33,6 +34,7 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private int currentExp;
     [SerializeField] private int nextMaxExp;
     [SerializeField] private int maxExp;
+    [SerializeField] private UnityEvent onLevelUpAction;
 
     [Header("Kill Counter")] 
     [SerializeField] private TextMeshProUGUI killCountLabel;
@@ -193,6 +195,7 @@ public class HUDManager : MonoBehaviour
     private void LevelUp() 
     {
         // TODO: TRIGGER UI LEVEL UP SCREEN
+        onLevelUpAction.Invoke();
         
         // Update Values
         currentLevel++;
@@ -300,18 +303,21 @@ public class HUDManager : MonoBehaviour
     {
         LeanTween.cancel(obj);
         
-        LeanTween.value(obj, current, target, 0.5f).setOnUpdate((float val) => {
-            switch (type) {
-                case HUD_ELEMENTS.HpBar:
-                    currentHpBar.fillAmount = val;
-                    break;
-                case HUD_ELEMENTS.HpBarBuffer:
-                    bufferHpBar.fillAmount = val;
-                    break;
-                case HUD_ELEMENTS.ExpBar:
-                    expBar.fillAmount = val;
-                    break;
-            }
-        }).setEaseOutExpo();
+        LeanTween.value(obj, current, target, 0.5f)
+            .setOnUpdate((float val) => {
+                switch (type) {
+                    case HUD_ELEMENTS.HpBar:
+                        currentHpBar.fillAmount = val;
+                        break;
+                    case HUD_ELEMENTS.HpBarBuffer:
+                        bufferHpBar.fillAmount = val;
+                        break;
+                    case HUD_ELEMENTS.ExpBar:
+                        expBar.fillAmount = val;
+                        break;
+                }
+            })
+            .setEaseOutExpo()
+            .setIgnoreTimeScale(true);
     }
 }
