@@ -27,19 +27,6 @@ public class Hammer : MonoBehaviour
 
     private void Update()
     {
-        // UpdateParentPosition();
-
-        // //Create the swinging
-        // if (elapsedTime < endRotate && swingPoint != null)
-        // {
-        //     elapsedTime += swingSpeed * Time.deltaTime;
-        //     float step = swingSpeed * Time.deltaTime;
-        //     transform.RotateAround(swingPoint.position, Vector3.forward, step);
-        // }
-        // else if (elapsedTime >= endRotate)
-        // {
-        //     Destroy(transform.parent.gameObject);
-        // }
 
         Rotate();
     }
