@@ -61,4 +61,9 @@ public class EnemySpawner : MonoBehaviour
         // Setting the enemy parent
         newEnemy.transform.parent = gameSession.enemyParent;
     }
+
+    public bool InsideMap()
+    {
+        return mapConfiner.InsideMap(transform.position);
+    }
 }

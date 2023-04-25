@@ -31,13 +31,13 @@ public class Bolt : MonoBehaviour
 
     private void Update()
     {
-        if (aliveTimer > aliveTime)
+        if (aliveTimer >= aliveTime)
         {
             Destroy(gameObject);
             return;
         }
 
-        aliveTime += Time.deltaTime;
+        aliveTimer += Time.deltaTime;
     }
 
     public void Init(

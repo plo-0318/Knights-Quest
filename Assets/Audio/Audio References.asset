@@ -33,9 +33,11 @@ MonoBehaviour:
   sfxDefeat: {fileID: 8300000, guid: 69fa50ab1a250194bbe14ebf74c30196, type: 3}
   sfxBossWarning: {fileID: 8300000, guid: 52f3e58a8a939f344a926073e1f51d0c, type: 3}
   sfxPickupGem: {fileID: 8300000, guid: 0d8a1ea970bd7704ab513ffebbdce393, type: 3}
+  sfxPickupBomb: {fileID: 8300000, guid: b39c16371acbe8b418a9e8c573d6ae90, type: 3}
   sfxPickupPotion: {fileID: 8300000, guid: 40add135805d01a42bdbfb9aa70392a4, type: 3}
   sfxPickupShield: {fileID: 8300000, guid: 883d0a8afeebff4499b5212cd2acad00, type: 3}
   sfxPickupPouch: {fileID: 8300000, guid: d9ad6801762d11b448b1267933cf641a, type: 3}
+  sfxBarrelBreak: {fileID: 8300000, guid: f511a513c0903e84a802ce7b2215d7f9, type: 3}
   sfxDaggerUse: {fileID: 8300000, guid: 3b0041396f9aad340bfd60a30134e475, type: 3}
   sfxSwordUse1: {fileID: 8300000, guid: 246cba7d32fd8ed44a6d315a171438a9, type: 3}
   sfxSwordUse2: {fileID: 8300000, guid: f8705a99e1a70a04b824925bad17b935, type: 3}

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public abstract class Enemy : MonoBehaviour, IAnimatable
 {
@@ -45,15 +46,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         }
 
         gameSession.OnEnemySpawn(this);
-        gameSession.onKillAllEnemies += ProcessDeath;
+        gameSession.onKillAllEnemies += HandleForceKill;
         gameSession.onRemoveModifier += _stat.RemoveModifier;
-
-        // Invoke("lol", 2f);
-    }
-
-    public void lol()
-    {
-        StartCoroutine(AnimationUtil.FallOver(1f, spriteRenderer.transform));
     }
 
     protected virtual void FixedUpdate()
@@ -64,7 +58,7 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     protected virtual void OnDestroy()
     {
         gameSession.OnEnemyDestroy(this);
-        gameSession.onKillAllEnemies -= ProcessDeath;
+        gameSession.onKillAllEnemies -= HandleForceKill;
         gameSession.onRemoveModifier -= _stat.RemoveModifier;
     }
 
@@ -145,7 +139,20 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
     {
         GameManager.PlayerStatus().IncrementKillCount();
 
-        collectableSpawner.SpawnRandomCollectable(transform.position, Quaternion.identity);
+        collectableSpawner.SpawnRandomCollectables(transform.position, Quaternion.identity);
+    }
+
+    protected virtual void HandleForceKill(bool deathByPlayer)
+    {
+        if (!deathByPlayer)
+        {
+            ProcessDeath();
+        }
+        else
+        {
+            OnKilledByPlayer();
+            ProcessDeath();
+        }
     }
 
     protected virtual void ProcessDeath()

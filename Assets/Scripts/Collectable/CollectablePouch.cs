@@ -13,7 +13,7 @@ public class CollectablePouch : Collectable
 
     public override void Use()
     {
-        Collectable.PickUpAllCollectables();
+        Collectable.PickUpAllGems();
 
         base.Use();
     }

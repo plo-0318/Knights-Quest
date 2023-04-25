@@ -11,7 +11,10 @@ public class MapConfiner : MonoBehaviour
     [SerializeField]
     private BoxCollider2D spawnAreaCollider;
 
-    private void Awake() { }
+    private void Awake()
+    {
+        GameManager.RegisterMapConfiner(this);
+    }
 
     private void Start()
     {
@@ -21,8 +24,6 @@ public class MapConfiner : MonoBehaviour
         {
             cd.Confine(cameraConfinerCollider);
         }
-
-        GameManager.RegisterMapConfiner(this);
     }
 
     public bool InsideMap(Vector2 position)

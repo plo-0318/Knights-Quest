@@ -14,7 +14,10 @@ public class SpawnEnemyTest : MonoBehaviour
         var gs = GameManager.GameSession();
 
         startGameButton.onClick.AddListener(gs.StartGame);
-        killAllEnemiesButton.onClick.AddListener(gs.KillAllEnemies);
+        killAllEnemiesButton.onClick.AddListener(() =>
+        {
+            gs.KillAllEnemies(false);
+        });
         toggleSpawnButton.onClick.AddListener(gs.TEST_ToggleSpawn);
     }
 }

@@ -9,10 +9,12 @@ public class BossBorder
     private static GameObject bossBorder;
 
     private Tilemap tileMap;
-    private float minXCor, minYCor, maxXCor, maxYCor;
+    private float minXCor,
+        minYCor,
+        maxXCor,
+        maxYCor;
 
     private static BossBorder instance;
-
 
     //Checks for one instance
     public static BossBorder Instance
@@ -52,11 +54,42 @@ public class BossBorder
 
     public static void Spawn()
     {
+        if (bossBorder != null)
+        {
+            Remove();
+        }
+
         Transform player = GameManager.PlayerMovement().transform;
 
         Vector3 spawnPos = Instance.GetClampedPosition(player);
 
         bossBorder = GameObject.Instantiate(bossBorderPrefab, spawnPos, Quaternion.identity);
+
+        TeleportPlayerIntoBossBorder();
+    }
+
+    private static void TeleportPlayerIntoBossBorder()
+    {
+        if (bossBorder == null)
+        {
+            return;
+        }
+
+        Transform player = GameManager.PlayerMovement().transform;
+
+        float radius = bossBorder.GetComponent<InvertedCircleCollider2D>().radius;
+
+        bool playerInBossBorder =
+            Vector2.Distance(player.position, bossBorder.transform.position) < radius;
+
+        if (playerInBossBorder)
+        {
+            return;
+        }
+
+        Vector3 newPos = bossBorder.transform.position - new Vector3(0, 6f, 0);
+
+        player.transform.position = newPos;
     }
 
     private Vector3 GetClampedPosition(Transform player)
@@ -69,7 +102,6 @@ public class BossBorder
         float safeMaxX = maxXCor - distanceThreshold;
         float safeMinY = minYCor + distanceThreshold;
         float safeMaxY = maxYCor - distanceThreshold;
-
 
         //Get the player position to make it easier to write code
         float playerPosX = player.transform.position.x;
@@ -93,20 +125,36 @@ public class BossBorder
         //SpawnMaxX/MinX && SpawnMinY/MaxY are used to get the max and mins of the tilemap
         //borderInMap moves the border around to fit into the map perfectly
         if (nearTopEdge && nearRightEdge)
-        {   
-            spawnPos = new Vector3(safeMaxX - borderInMap, safeMaxY - borderInMap, player.position.z);
+        {
+            spawnPos = new Vector3(
+                safeMaxX - borderInMap,
+                safeMaxY - borderInMap,
+                player.position.z
+            );
         }
         else if (nearBottomEdge && nearLeftEdge)
         {
-            spawnPos = new Vector3(safeMinX + borderInMap, safeMinY + borderInMap, player.position.z);
+            spawnPos = new Vector3(
+                safeMinX + borderInMap,
+                safeMinY + borderInMap,
+                player.position.z
+            );
         }
         else if (nearBottomEdge && nearRightEdge)
         {
-            spawnPos = new Vector3(safeMaxX - borderInMap, safeMinY + borderInMap, player.position.z);
+            spawnPos = new Vector3(
+                safeMaxX - borderInMap,
+                safeMinY + borderInMap,
+                player.position.z
+            );
         }
         else if (nearTopEdge && nearLeftEdge)
         {
-            spawnPos = new Vector3(safeMinX + borderInMap, safeMaxY - borderInMap, player.position.z);
+            spawnPos = new Vector3(
+                safeMinX + borderInMap,
+                safeMaxY - borderInMap,
+                player.position.z
+            );
         }
         else if (nearLeftEdge)
         {
@@ -132,6 +180,27 @@ public class BossBorder
         return spawnPos;
     }
 
+    private static IEnumerator BossBorderFadeOut()
+    {
+        var main = bossBorder.GetComponentInChildren<ParticleSystem>().main;
+
+        main.startColor = new Color(
+            main.startColor.color.r,
+            main.startColor.color.g,
+            main.startColor.color.b,
+            0
+        );
+
+        yield return new WaitForSeconds(3f);
+
+        Remove();
+    }
+
+    public static void FadeOutAndRemove()
+    {
+        GameManager.GameSession().StartCoroutine(BossBorderFadeOut());
+    }
+
     public static void Remove()
     {
         if (bossBorder == null)
@@ -140,5 +209,10 @@ public class BossBorder
         }
 
         GameObject.Destroy(bossBorder);
+    }
+
+    public static Vector3 BossBorderPos()
+    {
+        return bossBorder == null ? Vector3.zero : bossBorder.transform.position;
     }
 }

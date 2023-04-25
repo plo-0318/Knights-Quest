@@ -171,7 +171,7 @@ public class SkillSword : Skill
             GameObject spanwedSwordWave = SpawnPrefab(
                 spawnAngle,
                 swordWavePrefab,
-                GameManager.PlayerMovement().transform
+                GameManager.GameSession().skillParent
             );
 
             Vector2 direction = new Vector2(

@@ -13,7 +13,10 @@ public class CollectablePotion : Collectable
 
     public override void Use()
     {
-        //TODO: USE LOGIC HERE
+        PlayerStatus ps = GameManager.PlayerStatus();
+        float maxHealth = ps.GetStat(Stat.MAX_HEALTH);
+
+        ps.Heal(maxHealth * 0.3f);
 
         base.Use();
     }

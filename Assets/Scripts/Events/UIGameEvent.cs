@@ -46,6 +46,13 @@ public abstract class UIGameEvent : MonoBehaviour
         StartCoroutine(Popup());
     }
 
+    public void PlayEvent(Action e)
+    {
+        AddFinishEventHandler(e);
+
+        StartCoroutine(Popup());
+    }
+
     protected abstract void StartEvent();
 
     protected virtual void EndEvent()
@@ -56,6 +63,11 @@ public abstract class UIGameEvent : MonoBehaviour
 
     public void AddFinishEventHandler(Action e)
     {
+        if (finishEventHandlers.Contains(e))
+        {
+            return;
+        }
+
         onEventFinish += e;
         finishEventHandlers.Add(e);
     }

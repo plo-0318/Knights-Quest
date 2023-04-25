@@ -56,8 +56,6 @@ public class AnimationUtil
         Vector3 offset = new Vector3(0.15f * sign, 0.28f, 0f);
         Vector3 endPos = offset + trans.position;
 
-        Debug.Log(offset.x + "," + offset.y);
-
         Quaternion startRotation = trans.localRotation;
         Quaternion endRotation = Quaternion.Euler(0f, 0f, 15f * sign * -1);
 

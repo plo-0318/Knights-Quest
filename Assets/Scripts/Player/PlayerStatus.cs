@@ -549,7 +549,7 @@ public class PlayerStatus : MonoBehaviour
 
         levelUps--;
 
-        if (levelUps > 0)
+        if (levelUps > 0 && !isDead)
         {
             gameSession.ResumeGame();
             yield return new WaitForSeconds(0.5f);

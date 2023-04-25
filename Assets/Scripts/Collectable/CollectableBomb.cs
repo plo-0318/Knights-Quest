@@ -2,18 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectableShield : Collectable
+public class CollectableBomb : Collectable
 {
     protected override void Start()
     {
         base.Start();
 
-        pickupSFX = soundManager.audioRefs.sfxPickupShield;
+        pickupSFX = soundManager.audioRefs.sfxPickupBomb;
     }
 
     public override void Use()
     {
-        //TODO: USE LOGIC HERE
+        GameManager.GameSession().KillAllEnemies(true);
 
         base.Use();
     }

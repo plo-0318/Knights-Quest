@@ -23,11 +23,26 @@ MonoBehaviour:
     levelEnemies:
     - enemy: {fileID: 4549619414186141260, guid: e69252669040b8b4fa65a80fd79a5e70, type: 3}
       proportion: 10
-    - enemy: {fileID: 5905434527080988604, guid: 15895b29c9451de41b348680a992494f, type: 3}
+    - enemy: {fileID: 3375239210774497508, guid: 5c63df86ab74b1e4a905517a7cf8a09a, type: 3}
       proportion: 1
+    - enemy: {fileID: 3493714190664849845, guid: a72ea4aa0b776494fbbc940cf19d3a23, type: 3}
+      proportion: 3
   - spawnDuration: 90
     levelEnemies:
-    - enemy: {fileID: 5905434527080988604, guid: 15895b29c9451de41b348680a992494f, type: 3}
-      proportion: 1
+    - enemy: {fileID: 3375239210774497508, guid: 5c63df86ab74b1e4a905517a7cf8a09a, type: 3}
+      proportion: 4
+    - enemy: {fileID: 4549619414186141260, guid: e69252669040b8b4fa65a80fd79a5e70, type: 3}
+      proportion: 2
+    - enemy: {fileID: 3493714190664849845, guid: a72ea4aa0b776494fbbc940cf19d3a23, type: 3}
+      proportion: 2
   enemyModifiers: []
-  bosses: []
+  bosses:
+  - {fileID: 3265954086334205709, guid: 71936f44da94f6747b129b7b2ada5853, type: 3}
+  - {fileID: 3265954086334205709, guid: 71936f44da94f6747b129b7b2ada5853, type: 3}
+  - {fileID: 3265954086334205709, guid: 71936f44da94f6747b129b7b2ada5853, type: 3}
+  eliteEnemies:
+  - {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
+  - {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
+  - {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
+  - {fileID: 7254005985922067701, guid: c3d78cb3abf2b8b459851677516b5a93, type: 3}
+  - {fileID: 7254005985922067701, guid: c3d78cb3abf2b8b459851677516b5a93, type: 3}

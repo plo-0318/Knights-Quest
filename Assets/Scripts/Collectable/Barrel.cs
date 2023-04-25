@@ -30,23 +30,18 @@ public class Barrel : MonoBehaviour
         }
 
         // It is a skill, add logic for breaking the chest
-        // Hammer hammer = other.GetComponent<Hammer>();
-        // Sword sword = other.GetComponent<Sword>();
-        // Dagger dagger = other.GetComponent<Dagger>();
-        // if (hammer != null || sword != null || dagger != null)
-        // {
-        //     anim.SetTrigger("Destroy");
-        //     StartCoroutine(SpawnCollectableAfterAnimation(0.4f));
-        // }
-
         anim.SetTrigger("Destroy");
+
+        SoundManager soundManager = GameManager.SoundManager();
+        soundManager.PlayClip(soundManager.audioRefs.sfxBarrelBreak);
+
         StartCoroutine(SpawnCollectableAfterAnimation(0.4f));
     }
 
     private IEnumerator SpawnCollectableAfterAnimation(float delay)
     {
         yield return new WaitForSeconds(delay);
-        collectableSpawner.SpawnRandomCollectable(transform.position, Quaternion.identity);
+        collectableSpawner.SpawnRandomCollectables(transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

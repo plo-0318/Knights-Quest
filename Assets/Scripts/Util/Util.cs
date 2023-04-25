@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class Util
 {
@@ -89,5 +90,40 @@ public class Util
         timerStr += seconds.ToString();
 
         return timerStr;
+    }
+
+    public static Vector3[] GeneratePosOffsets(int numPos, float radius)
+    {
+        float degreeBetweenPos = 360f / numPos;
+        float currentDeg = 0;
+
+        List<Vector3> pos = new List<Vector3>();
+
+        for (int i = 0; i < numPos; i++)
+        {
+            Vector2 posOffset = new Vector2(
+                Mathf.Cos(currentDeg * Mathf.Deg2Rad) * radius,
+                Mathf.Sin(currentDeg * Mathf.Deg2Rad) * radius
+            );
+
+            pos.Add(posOffset);
+
+            currentDeg += degreeBetweenPos;
+        }
+
+        return pos.ToArray();
+    }
+
+    public static void ShuffleList<T>(List<T> list)
+    {
+        System.Random rng = new System.Random();
+
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int j = rng.Next(i + 1);
+            T temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
+        }
     }
 }

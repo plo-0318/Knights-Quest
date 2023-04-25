@@ -5,30 +5,59 @@ using UnityEngine.Tilemaps;
 
 public class CollectableBarrelSpawner : MonoBehaviour
 {
-    public GameObject barrelPref;
-    public Transform player;
-    public float minRadius = 10f;
-    public float maxRadius = 15f;
-    public float interval = 4f;
-    public Tilemap gameMap;
+    private GameObject barrelPref;
+    private Transform player;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private float minRadius = 10f;
+
+    [SerializeField]
+    private float maxRadius = 15f;
+
+    [SerializeField]
+    private float spawnInterval = 25f;
+    private float timer;
+
+    private GameSession gameSession;
+
+    private void Awake()
     {
-        InvokeRepeating(nameof(SpawnBarrel), 0f, interval);
+        barrelPref = Resources.Load<GameObject>("collectables/Barrel");
+
+        timer = 0;
+    }
+
+    private void Start()
+    {
+        player = GameManager.PlayerMovement().transform;
+        gameSession = GameManager.GameSession();
+    }
+
+    private void FixedUpdate()
+    {
+        if (!gameSession.TimerTicking)
+        {
+            return;
+        }
+
+        if (timer >= spawnInterval)
+        {
+            SpawnBarrel();
+            timer = 0;
+        }
+        else
+        {
+            timer += Time.deltaTime;
+        }
     }
 
     private void SpawnBarrel()
     {
-        float radius = Random.Range(minRadius, maxRadius);
-        Vector2 randomDirection = Random.insideUnitCircle.normalized * radius;
-
-        Vector3 spawnPos = createSpawnPos(randomDirection);
+        Vector3 spawnPos = CreateSpawnPos();
 
         if (IsWithinBounds(spawnPos))
         {
-            GameObject spawnedBarrel = Instantiate(barrelPref, spawnPos, Quaternion.identity);
-            CollectableSpawner collectableSpawner = spawnedBarrel.GetComponent<CollectableSpawner>();
+            Instantiate(barrelPref, spawnPos, Quaternion.identity);
         }
         else
         {
@@ -38,17 +67,17 @@ public class CollectableBarrelSpawner : MonoBehaviour
 
     private bool IsWithinBounds(Vector3 position)
     {
-        BoundsInt mapBounds = gameMap.cellBounds;
-        Vector3Int cellPosition = gameMap.WorldToCell(position);
-
-        return mapBounds.Contains(cellPosition);
+        return GameManager.MapConfiner().InsideSpawnArea(position);
     }
 
-    private Vector3 createSpawnPos(Vector2 randomDirection)
+    private Vector3 CreateSpawnPos()
     {
+        float radius = Random.Range(minRadius, maxRadius);
+        Vector2 randomOffset = Random.insideUnitCircle * radius;
+
         Vector3 spawnPos = new Vector3(
-            player.position.x + randomDirection.x,
-            player.position.y + randomDirection.y,
+            player.position.x + randomOffset.x,
+            player.position.y + randomOffset.y,
             player.position.z
         );
 

@@ -11,7 +11,7 @@ public abstract class Collectable : MonoBehaviour
         GEM_ORANGE,
         GEM_RED,
         POTION,
-        SHIELD,
+        BOMB,
         POUCH,
         EMPTY
     }
@@ -115,7 +115,7 @@ public abstract class Collectable : MonoBehaviour
         collectables.Remove(this);
     }
 
-    public static void PickUpAllCollectables()
+    public static void PickUpAllGems()
     {
         Transform absorb = FindObjectOfType<CollectableAbsorb>().transform;
 
@@ -123,7 +123,10 @@ public abstract class Collectable : MonoBehaviour
         {
             foreach (var col in collectables)
             {
-                col.PickUp(absorb);
+                if (col is CollectableGem)
+                {
+                    col.PickUp(absorb);
+                }
             }
         }
     }
@@ -133,6 +136,6 @@ public abstract class Collectable : MonoBehaviour
     public static Collectable GEM_ORANGE => GameManager.GetCollectable(Type.GEM_ORANGE);
     public static Collectable GEM_RED => GameManager.GetCollectable(Type.GEM_RED);
     public static Collectable POTION => GameManager.GetCollectable(Type.POTION);
-    public static Collectable SHIELD => GameManager.GetCollectable(Type.SHIELD);
+    public static Collectable BOMB => GameManager.GetCollectable(Type.BOMB);
     public static Collectable POUCH => GameManager.GetCollectable(Type.POUCH);
 }

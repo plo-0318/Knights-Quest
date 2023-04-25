@@ -14,6 +14,9 @@ public class LevelDetail : ScriptableObject
 
     [Tooltip("The bosses of that will be spawning in this level")]
     public Enemy[] bosses;
+
+    [Tooltip("The elite enemies of that will be spawning in this level")]
+    public Enemy[] eliteEnemies;
 }
 
 [System.Serializable]
@@ -37,65 +40,4 @@ public class LevelEnemy
     )]
     [Range(1, 100)]
     public int proportion = 1;
-}
-
-public static class EnemySpawnUtil
-{
-    private static LevelDetail _levelDetail;
-    private static List<List<Enemy>> enemyLists;
-    private static List<int> enemyIndexes;
-    public delegate Enemy EnemyToSpawn();
-
-    static EnemySpawnUtil()
-    {
-        enemyLists = new List<List<Enemy>>();
-        enemyIndexes = new List<int>();
-    }
-
-    public static void Init(LevelDetail levelDetail)
-    {
-        _levelDetail = levelDetail;
-
-        foreach (LevelEnemyDetail led in _levelDetail.levelEnemyDetails)
-        {
-            List<Enemy> enemiesToSpawn = new List<Enemy>();
-
-            // Adding all the enemies into the enemies to spawn list
-            // Add the enemy n number of times
-            // n: the propotion of the enemy
-            foreach (var levelEnemy in led.levelEnemies)
-            {
-                int count = levelEnemy.proportion;
-                Enemy enemy = levelEnemy.enemy;
-
-                for (int i = 0; i < count; i++)
-                {
-                    enemiesToSpawn.Add(enemy);
-                }
-            }
-
-            enemyIndexes.Add(0);
-            enemyLists.Add(enemiesToSpawn);
-        }
-    }
-
-    public static Enemy NextEnemyToSpawn(int enemyListIndex)
-    {
-        // Get the current enemy list
-        List<Enemy> enemiesToSpawn = enemyLists[enemyListIndex];
-
-        // Get the current enemy index
-        int enemyIndex = enemyIndexes[enemyListIndex];
-
-        // Get the current enemy, and increment the enemy index
-        Enemy enemyToSpawn = enemiesToSpawn[enemyIndex++];
-
-        // If index is out of bound, reset it to 0
-        enemyIndex = enemyIndex >= enemiesToSpawn.Count ? 0 : enemyIndex;
-
-        // Save the index
-        enemyIndexes[enemyListIndex] = enemyIndex;
-
-        return enemyToSpawn;
-    }
 }

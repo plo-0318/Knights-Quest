@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class CollectableSpawner : MonoBehaviour
 {
@@ -20,15 +19,26 @@ public class CollectableSpawner : MonoBehaviour
         public int spawnChance = 1;
     }
 
+    [System.Serializable]
+    private class RandomCollectablesList
+    {
+        [SerializeField]
+        private RandomCollectables[] collectables;
+
+        public RandomCollectables[] Collectables => collectables;
+    }
+
+    private static Vector3[] SpawnPosOffsets = Util.GeneratePosOffsets(8, 0.5f);
+
     [SerializeField]
-    private RandomCollectables[] collectables;
+    private RandomCollectablesList[] collectablesLists;
 
     // Logic example --> green gem (3), blue gem (4), orange gem (6)
     // Store the chances with each adding the previous chance --> [3 + 0 = 3, 4 + 3 = 7, 6 + 7 = 13] --> [3, 7, 13]
     // Calculate total chance --> 3 + 4 + 6 = 13
     // Generate random value between 1 and total chance (inclusive)
     // 1 to 3 --> green gem, 4 to 7 --> blue gem, 8 to 13 --> orange gem
-    private Collectable GetRandomCollectable()
+    private Collectable GetRandomCollectable(RandomCollectables[] collectables)
     {
         if (collectables.Length == 0)
         {
@@ -83,20 +93,45 @@ public class CollectableSpawner : MonoBehaviour
         return null;
     }
 
-    public Collectable SpawnRandomCollectable(Vector3 position, Quaternion quaternion)
+    public void SpawnRandomCollectables(Vector3 position, Quaternion quaternion)
     {
-        Collectable collectableToSpawn = GetRandomCollectable();
+        List<Vector3> offsets;
 
-        if (collectableToSpawn == null)
+        if (collectablesLists.Length == 0)
         {
-            return null;
+            return;
         }
 
-        return Instantiate(
-            collectableToSpawn,
-            position,
-            quaternion,
-            GameManager.GameSession().collectableParent
-        );
+        if (collectablesLists.Length == 1)
+        {
+            offsets = new List<Vector3>();
+        }
+        else
+        {
+            offsets = new List<Vector3>(SpawnPosOffsets);
+            Util.ShuffleList<Vector3>(offsets);
+        }
+
+        offsets.Insert(0, Vector3.zero);
+
+        int offsetIndex = 0;
+
+        foreach (var randomCollectables in collectablesLists)
+        {
+            Collectable collectableToSpawn = GetRandomCollectable(randomCollectables.Collectables);
+            Vector3 spawnPos = position + offsets[offsetIndex];
+
+            if (collectableToSpawn != null)
+            {
+                Instantiate(
+                    collectableToSpawn,
+                    spawnPos,
+                    quaternion,
+                    GameManager.GameSession().collectableParent
+                );
+            }
+
+            offsetIndex = offsetIndex + 1 >= offsets.Count ? 0 : offsetIndex + 1;
+        }
     }
 }

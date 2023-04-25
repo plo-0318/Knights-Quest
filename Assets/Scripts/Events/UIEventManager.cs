@@ -32,31 +32,13 @@ public class UIEventManager : MonoBehaviour
 
         // On game start --> Play start event
         // On start event end --> game session will handle start event handle
-        startEvent.AddFinishEventHandler(gameSession.HandleStartEventEnd);
         gameSession.onGameStart += startEvent.PlayEvent;
 
         // On boss fight --> Play boss event
         // On boss event end --> game session will handle boss spawning
-        bossEvent.AddFinishEventHandler(gameSession.HandleBossEventEnd);
         gameSession.onBossFight += bossEvent.PlayEvent;
 
         // On game lost --> Play game over event
         gameSession.onGameLost += gameOverEvent.PlayEvent;
-    }
-
-    //TODO: DELETE THIS
-    private void TEST_StartEvent()
-    {
-        startEvent.PlayEvent();
-    }
-
-    private void TEST_BossEvent()
-    {
-        bossEvent.PlayEvent();
-    }
-
-    private void TEST_GameOverEvent()
-    {
-        gameOverEvent.PlayEvent();
     }
 }

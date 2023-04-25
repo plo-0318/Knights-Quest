@@ -208,8 +208,8 @@ public class GameManager : MonoBehaviour
             Resources.Load<Collectable>("collectables/items/potion")
         );
         collectablePrefabs.Add(
-            Collectable.Type.SHIELD,
-            Resources.Load<Collectable>("collectables/items/shield")
+            Collectable.Type.BOMB,
+            Resources.Load<Collectable>("collectables/items/bomb")
         );
         collectablePrefabs.Add(
             Collectable.Type.POUCH,

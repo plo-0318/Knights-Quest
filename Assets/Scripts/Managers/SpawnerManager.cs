@@ -68,4 +68,38 @@ public class SpawnerManager : MonoBehaviour
             currentDeg += degBetweenSpawner;
         }
     }
+
+    public void SpawnEliteEnemy()
+    {
+        List<GameObject> tempSpawners = new List<GameObject>(spawners);
+
+        Util.ShuffleList<GameObject>(tempSpawners);
+
+        if (tempSpawners.Count <= 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < tempSpawners.Count; i++)
+        {
+            GameObject spawner = tempSpawners[i];
+
+            if (spawner == null)
+            {
+                return;
+            }
+
+            if (spawner.GetComponent<EnemySpawner>().InsideMap())
+            {
+                Instantiate(
+                    EnemySpawnUtil.NextEliteEnemyToSpawn(),
+                    spawner.transform.position,
+                    Quaternion.identity,
+                    GameManager.GameSession().enemyParent
+                );
+
+                return;
+            }
+        }
+    }
 }

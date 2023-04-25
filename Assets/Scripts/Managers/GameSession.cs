@@ -15,11 +15,13 @@ public class GameSession : MonoBehaviour
     private SpawnerManager spawnerManager;
     private PlayerStatus playerStatus;
     private SoundManager soundManager;
+    private float bossBorderFadeOutTime = 3f;
 
     //////////////////// GAME STATE ////////////////////
     private bool tickTimer;
     private bool gameStarted;
     private bool gamePaused;
+    private bool lastBossFight;
 
     /////////////////////////////////////////////////////
 
@@ -34,12 +36,11 @@ public class GameSession : MonoBehaviour
 
 
     ////////////////// SPAWNING ENEMY //////////////////
-    private int bossIndex;
     private int maxEnemyPerWave = 5;
     private int maxEnemyTotal = 10;
     private float timeBetweenWaves = 15f;
     public event Action<EnemySpawnUtil.EnemyToSpawn, Modifier[]> onSpawnEnemy;
-    public event Action onKillAllEnemies;
+    public event Action<bool> onKillAllEnemies;
     public event Action<Modifier> onRemoveModifier;
     private HashSet<Enemy> enemyRefs;
 
@@ -52,9 +53,10 @@ public class GameSession : MonoBehaviour
     /////////////////////////////////////////////////////
 
     ////////////////// GAME EVENTS //////////////////
-    public event Action onGameStart;
+    public event Action<Action> onGameStart;
     public event Action onGameLost;
-    public event Action onBossFight;
+    public event Action onGameWon;
+    public event Action<Action> onBossFight;
     private TimedEvents timedEvents;
 
     /////////////////////////////////////////////////////
@@ -84,7 +86,8 @@ public class GameSession : MonoBehaviour
         gameStarted = false;
         gamePaused = false;
 
-        bossIndex = 0;
+        lastBossFight = false;
+
         spawnWaveTimer = timeBetweenWaves;
         enemyRefs = new HashSet<Enemy>();
         canSpawnEnemy = false;
@@ -176,11 +179,11 @@ public class GameSession : MonoBehaviour
 
         soundManager.PlayMusic(soundManager.GetRandomActionClip());
 
-        onGameStart?.Invoke();
+        onGameStart?.Invoke(OnStartEventEnd);
         gameStarted = true;
     }
 
-    public void HandleStartEventEnd()
+    private void OnStartEventEnd()
     {
         canSpawnEnemy = true;
         tickTimer = true;
@@ -219,36 +222,57 @@ public class GameSession : MonoBehaviour
         onGameLost?.Invoke();
     }
 
+    public void HandleGameWon()
+    {
+        canSpawnEnemy = false;
+        tickTimer = false;
+
+        //TODO: Delete this log
+        Debug.Log("woot game won boi");
+
+        onGameWon?.Invoke();
+    }
+
     public void HandleBossFight()
     {
         tickTimer = false;
         canSpawnEnemy = false;
-        KillAllEnemies();
+        KillAllEnemies(false);
 
         // TODO: display boss ui?
 
-        onBossFight?.Invoke();
+        BossBorder.Spawn();
+
+        onBossFight?.Invoke(OnBossEventEnd);
     }
 
-    public void HandleBossEventEnd()
+    public void OnBossEventEnd()
     {
+        soundManager.PlayMusic(soundManager.audioRefs.musicBoss);
         SpawnBoss();
     }
 
     private IEnumerator ResumeGameAfterBossDeath(float delay)
     {
-        //TODO: delete this log
-        Debug.Log("boss fight end");
-
         yield return new WaitForSeconds(delay);
 
-        tickTimer = true;
-        canSpawnEnemy = true;
+        if (lastBossFight)
+        {
+            HandleGameWon();
+        }
+        else
+        {
+            soundManager.PlayMusic(soundManager.GetRandomActionClip());
+
+            tickTimer = true;
+            canSpawnEnemy = true;
+        }
     }
 
     public void HandleBossFightEnd()
     {
-        StartCoroutine(ResumeGameAfterBossDeath(3f));
+        BossBorder.FadeOutAndRemove();
+        StartCoroutine(ResumeGameAfterBossDeath(bossBorderFadeOutTime));
     }
 
     private Action GenerateEnemySpawnAction(int maxEnemyPerWave, int maxEnemyTotal, int numSpawners)
@@ -267,11 +291,25 @@ public class GameSession : MonoBehaviour
 
         timedEvents.AddTimedEvent(30, GenerateEnemySpawnAction(10, 20, 8));
         timedEvents.AddTimedEvent(60, GenerateEnemySpawnAction(15, 30, 10));
+        timedEvents.AddTimedEvent(61, GameManager.SpawnerManager().SpawnEliteEnemy);
         timedEvents.AddTimedEvent(90, GenerateEnemySpawnAction(20, 35, 11));
         timedEvents.AddTimedEvent(120, HandleBossFight);
+        timedEvents.AddTimedEvent(121, GameManager.SpawnerManager().SpawnEliteEnemy);
+        timedEvents.AddTimedEvent(181, GameManager.SpawnerManager().SpawnEliteEnemy);
+        timedEvents.AddTimedEvent(240, HandleBossFight);
+        timedEvents.AddTimedEvent(241, GameManager.SpawnerManager().SpawnEliteEnemy);
+        timedEvents.AddTimedEvent(301, GameManager.SpawnerManager().SpawnEliteEnemy);
+        timedEvents.AddTimedEvent(
+            360,
+            () =>
+            {
+                HandleBossFight();
+                lastBossFight = true;
+            }
+        );
     }
 
-    public void ExecTimedEvents()
+    private void ExecTimedEvents()
     {
         if (timedEvents.Empty())
         {
@@ -292,9 +330,9 @@ public class GameSession : MonoBehaviour
     ////////////////////////// ENEMIES //////////////////////////
     private void SpawnBoss()
     {
-        // Enemy bossToSpawn = levelDetail.bosses[bossIndex++];
-        // TODO: delete this log
-        Debug.Log("spawnning boss...");
+        Enemy bossToSpawn = EnemySpawnUtil.NextBossEnemyToSpawn();
+
+        Instantiate(bossToSpawn, BossBorder.BossBorderPos(), Quaternion.identity, enemyParent);
     }
 
     private void SpawnEnemy()
@@ -353,9 +391,9 @@ public class GameSession : MonoBehaviour
         enemyRefs.Remove(enemy);
     }
 
-    public void KillAllEnemies()
+    public void KillAllEnemies(bool deathByPlayer)
     {
-        onKillAllEnemies?.Invoke();
+        onKillAllEnemies?.Invoke(deathByPlayer);
     }
 
     public void RemoveModifierFromAllEnemies(Modifier mod)
@@ -429,6 +467,7 @@ public class GameSession : MonoBehaviour
 
     //////////////////////// STATE GETTERS ////////////////////////
     public bool GamePaused => gamePaused;
+    public bool TimerTicking => tickTimer;
 
     ////////////////////////// //////// //////////////////////////
 
@@ -543,6 +582,6 @@ public class GameSession : MonoBehaviour
 
     public void TEST_PickupAllCollectables()
     {
-        Collectable.PickUpAllCollectables();
+        Collectable.PickUpAllGems();
     }
 }

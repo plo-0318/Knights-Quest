@@ -33,9 +33,11 @@ public class AudioReferences : ScriptableObject
 
     [Header("SFX Collectable")]
     public AudioClip sfxPickupGem;
+    public AudioClip sfxPickupBomb;
     public AudioClip sfxPickupPotion;
     public AudioClip sfxPickupShield;
     public AudioClip sfxPickupPouch;
+    public AudioClip sfxBarrelBreak;
 
     [Header("SFX Skill")]
     public AudioClip sfxDaggerUse;
