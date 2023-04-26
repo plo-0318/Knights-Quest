@@ -71,7 +71,7 @@ public class SkillBolt : Skill
         if (level == 3)
         {
             damage = BASE_DAMAGE * 1.5f;
-            cooldownTime -= 0.3f;
+            cooldownTime -= 0.1f;
         }
 
         if (level == 4)
@@ -83,7 +83,7 @@ public class SkillBolt : Skill
         if (level == 5)
         {
             damage = BASE_DAMAGE * 2f;
-            cooldownTime -= 0.4f;
+            cooldownTime -= 0.1f;
         }
     }
 

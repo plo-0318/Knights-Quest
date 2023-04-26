@@ -11,10 +11,13 @@ public class Fireball : MonoBehaviour
 
     private float destroyTimer;
     private GameObject explosionPrefab;
+    private GameObject fieldPrefab;
 
     private void Awake()
     {
         targetEnemy = null;
+        explosionPrefab = null;
+        fieldPrefab = null;
     }
 
     private void Start()
@@ -55,7 +58,8 @@ public class Fireball : MonoBehaviour
         float speed,
         Enemy target,
         Vector2 targetPos,
-        GameObject explosionPrefab
+        GameObject explosionPrefab,
+        GameObject fieldPrefab = null
     )
     {
         this.damage = damage;
@@ -63,6 +67,7 @@ public class Fireball : MonoBehaviour
         this.targetEnemy = target;
         this.targetPos = targetPos;
         this.explosionPrefab = explosionPrefab;
+        this.fieldPrefab = fieldPrefab;
     }
 
     private Vector3 CalculateTargetPos()
@@ -97,6 +102,6 @@ public class Fireball : MonoBehaviour
             )
             .GetComponent<FireballExplosion>();
 
-        spawnedExplosion.Init(damage);
+        spawnedExplosion.Init(damage, fieldPrefab);
     }
 }

@@ -16,7 +16,7 @@ public class UIBossEvent : UIGameEvent
         base.Awake();
 
         bossText.text = "Boss";
-        eventDuration = 5f;
+        eventDuration = 3f;
     }
 
     protected override void StartEvent()

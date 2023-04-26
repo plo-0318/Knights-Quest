@@ -46,14 +46,14 @@ TagManager:
   - name: Background
     uniqueID: 2091767323
     locked: 0
-  - name: Icon
-    uniqueID: 2354842137
-    locked: 0
   - name: Destructable
     uniqueID: 2057070975
     locked: 0
   - name: SkillBelowEnemy
     uniqueID: 272368585
+    locked: 0
+  - name: Icon
+    uniqueID: 2354842137
     locked: 0
   - name: Enemy
     uniqueID: 385439543

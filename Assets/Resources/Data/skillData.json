@@ -79,7 +79,7 @@
       "lv3Effect": "lv3 effect",
       "lv4Effect": "lv4 effect",
       "lv5Effect": "lv5 effec5",
-      "damage": 150.0,
+      "damage": 250.0,
       "cooldown": 3.0,
       "iconPath": "skill icons/hammers",
       "iconSubName": "hammers_35"
@@ -94,7 +94,7 @@
       "lv4Effect": "lv4 effect",
       "lv5Effect": "lv5 effec5",
       "damage": 150.0,
-      "cooldown": 1.5,
+      "cooldown": 1,
       "iconPath": "skill icons/bolt",
       "iconSubName": ""
     },

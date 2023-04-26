@@ -21,7 +21,7 @@ MonoBehaviour:
   lv3Effect: lv3 effect
   lv4Effect: lv4 effect
   lv5Effect: lv5 effect
-  damage: 150
+  damage: 250
   cooldown: 3
   iconPath: skill icons/hammers
   iconSubName: hammers_35

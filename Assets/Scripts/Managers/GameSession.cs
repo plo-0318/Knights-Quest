@@ -138,7 +138,7 @@ public class GameSession : MonoBehaviour
     private void OnDestroy() { }
 
     ////////////////////////// HELPERS //////////////////////////
-    public float Timer => timer;
+    public float CurrentTime => timer;
 
     private void TickTimer()
     {
@@ -330,9 +330,11 @@ public class GameSession : MonoBehaviour
     ////////////////////////// ENEMIES //////////////////////////
     private void SpawnBoss()
     {
-        Enemy bossToSpawn = EnemySpawnUtil.NextBossEnemyToSpawn();
+        // Enemy bossToSpawn = EnemySpawnUtil.NextBossEnemyToSpawn();
 
-        Instantiate(bossToSpawn, BossBorder.BossBorderPos(), Quaternion.identity, enemyParent);
+        // Instantiate(bossToSpawn, BossBorder.BossBorderPos(), Quaternion.identity, enemyParent);
+
+        EnemySpawnUtil.SpawnBossAt(BossBorder.BossBorderPos(), 3f);
     }
 
     private void SpawnEnemy()

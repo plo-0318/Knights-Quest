@@ -22,7 +22,7 @@ MonoBehaviour:
   lv4Effect: lv4 effect
   lv5Effect: lv5 effect
   damage: 150
-  cooldown: 1.5
+  cooldown: 1
   iconPath: skill icons/bolt
   iconSubName: 
   sprite: {fileID: 21300000, guid: 21cf153dc3f1ff54aa9dff159d60a088, type: 3}

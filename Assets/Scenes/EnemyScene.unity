@@ -849,7 +849,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1940125159
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -7639,6 +7639,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 434278057}
     m_Modifications:
+    - target: {fileID: 6356280227500024681, guid: 1ec5a48721cf8624794c8edd55b43ab5, type: 3}
+      propertyPath: baseHealth
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 6356280227500024682, guid: 1ec5a48721cf8624794c8edd55b43ab5, type: 3}
       propertyPath: m_Name
       value: blue monster
@@ -8152,7 +8156,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1940125159
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -4170389228313332010, guid: eee37fcb37eadfb448fc62ff3b9b7853, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -8679,7 +8683,7 @@ RectTransform:
   - {fileID: 2133069670}
   - {fileID: 1105248498}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -13955,7 +13959,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1960021721736766027
 MonoBehaviour:
@@ -13998,7 +14002,7 @@ Transform:
   m_Children:
   - {fileID: 2716656463022895102}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2716656462903116384
 MonoBehaviour:
@@ -14319,7 +14323,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4599210843773511168, guid: bc416ec2c6c55464987f68bfd5b8e216, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4599210843773511168, guid: bc416ec2c6c55464987f68bfd5b8e216, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14364,10 +14368,6 @@ PrefabInstance:
     - target: {fileID: 4599210843773511230, guid: bc416ec2c6c55464987f68bfd5b8e216, type: 3}
       propertyPath: m_Name
       value: Skill Test Manager (TEST)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4599210843773511230, guid: bc416ec2c6c55464987f68bfd5b8e216, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc416ec2c6c55464987f68bfd5b8e216, type: 3}
@@ -14458,7 +14458,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1940125159
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -4170389228313332010, guid: eee37fcb37eadfb448fc62ff3b9b7853, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -14676,7 +14676,7 @@ Transform:
   m_Children:
   - {fileID: 4576536088117772515}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4576536089522549175
 MonoBehaviour:
@@ -14783,7 +14783,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1940125159
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
@@ -15730,7 +15730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7151880711739845110, guid: c8e7a0e285264ac43bf8ae3b804577d0, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7151880711739845110, guid: c8e7a0e285264ac43bf8ae3b804577d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -37496,7 +37496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1106204966269948307, guid: 7a0d67f567f73fc429d0ea5d64e3ebbe, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1106204966269948307, guid: 7a0d67f567f73fc429d0ea5d64e3ebbe, type: 3}
       propertyPath: m_LocalPosition.x
@@ -37667,7 +37667,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1900491658490291440, guid: 17fc83ccf1ddf2944b3db08085e56266, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1900491658490291440, guid: 17fc83ccf1ddf2944b3db08085e56266, type: 3}
       propertyPath: m_LocalPosition.x

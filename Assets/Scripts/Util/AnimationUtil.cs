@@ -81,4 +81,33 @@ public class AnimationUtil
         trans.position = endPos;
         trans.localRotation = endRotation;
     }
+
+    public static IEnumerator BlinkSprite(
+        SpriteRenderer sprite,
+        float duration,
+        float oscillationSpeed = 6f
+    )
+    {
+        // Blink
+        float currentTime = 0;
+
+        Color originalColor = new Color(
+            sprite.color.r,
+            sprite.color.g,
+            sprite.color.b,
+            sprite.color.a
+        );
+
+        while (currentTime < duration)
+        {
+            var alpha = Mathf.PingPong(Time.time * oscillationSpeed, originalColor.a);
+
+            sprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        sprite.color = originalColor;
+    }
 }

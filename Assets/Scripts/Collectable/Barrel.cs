@@ -10,11 +10,14 @@ public class Barrel : MonoBehaviour
     [SerializeField]
     private Transform point1,
         point2;
+    private bool destroyed;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         collectableSpawner = GetComponent<CollectableSpawner>();
+
+        destroyed = false;
     }
 
     private bool Broken()
@@ -24,10 +27,12 @@ public class Barrel : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<PlayerMovement>() != null)
+        if (destroyed || other.GetComponent<PlayerMovement>() != null)
         {
             return;
         }
+
+        destroyed = true;
 
         // It is a skill, add logic for breaking the chest
         anim.SetTrigger("Destroy");

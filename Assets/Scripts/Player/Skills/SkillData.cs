@@ -124,6 +124,8 @@ public class SkillData : ScriptableObject
                 return new SkillCrystal();
             case "shield":
                 return new SkillShield();
+            case "consumablePotion":
+                return new SkillConsumablePotion();
             default:
                 return null;
         }

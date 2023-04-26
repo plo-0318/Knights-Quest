@@ -233,31 +233,9 @@ public class PlayerStatus : MonoBehaviour
 
     private IEnumerator RecoverFromInvincible()
     {
-        // yield return new WaitForSeconds(invincibleTime);
-
-        // Blink
-        float currentTime = 0;
-        float oscillationSpeed = 6f;
-
         var sprite = playerMovement.SpriteRender;
-        Color originalColor = new Color(
-            sprite.color.r,
-            sprite.color.g,
-            sprite.color.b,
-            sprite.color.a
-        );
 
-        while (currentTime < invincibleTime)
-        {
-            var alpha = Mathf.PingPong(Time.time * oscillationSpeed, 1f);
-
-            sprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-
-            currentTime += Time.deltaTime;
-            yield return null;
-        }
-
-        sprite.color = originalColor;
+        yield return StartCoroutine(AnimationUtil.BlinkSprite(sprite, invincibleTime));
 
         isInvincible = false;
     }
@@ -281,6 +259,8 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
+    // Return a function that, when skill is clicked in the level up ui
+    // levels up the selected skill
     public UnityAction OnUISkillSelect(Skill skill)
     {
         return () =>

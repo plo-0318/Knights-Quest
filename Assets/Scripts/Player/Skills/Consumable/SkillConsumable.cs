@@ -27,12 +27,13 @@ public class SkillConsumable : Skill
     {
         int rand = Random.Range(1, NUM_SKILL_CONSUMABLES + 1);
 
+        // Not using SHIELD for now
         switch (rand)
         {
             case POTION:
                 return new SkillConsumablePotion();
             case SHIELD:
-                return new SkillConsumableShield();
+                return new SkillConsumablePotion();
             default:
                 return new SkillConsumablePotion();
         }

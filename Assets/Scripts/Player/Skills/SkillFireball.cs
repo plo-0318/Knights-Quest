@@ -6,6 +6,7 @@ public class SkillFireball : Skill
 {
     private GameObject fireballPrefab;
     private GameObject fireballExplosionPrefab;
+    private GameObject fireballFieldPrefab;
     private float cooldownTimer;
     private float cooldownTime;
 
@@ -15,6 +16,7 @@ public class SkillFireball : Skill
     private float damage,
         speed;
     private int numFireball;
+    private bool spawnField = false;
 
     private bool spawning;
     private Vector2 SpawnOffset;
@@ -28,6 +30,7 @@ public class SkillFireball : Skill
         name = "fireball";
         fireballPrefab = Resources.Load<GameObject>(name);
         fireballExplosionPrefab = Resources.Load<GameObject>("fireball explosion");
+        fireballFieldPrefab = Resources.Load<GameObject>("fireball field");
         type = Type.ATTACK;
         level = 1;
 
@@ -40,6 +43,7 @@ public class SkillFireball : Skill
         damage = BASE_DAMAGE;
         speed = 7.5f;
         numFireball = 1;
+        spawnField = false;
 
         SpawnOffset = new Vector2(2f, 4f);
         spawning = false;
@@ -71,6 +75,7 @@ public class SkillFireball : Skill
             damage = BASE_DAMAGE * 2f;
             cooldownTime = BASE_COOLDOWN_TIME - 2f;
             numFireball++;
+            spawnField = true;
         }
     }
 
@@ -125,8 +130,18 @@ public class SkillFireball : Skill
             // Play the fireball use sfx
             soundManager.PlayClip(SFXs[Random.Range(1, SFXs.Count)]);
 
+            // If fireball is lv5, also spawn a burning field after explosion
+            GameObject fieldPrefab = spawnField ? fireballFieldPrefab : null;
+
             // Initialize the fireball
-            spawnedFireball.Init(damage, speed, closestEnemy, targetPos, fireballExplosionPrefab);
+            spawnedFireball.Init(
+                damage,
+                speed,
+                closestEnemy,
+                targetPos,
+                fireballExplosionPrefab,
+                fieldPrefab
+            );
 
             // Decrease the number of fireballs to spawn
             numFireballToSummon--;

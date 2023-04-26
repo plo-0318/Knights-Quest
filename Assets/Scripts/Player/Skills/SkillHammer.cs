@@ -16,7 +16,10 @@ public class SkillHammer : Skill
     private float damage,
         degreeToRotate,
         swingSpeed;
+    private bool hammerPersist;
+    private bool stopSpawning;
 
+    private Transform player;
     private SoundManager soundManager;
     private List<AudioClip> SFXs;
 
@@ -38,7 +41,9 @@ public class SkillHammer : Skill
         damage = BASE_DAMAGE;
         swingSpeed = BASE_SWING_SPEED;
         degreeToRotate = BASE_DEGREE_TO_ROTATE;
+        hammerPersist = stopSpawning = false;
 
+        player = GameManager.PlayerMovement().transform;
         soundManager = GameManager.SoundManager();
         LoadSFX();
     }
@@ -68,11 +73,18 @@ public class SkillHammer : Skill
             cooldownTime = BASE_COOLDOWN_TIME - 1f;
             degreeToRotate = BASE_DEGREE_TO_ROTATE * 1.6f;
             swingSpeed = BASE_SWING_SPEED * 1.25f;
+
+            hammerPersist = true;
         }
     }
 
     public override void Use()
     {
+        if (stopSpawning)
+        {
+            return;
+        }
+
         if (cooldownTimer <= 0)
         {
             Swing();
@@ -87,19 +99,26 @@ public class SkillHammer : Skill
     // Spawn and initialize the hammer
     private void Swing()
     {
-        // float playerPosYOffset = 1.5f;
-        // GameObject hammerObject = SpawnHammer(new Vector2(0, playerPosYOffset), 0f);
-        // Hammer hammer = hammerObject.GetComponent<Hammer>();
-        // hammer.Init(
-        //     damage,
-        //     degreeToRotate,
-        //     swingSpeed,
-        //     false,
-        //     GameManager.PlayerMovement().transform
-        // );
+        if (hammerPersist)
+        {
+            stopSpawning = true;
+            Hammer.RemoveAllSpawnedHammers();
 
-        // Get the normalized angle between the mouse and the player
-        float angle = PlayerDirectionArrow.AngleBetweenMouseAndPlayerNormalized();
+            swingSpeed = BASE_SWING_SPEED;
+            damage = BASE_DAMAGE * 1.6f;
+        }
+
+        // Get the closest enemy positions
+        List<Vector3> closestEnemy = GameManager
+            .GameSession()
+            .closestEnemyPosition(player.position);
+
+        // If there is at least 1 enemy, use the closest enemies position
+        // Else use the mouse position
+        float angle =
+            closestEnemy.Count > 0
+                ? Util.GetNormalizedAngle(player.position, closestEnemy[0])
+                : PlayerDirectionArrow.AngleBetweenMouseAndPlayerNormalized();
 
         // Create variables to store the data
         bool rotateCW = false;
@@ -107,9 +126,9 @@ public class SkillHammer : Skill
 
         Hammer spawnedHammer = SpawnHammer(angle, ref rotateCW, ref zRotation);
 
-        soundManager.PlayClip(SFXs[Random.Range(1, SFXs.Count)]);
+        spawnedHammer.Init(damage, degreeToRotate, zRotation, swingSpeed, rotateCW, hammerPersist);
 
-        spawnedHammer.Init(damage, degreeToRotate, zRotation, swingSpeed, rotateCW);
+        soundManager.PlayClip(SFXs[Random.Range(1, SFXs.Count)]);
     }
 
     private Hammer SpawnHammer(float angle, ref bool rotateCW, ref float zRotation)
@@ -154,59 +173,4 @@ public class SkillHammer : Skill
         SFXs.Add(soundManager.audioRefs.sfxHammerUse1);
         SFXs.Add(soundManager.audioRefs.sfxHammerUse2);
     }
-
-    // private GameObject SpawnHammer(Vector2 offset, float zRotation)
-    // {
-    //     // Get the player position
-    //     Vector2 playerPos = GameManager.PlayerMovement().transform.position;
-
-    //     // Get the mouse position
-    //     Vector2 mousePos = GameManager.PlayerMovement().MousePos;
-
-    //     // Calculate the direction vector from the player to the mouse
-    //     // Vector2 direction = Vector2.Perpendicular(mousePos - playerPos).normalized;
-    //     // direction.Normalize();
-
-    //     // Calculate the direction vector from the player to the mouse, then find the perpendicular vector
-    //     Vector2 initialDirection = (mousePos - playerPos).normalized;
-    //     Vector2 perpendicularDirection = -1 * Vector2.Perpendicular(initialDirection);
-    //     Vector2 direction = Vector2
-    //         .Lerp(initialDirection, perpendicularDirection, lerpFactor)
-    //         .normalized;
-
-    //     // Calculate the spawn position as the player position plus the direction vector scaled by the offset distance
-    //     Vector2 spawnPos = playerPos + direction * offset.magnitude;
-
-    //     // Editing radius of the player
-    //     float playerPosBaseOffset = -.2f;
-    //     playerPos.y += playerPosBaseOffset;
-
-    //     GameObject hammerParent = new GameObject("HammerMovement");
-    //     hammerParent.transform.position = new Vector3(spawnPos.x, spawnPos.y, 0);
-
-    //     // Attaching the hammer parent
-    //     HammerMovement hammerParentScript = hammerParent.AddComponent<HammerMovement>();
-    //     hammerParentScript.SetPlayer(GameManager.PlayerMovement().gameObject);
-
-    //     // Creating the hammer as a child of the parent object
-    //     GameObject spawnedHammer = GameObject.Instantiate(
-    //         hammer,
-    //         Vector3.zero,
-    //         Quaternion.identity,
-    //         hammerParent.transform
-    //     );
-
-    //     // Set the initial rotation of the hammer based on the angle between the direction vector and the x-axis
-    //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-    //     float baseRotation = angle - 90f;
-    //     spawnedHammer.transform.rotation = Quaternion.Euler(0, 0, baseRotation + zRotation + 45);
-
-    //     // Set the local position of the hammer to the offset distance along the direction vector
-    //     spawnedHammer.transform.localPosition = direction * offset.magnitude;
-
-    //     Rigidbody2D rb = spawnedHammer.GetComponent<Rigidbody2D>();
-    //     rb.isKinematic = true;
-
-    //     return spawnedHammer;
-    // }
 }

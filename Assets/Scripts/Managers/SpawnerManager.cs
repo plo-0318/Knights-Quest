@@ -89,14 +89,27 @@ public class SpawnerManager : MonoBehaviour
                 return;
             }
 
+            Enemy enemy = EnemySpawnUtil.NextEliteEnemyToSpawn();
+
+            if (enemy == null)
+            {
+                return;
+            }
+
             if (spawner.GetComponent<EnemySpawner>().InsideMap())
             {
                 Instantiate(
-                    EnemySpawnUtil.NextEliteEnemyToSpawn(),
+                    enemy,
                     spawner.transform.position,
                     Quaternion.identity,
                     GameManager.GameSession().enemyParent
                 );
+
+                //TODO: delete log
+                // Debug.Log(
+                //     "spawning elite at: "
+                //         + Util.GetTimeString(GameManager.GameSession().CurrentTime)
+                // );
 
                 return;
             }

@@ -12,6 +12,8 @@ public static class EnemySpawnUtil
     private static int eliteEnemyIndex;
     private static int bossIndex;
 
+    private static Indicator bossIndicator;
+
     static EnemySpawnUtil()
     {
         enemyLists = new List<List<Enemy>>();
@@ -19,6 +21,8 @@ public static class EnemySpawnUtil
 
         eliteEnemyIndex = 0;
         bossIndex = 0;
+
+        bossIndicator = Resources.Load<Indicator>("Misc/boss indicator");
     }
 
     public static void Init(LevelDetail levelDetail)
@@ -70,6 +74,7 @@ public static class EnemySpawnUtil
 
     public static Enemy NextEliteEnemyToSpawn()
     {
+        //TODO: delete log
         Debug.Log("i: " + eliteEnemyIndex);
 
         if (eliteEnemyIndex >= _levelDetail.eliteEnemies.Length)
@@ -79,6 +84,7 @@ public static class EnemySpawnUtil
 
         Enemy eliteEnemy = _levelDetail.eliteEnemies[eliteEnemyIndex++];
 
+        //TODO: delete log
         Debug.Log(eliteEnemy);
 
         return eliteEnemy;
@@ -94,5 +100,23 @@ public static class EnemySpawnUtil
         Enemy boss = _levelDetail.bosses[bossIndex++];
 
         return boss;
+    }
+
+    public static void SpawnBossAt(Vector3 spawnPos, float blinkDuration)
+    {
+        Indicator indicator = GameObject.Instantiate(bossIndicator, spawnPos, Quaternion.identity);
+
+        indicator.StartBlink(
+            blinkDuration,
+            () =>
+            {
+                GameObject.Instantiate(
+                    NextBossEnemyToSpawn(),
+                    spawnPos,
+                    Quaternion.identity,
+                    GameManager.GameSession().enemyParent
+                );
+            }
+        );
     }
 }

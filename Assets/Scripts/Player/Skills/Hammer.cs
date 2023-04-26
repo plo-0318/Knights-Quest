@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Hammer : MonoBehaviour
 {
+    private static List<GameObject> spawnedHammers = new List<GameObject>();
+
     private Transform hammerHolder;
     private float damage;
     private float swingSpeed;
-    private Transform swingPoint;
 
     [SerializeField]
     GameObject onHitFx;
@@ -17,23 +18,39 @@ public class Hammer : MonoBehaviour
     private float currentRotation;
     private float degreeToRotate;
     private bool rotateClockwise;
+    private bool persist;
     private float elapsedTime;
+
+    public static void RemoveAllSpawnedHammers()
+    {
+        foreach (GameObject spawnedHammer in spawnedHammers)
+        {
+            GameObject.Destroy(spawnedHammer);
+        }
+    }
 
     private void Awake()
     {
         hammerHolder = transform.parent;
+        persist = false;
         elapsedTime = 0.0f;
+
+        spawnedHammers.Add(hammerHolder.gameObject);
     }
 
     private void Update()
     {
-
         Rotate();
+    }
+
+    private void OnDestroy()
+    {
+        spawnedHammers.Remove(hammerHolder.gameObject);
     }
 
     private void Rotate()
     {
-        if (elapsedTime > degreeToRotate)
+        if (!persist && elapsedTime > degreeToRotate)
         {
             Destroy(hammerHolder.gameObject);
         }
@@ -54,25 +71,11 @@ public class Hammer : MonoBehaviour
 
     public void Init(
         float damage,
-        float endRotate,
-        float swingSpeed,
-        bool strike = false,
-        Transform swingPoint = null
-    )
-    {
-        this.damage = damage;
-        this.endRotate = endRotate;
-        this.swingSpeed = swingSpeed;
-        this.swingPoint = swingPoint;
-        elapsedTime = 0f;
-    }
-
-    public void Init(
-        float damage,
         float degreeToRotate,
         float currentRotation,
         float rotateSpeed,
-        bool clockwise
+        bool clockwise,
+        bool persist
     )
     {
         this.damage = damage;
@@ -80,15 +83,7 @@ public class Hammer : MonoBehaviour
         this.currentRotation = currentRotation;
         swingSpeed = rotateSpeed;
         rotateClockwise = clockwise;
-    }
-
-    //Check the parent position
-    private void UpdateParentPosition()
-    {
-        if (swingPoint != null)
-        {
-            transform.parent.position = swingPoint.position;
-        }
+        this.persist = persist;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
