@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb91bdfa59f124797bdb60bdb1596909, type: 3}
+  m_Name: FrostArrow
+  m_EditorClassIdentifier: 
+  name: Frost Arrow
+  level: 1
+  skillIcon: {fileID: 1980507509867917890, guid: b0ac1be2a81b1a643baccd9077f68560, type: 3}
+  description: Fire an arrow that pierces the enemy on the cursor's direction
+  levelUpDescription: '- Damage Increase
+
+    - Arrow Size Increased'
+  maxLevelDescription: Arrow now leaves a trail behind that slows the enemies that
+    pass through it
