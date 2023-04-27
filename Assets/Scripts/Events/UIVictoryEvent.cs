@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIGameOverEvent : UIGameEvent
+public class UIVictoryEvent : UIGameEvent
 {
     [SerializeField]
-    private Button playAgainButton,
-        mainMenuButton;
+    private Button mainMenuButton;
 
     private SoundManager soundManager;
 
@@ -17,10 +16,8 @@ public class UIGameOverEvent : UIGameEvent
 
         popupTime = 0.8f;
 
-        playAgainButton.onClick.AddListener(HandlePlayAgain);
         mainMenuButton.onClick.AddListener(HandleMainMenu);
 
-        playAgainButton.gameObject.SetActive(false);
         mainMenuButton.gameObject.SetActive(false);
     }
 
@@ -28,20 +25,12 @@ public class UIGameOverEvent : UIGameEvent
     {
         soundManager = GameManager.SoundManager();
 
-        playAgainButton.onClick.AddListener(PlayMenuClickSFX);
         mainMenuButton.onClick.AddListener(PlayMenuClickSFX);
     }
 
     protected override void StartEvent()
     {
-        playAgainButton.gameObject.SetActive(true);
         mainMenuButton.gameObject.SetActive(true);
-    }
-
-    private void HandlePlayAgain()
-    {
-        EndEvent();
-        GameManager.ReloadScene(true, 0.5f);
     }
 
     private void PlayMenuClickSFX()

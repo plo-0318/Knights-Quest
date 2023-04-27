@@ -21,6 +21,7 @@ public class GameSession : MonoBehaviour
     private bool tickTimer;
     private bool gameStarted;
     private bool gamePaused;
+    private bool gameOver;
     private bool lastBossFight;
 
     /////////////////////////////////////////////////////
@@ -215,6 +216,7 @@ public class GameSession : MonoBehaviour
     {
         canSpawnEnemy = false;
         tickTimer = false;
+        gameOver = true;
 
         soundManager.PlayClip(soundManager.audioRefs.sfxDefeat);
         soundManager.PlayMusic(soundManager.audioRefs.musicGameOver);
@@ -226,9 +228,10 @@ public class GameSession : MonoBehaviour
     {
         canSpawnEnemy = false;
         tickTimer = false;
+        gameOver = true;
 
-        //TODO: Delete this log
-        Debug.Log("woot game won boi");
+        soundManager.PlayClip(soundManager.audioRefs.sfxVictory);
+        soundManager.PlayMusic(soundManager.audioRefs.musicGameOver);
 
         onGameWon?.Invoke();
     }
@@ -468,8 +471,9 @@ public class GameSession : MonoBehaviour
     ////////////////////////// //////// //////////////////////////
 
     //////////////////////// STATE GETTERS ////////////////////////
-    public bool GamePaused => gamePaused;
+    public bool IsGamePaused => gamePaused;
     public bool TimerTicking => tickTimer;
+    public bool IsGameOver => gameOver;
 
     ////////////////////////// //////// //////////////////////////
 

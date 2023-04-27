@@ -83,7 +83,7 @@ public class PlayerStatus : MonoBehaviour
 
     private void Update()
     {
-        if (isDead || gameSession.GamePaused)
+        if (isDead || gameSession.IsGamePaused || gameSession.IsGameOver)
         {
             return;
         }
@@ -570,9 +570,21 @@ public class PlayerStatus : MonoBehaviour
         GameManager.GameSession().HandleGameLost();
     }
 
-    public float Level => _stat.level;
+    public SkillData[] GetSkillDatum()
+    {
+        List<SkillData> skillDatum = new List<SkillData>();
+
+        foreach (string skillName in skills.Keys)
+        {
+            skillDatum.Add(GameManager.GetSkillData(skillName));
+        }
+
+        return skillDatum.ToArray();
+    }
+
+    public int Level => _stat.level;
     public float Exp => _stat.exp;
-    public float KillCount => _stat.killCount;
+    public int KillCount => _stat.killCount;
     public float Health => _stat.health;
     public bool IsDead => isDead;
 

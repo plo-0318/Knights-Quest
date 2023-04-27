@@ -13,6 +13,9 @@ public class UIEventManager : MonoBehaviour
     [SerializeField]
     private UIGameEvent gameOverEvent;
 
+    [SerializeField]
+    private UIGameEvent victoryEvent;
+
     private void Awake()
     {
         InitEvents();
@@ -40,5 +43,8 @@ public class UIEventManager : MonoBehaviour
 
         // On game lost --> Play game over event
         gameSession.onGameLost += gameOverEvent.PlayEvent;
+
+        // On game won --> Play victory event
+        gameSession.onGameWon += victoryEvent.PlayEvent;
     }
 }

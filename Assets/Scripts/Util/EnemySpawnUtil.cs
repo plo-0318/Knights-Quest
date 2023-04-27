@@ -11,6 +11,7 @@ public static class EnemySpawnUtil
 
     private static int eliteEnemyIndex;
     private static int bossIndex;
+    private static Enemy currentBoss;
 
     private static Indicator bossIndicator;
 
@@ -21,6 +22,8 @@ public static class EnemySpawnUtil
 
         eliteEnemyIndex = 0;
         bossIndex = 0;
+
+        currentBoss = null;
 
         bossIndicator = Resources.Load<Indicator>("Misc/boss indicator");
     }
@@ -110,7 +113,7 @@ public static class EnemySpawnUtil
             blinkDuration,
             () =>
             {
-                GameObject.Instantiate(
+                currentBoss = GameObject.Instantiate(
                     NextBossEnemyToSpawn(),
                     spawnPos,
                     Quaternion.identity,
@@ -119,4 +122,6 @@ public static class EnemySpawnUtil
             }
         );
     }
+
+    public static Enemy CurrentBoss => currentBoss;
 }

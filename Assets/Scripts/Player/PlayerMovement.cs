@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
         canMove = true;
 
         GameManager.GameSession().onGameLost += HandlePlayerDeath;
+        GameManager.GameSession().onGameWon += HandlePlayerDeath;
     }
 
     private void Update() { }
@@ -65,6 +66,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     private void OnDestroy()
     {
         GameManager.GameSession().onGameLost -= HandlePlayerDeath;
+        GameManager.GameSession().onGameWon -= HandlePlayerDeath;
     }
 
     private void Move()
@@ -120,6 +122,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
     private void HandlePlayerDeath()
     {
+        rb.velocity = Vector2.zero;
         canMove = false;
         playerCollider.enabled = false;
     }

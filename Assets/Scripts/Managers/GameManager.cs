@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager gameManager;
+
+    // LOADING SCREEN
+    private static LoadingScreen loadingScreenPrefab;
 
     // REFERENCES
     private PlayerMovement playerMovement;
@@ -39,6 +43,7 @@ public class GameManager : MonoBehaviour
         LoadSkillData();
         LoadPopupTexts();
         LoadCollectables();
+        loadingScreenPrefab = Resources.Load<LoadingScreen>("misc/Loading Screen");
     }
 
     ////////// REGISTER REFERENCES / REFERENCE GETTERS //////////
@@ -275,18 +280,56 @@ public class GameManager : MonoBehaviour
 
     ////////// ////////// ////////// ////////// ////////// //////////
 
-    public static void ReloadScene(float delay = 0)
+    /////////////////////////// LOAD SCENE ///////////////////////////
+    public static void ReloadScene(bool async = false, float delay = 0)
     {
-        gameManager.StartCoroutine(DelayReloadScene(delay));
+        LoadScene(SceneManager.GetActiveScene().name, async, delay);
     }
 
-    private static IEnumerator DelayReloadScene(float time)
+    public static void LoadScene(string name, bool async = false, float delay = 0)
     {
-        yield return new WaitForSeconds(time);
+        if (async)
+        {
+            gameManager.StartCoroutine(LoadSceneAsync(name, delay));
+        }
+        else
+        {
+            gameManager.StartCoroutine(LoadSceneSync(name, delay));
+        }
+    }
 
-        Scene scene = SceneManager.GetActiveScene();
+    private static IEnumerator LoadSceneAsync(string sceneName, float delay = 0)
+    {
+        yield return new WaitForSeconds(delay);
 
+        LoadingScreen loadingScreen = GameObject.Instantiate(
+            loadingScreenPrefab,
+            Vector3.zero,
+            Quaternion.identity
+        );
+
+        Image loadingBar = loadingScreen.loadingBar;
+
+        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+
+        // TODO: delete this
         gameManager.soundManager.PlayMusic(gameManager.soundManager.audioRefs.musicMainMenu);
-        SceneManager.LoadScene(scene.name);
+
+        while (!op.isDone)
+        {
+            float progress = Mathf.Clamp01(op.progress / .9f);
+
+            loadingBar.fillAmount = progress;
+
+            yield return null;
+        }
     }
+
+    private static IEnumerator LoadSceneSync(string sceneName, float delay = 0)
+    {
+        yield return new WaitForSeconds(delay);
+
+        SceneManager.LoadScene(sceneName);
+    }
+    ////////// ////////// ////////// ////////// ////////// //////////
 }

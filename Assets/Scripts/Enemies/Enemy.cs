@@ -210,9 +210,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         _stat.RemoveModifier(modifier);
     }
 
+    public float Health => _stat.health;
     public abstract bool IsDead();
-
     public abstract bool IsIdle();
-
     public abstract bool IsMoving();
 }
