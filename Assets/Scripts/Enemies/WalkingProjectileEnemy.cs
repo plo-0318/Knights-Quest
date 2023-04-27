@@ -76,6 +76,8 @@ public class WalkingProjectileEnemy : WalkingEnemy, IAttackingAnimatable
     {
         //TODO: add code for spawning the projectile here
         Instantiate(projectilePrefab, projectileSpawnPos.position, Quaternion.identity);
+        //GameObject spawnedProjectile = GameObject.Instantiate(projectilePrefab, projectileSpawnPos.position, Quaternion.identity);
+        //spawnedGameObject.Init(projectileDamage, direction * speed, speedModifier);
     }
 
     protected virtual IEnumerator HandleAttackAnimation()
