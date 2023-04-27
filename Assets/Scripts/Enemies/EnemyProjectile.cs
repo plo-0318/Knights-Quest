@@ -7,9 +7,16 @@ public class EnemyProjectile : MonoBehaviour
     //TODO: add code for making the projectile fly and hurting the player
     
 
-
+    private Rigidbody2D rb;
     private float destroyTimer;
     private float destroyTime;
+
+    private float speed = 10f;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
     
 
     private void Start()
@@ -27,6 +34,7 @@ public class EnemyProjectile : MonoBehaviour
 
         destroyTimer += Time.deltaTime;
         RotateToPlayer();
+        
     }
 
 
@@ -39,9 +47,10 @@ public class EnemyProjectile : MonoBehaviour
         // float angleBetweenPoints = Util.GetNormalizedAngle(point1, point2);
         float angleBetweenPoints = Util.GetNormalizedAngle(objectPos, playerPos);
         transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angleBetweenPoints - 45f));
+        rb.AddForce(transform.up * speed); //* Time.deltaTime   
     }
 
-    
+
 
     
 
