@@ -12,6 +12,7 @@ public class EnemyProjectile : MonoBehaviour
     private float destroyTime;
 
     private float speed = 10f;
+    private float range = 15f;
 
     private void Awake()
     {
