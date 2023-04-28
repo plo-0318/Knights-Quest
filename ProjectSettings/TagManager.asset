@@ -20,8 +20,8 @@ TagManager:
   - Collectable
   - CollectablePickup
   - MapBorder
-  - 
-  - 
+  - EnemyBoss
+  - EnemyProjectile
   - 
   - 
   - 

@@ -74,6 +74,11 @@ public class Util
         return Mathf.Atan2(pos1.y - pos2.y, pos1.x - pos2.x) * Mathf.Rad2Deg + 180f;
     }
 
+    public static Vector2 GetDirectionFromAngle(float angle)
+    {
+        return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+    }
+
     public static string GetTimeString(float time)
     {
         int seconds = Mathf.RoundToInt(time);
@@ -125,5 +130,25 @@ public class Util
             list[i] = list[j];
             list[j] = temp;
         }
+    }
+
+    public static Vector3[] GenerateRandomPositions(
+        Vector3 pos,
+        int numPos,
+        float minDistance,
+        float maxDistance
+    )
+    {
+        List<Vector3> randomPos = new List<Vector3>();
+
+        for (int i = 0; i < numPos; i++)
+        {
+            float radius = UnityEngine.Random.Range(minDistance, maxDistance);
+            Vector2 randomOffset = UnityEngine.Random.insideUnitCircle * radius;
+
+            randomPos.Add(new Vector3(pos.x + randomOffset.x, pos.y + randomOffset.y, pos.z));
+        }
+
+        return randomPos.ToArray();
     }
 }

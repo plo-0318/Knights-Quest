@@ -157,6 +157,8 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
     protected virtual void ProcessDeath()
     {
+        StopAllCoroutines();
+
         // Setting isDead --> play the death animation
         isDead = true;
         col.enabled = false;

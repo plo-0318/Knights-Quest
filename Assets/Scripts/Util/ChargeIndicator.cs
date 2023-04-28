@@ -18,6 +18,41 @@ public class ChargeIndicator : MonoBehaviour
 
     [SerializeField]
     private float blinkDuration = 1f;
+    private bool follow;
+    private Transform from,
+        to;
+
+    private void Awake()
+    {
+        follow = false;
+        from = null;
+        to = null;
+    }
+
+    private void FixedUpdate()
+    {
+        if (!follow)
+        {
+            return;
+        }
+
+        if (from == null || to == null)
+        {
+            return;
+        }
+
+        float angle = Util.GetNormalizedAngle(from.position, to.position);
+
+        transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    public void Follow(Transform from, Transform to)
+    {
+        follow = true;
+
+        this.from = from;
+        this.to = to;
+    }
 
     public void Play()
     {
@@ -28,6 +63,11 @@ public class ChargeIndicator : MonoBehaviour
     {
         this.extendDuration = extendDuration;
         this.blinkDuration = blinkDuration;
+    }
+
+    public void SetEndScale(float endScale)
+    {
+        this.endScale = endScale;
     }
 
     private IEnumerator Extend()

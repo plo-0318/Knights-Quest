@@ -1,9 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class AnimationUtil
 {
+    private static ChargeIndicator chargeIndicatorPrefab;
+    private static Indicator skillIndicatorPrefab;
+
+    static AnimationUtil()
+    {
+        chargeIndicatorPrefab = Resources.Load<ChargeIndicator>("Misc/charge indicator");
+        skillIndicatorPrefab = Resources.Load<Indicator>("Misc/skill indicator");
+    }
+
+    public static ChargeIndicator SpawnChargeIndicator(Transform parent, float angle)
+    {
+        ChargeIndicator indicator = GameObject.Instantiate(
+            chargeIndicatorPrefab,
+            parent.position,
+            Quaternion.identity,
+            parent
+        );
+
+        indicator.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+        return indicator;
+    }
+
+    public static void SpawnSkillIndicator(Vector3 spawnPos, float duration, Action callback)
+    {
+        Indicator indicator = GameObject.Instantiate(
+            skillIndicatorPrefab,
+            spawnPos,
+            Quaternion.identity
+        );
+
+        indicator.StartBlink(duration, callback);
+    }
+
     public static IEnumerator DecreaseScaleOverTime(float duration, Transform trans)
     {
         float elapsedTime = 0f;

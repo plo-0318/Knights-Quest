@@ -118,6 +118,8 @@ public class GameSession : MonoBehaviour
         soundManager = GameManager.SoundManager();
 
         spawnerManager.InstantiateSpawners(maxEnemyPerWave);
+
+        BossBorder.Spawn();
     }
 
     private void Update()

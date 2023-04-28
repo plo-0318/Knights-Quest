@@ -54,4 +54,7 @@ public class AudioReferences : ScriptableObject
     public AudioClip sfxFireballUse1;
     public AudioClip sfxFireballUse2;
     public AudioClip sfxFireballUse3;
+
+    [Header("SFX Skill")]
+    public AudioClip sfxWaterSpike;
 }
