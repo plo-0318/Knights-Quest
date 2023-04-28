@@ -28,7 +28,8 @@ public class PlayerStat : Stat
         stats.Add(damage);
         stats.Add(speed);
         stats.Add(itemPickupRadius);
-
+        
+        
         BASE_STATS = new List<float>(stats);
 
         currentHealth = GetStat(MAX_HEALTH);
@@ -46,7 +47,7 @@ public class PlayerStat : Stat
         // }
     }
 
-    private float ExpNeededToLevelUp(int level)
+    public float ExpNeededToLevelUp(int level)
     {
         return BASE_EXP + LINEAR_INCREMENT * level + EXPONENTIAL_INCREMENT * Mathf.Pow(level, 2);
     }

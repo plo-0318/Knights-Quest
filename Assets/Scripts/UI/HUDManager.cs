@@ -12,8 +12,10 @@ enum HUD_ELEMENTS {
     ExpBar
 }
 
-public class HUDManager : MonoBehaviour 
-{
+public class HUDManager : MonoBehaviour {
+    [Header("Game Manager")] 
+    [SerializeField] private GameManager gameManager;
+    
     [Header("Player Status Bar")] 
     [SerializeField] private Image currentHpBar;
     [SerializeField] private Image bufferHpBar;
@@ -61,26 +63,32 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private GameObject skill4;
     [SerializeField] private SkillScriptableObject skillData4;
     [SerializeField] private int currentLevelSkill4 = 1;
+    private PlayerStatus playerStatus;
 
     // Start is called before the first frame update
     void Start() 
     {
+        playerStatus = GameManager.PlayerStatus();
+        
         // Enable HUD UI
         ShowHUD(startOffset: 1f);
 
-        // TODO DEFINE INITIAL VALUES
-        
         // Player HP
+        currentHp = (int)playerStatus.Health;
+        maxHp = (int)playerStatus.GetStat(Stat.MAX_HEALTH);
         UpdateHpLabel();
         currentHpBar.fillAmount = 1f;
         bufferHpBar.fillAmount = 1f;
         
         // Player Exp
+        currentExp = (int)playerStatus.Exp;
+        currentLevel = playerStatus.Level;
+        maxExp = (int)playerStatus.ExpForNextLevel(currentLevel + 1);
         expBar.fillAmount = 0f;
         UpdateExpLabel();
 
         // Kill Count
-        killCountLabel.text = $"{killCount}";
+        killCountLabel.text = $"{playerStatus.KillCount}";
         
         // Stopwatch
         currentTime = 0;
@@ -92,6 +100,18 @@ public class HUDManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Check if HP Changed
+        if (playerStatus.Health < currentHp) {
+            DecreaseHealth(Mathf.Abs(currentHp - (int)playerStatus.Health));
+        } else if (playerStatus.Health > currentHp) {
+            IncreaseHealth(Mathf.Abs(currentHp - (int)playerStatus.Health));
+        }
+        
+        // Check if EXP Changed
+        if (playerStatus.Exp > currentExp) {
+            UpdatePlayerExp(Mathf.Abs(currentExp - (int)playerStatus.Exp));
+        }
+
         // Damage Buffer Animation
         if (startDamageBuffer) 
         {
@@ -129,6 +149,9 @@ public class HUDManager : MonoBehaviour
         var minutesText = (time.Minutes < 10) ? $"0{time.Minutes}" : $"{time.Minutes}";
         var secondsText = (time.Seconds < 10) ? $"0{time.Seconds}" : $"{time.Seconds}";
         stopwatchLabel.text = minutesText + ":" + secondsText;
+        
+        // -- Kill Count --
+        killCountLabel.text = $"{playerStatus.KillCount}";
     }
     
     // --- PLAYER HP BAR ---
@@ -198,9 +221,9 @@ public class HUDManager : MonoBehaviour
         onLevelUpAction.Invoke();
         
         // Update Values
-        currentLevel++;
-        maxExp = nextMaxExp;
-        currentExp = 0;
+        currentExp = (int)playerStatus.Exp;
+        currentLevel = playerStatus.Level;
+        maxExp = (int)playerStatus.ExpForNextLevel(currentLevel + 1);
         
         // Update Exp Bar
         UpdateBarValue(expBar.gameObject, expBar.fillAmount, 0, HUD_ELEMENTS.ExpBar);

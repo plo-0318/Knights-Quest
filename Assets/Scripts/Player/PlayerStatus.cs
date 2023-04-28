@@ -588,6 +588,10 @@ public class PlayerStatus : MonoBehaviour
     public float Health => _stat.health;
     public bool IsDead => isDead;
 
+    public float ExpForNextLevel(int level) {
+        return _stat.ExpNeededToLevelUp(level);
+    }
+    
     // public bool HasSkill(string name)
     // {
     //     return skills.ContainsKey(name);
