@@ -56,12 +56,12 @@ public class EnemyProjectile : MonoBehaviour
         rb.velocity = direction * speed;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.TryGetComponent<Player>(out Player PlayerCollider))
-        {
-           // hurt the player
-           GameManager.PlayerStatus().Hurt(100f); 
-        }
-    }
+    // private void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (other.TryGetComponent<Player>(out Player PlayerCollider))
+    //     {
+    //        // hurt the player
+    //        GameManager.PlayerStatus().Hurt(100f); 
+    //     }
+    // }
 }
