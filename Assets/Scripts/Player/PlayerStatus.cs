@@ -267,7 +267,7 @@ public class PlayerStatus : MonoBehaviour
         {
             AssignSkill(skill);
             readyForLevelUp = true;
-            FindObjectOfType<LevelUpUITest>().Hide();
+            // FindObjectOfType<LevelUpUITest>().Hide();
         };
     }
 

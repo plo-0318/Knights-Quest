@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,9 +14,6 @@ enum HUD_ELEMENTS {
 }
 
 public class HUDManager : MonoBehaviour {
-    [Header("Game Manager")] 
-    [SerializeField] private GameManager gameManager;
-    
     [Header("Player Status Bar")] 
     [SerializeField] private Image currentHpBar;
     [SerializeField] private Image bufferHpBar;
@@ -34,7 +32,6 @@ public class HUDManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI expLevelLabel;
     [SerializeField] private int currentLevel;
     [SerializeField] private int currentExp;
-    [SerializeField] private int nextMaxExp;
     [SerializeField] private int maxExp;
     [SerializeField] private UnityEvent onLevelUpAction;
 
@@ -44,7 +41,6 @@ public class HUDManager : MonoBehaviour {
 
     [Header("Stopwatch")] 
     [SerializeField] private TextMeshProUGUI stopwatchLabel;
-    [SerializeField] private float currentTime;
     [SerializeField] private bool isStopwatchActive;
 
     [Header("Player Skills")]
@@ -63,6 +59,9 @@ public class HUDManager : MonoBehaviour {
     [SerializeField] private GameObject skill4;
     [SerializeField] private SkillScriptableObject skillData4;
     [SerializeField] private int currentLevelSkill4 = 1;
+    private int currentNumberOfSkills = 0;
+
+    // Player Status
     private PlayerStatus playerStatus;
 
     // Start is called before the first frame update
@@ -90,9 +89,6 @@ public class HUDManager : MonoBehaviour {
         // Kill Count
         killCountLabel.text = $"{playerStatus.KillCount}";
         
-        // Stopwatch
-        currentTime = 0;
-        
         // Player Skills
         UpdateSkillsUI();
     }
@@ -111,7 +107,13 @@ public class HUDManager : MonoBehaviour {
         if (playerStatus.Exp > currentExp) {
             UpdatePlayerExp(Mathf.Abs(currentExp - (int)playerStatus.Exp));
         }
-
+        
+        // Check if Skill Count Changed
+        if (playerStatus.GetSkillDatum().Length > currentNumberOfSkills) {
+            UpdateSkillsUI();
+            currentNumberOfSkills = playerStatus.GetSkillDatum().Length;    
+        }
+        
         // Damage Buffer Animation
         if (startDamageBuffer) 
         {
@@ -140,12 +142,9 @@ public class HUDManager : MonoBehaviour {
             currentHealTimeBuffer -= Time.deltaTime;
         }
         
-        // -- Stopwatch --
-        if (isStopwatchActive) {
-            currentTime += Time.deltaTime;
-        }
-        
-        var time = TimeSpan.FromSeconds(currentTime);
+        // -- Timer --
+
+        var time = TimeSpan.FromSeconds(GameManager.GameSession().CurrentTime);
         var minutesText = (time.Minutes < 10) ? $"0{time.Minutes}" : $"{time.Minutes}";
         var secondsText = (time.Seconds < 10) ? $"0{time.Seconds}" : $"{time.Seconds}";
         stopwatchLabel.text = minutesText + ":" + secondsText;
@@ -243,51 +242,34 @@ public class HUDManager : MonoBehaviour {
     
     // -- Player Skills --
     public void UpdateSkillsUI() {
-        var skillPlaceholder1 = skill1.transform.Find("SkillPlaceholder").gameObject.GetComponent<Image>();
-        var skillLevelPlaceholder1 = skill1.transform.Find("LevelPlaceholder").gameObject.GetComponent<Image>();
-        var skillIcon1 = skill1.transform.Find("SkillIcon").gameObject.GetComponent<Image>();
-        var skillLevelLabel1 = skill1.transform.Find("LevelLabel").GetComponent<TextMeshProUGUI>();
-        skillPlaceholder1.color = new Color(255, 255, 255, (skillData1 != null) ? 1f : 0.5f);
-        skillLevelPlaceholder1.color = new Color(255, 255, 255, (skillData1 != null) ? 1f : 0f);
-        skillIcon1.sprite = (skillData1 != null) ? skillData1.GetSkillIcon() : null;
-        skillIcon1.color = new Color(255, 255, 255, (skillData1 != null) ? 1f : 0f);
-        skillLevelLabel1.color = new Color(255, 255, 255, (skillData1 != null) ? 1f : 0f);
-        skillLevelLabel1.text = currentLevelSkill1.ToString();
 
-        var skillPlaceholder2 = skill2.transform.Find("SkillPlaceholder").gameObject.GetComponent<Image>();
-        var skillLevelPlaceholder2 = skill2.transform.Find("LevelPlaceholder").gameObject.GetComponent<Image>();
-        var skillIcon2 = skill2.transform.Find("SkillIcon").gameObject.GetComponent<Image>();
-        var skillLevelLabel2 = skill2.transform.Find("LevelLabel").GetComponent<TextMeshProUGUI>();
-        skillPlaceholder2.color = new Color(255, 255, 255, (skillData2 != null) ? 1f : 0.5f);
-        skillLevelPlaceholder2.color = new Color(255, 255, 255, (skillData2 != null) ? 1f : 0f);
-        skillIcon2.sprite = (skillData2 != null) ? skillData2.GetSkillIcon() : null;
-        skillIcon2.color = new Color(255, 255, 255, (skillData2 != null) ? 1f : 0f);
-        skillLevelLabel2.color = new Color(255, 255, 255, (skillData2 != null) ? 1f : 0f);
-        skillLevelLabel2.text = currentLevelSkill2.ToString();
+        var attackSkills = playerStatus.GetSkillDatum().Where(c => c.Type == "ATTACK").ToArray();
 
-        var skillPlaceholder3 = skill3.transform.Find("SkillPlaceholder").gameObject.GetComponent<Image>();
-        var skillLevelPlaceholder3 = skill3.transform.Find("LevelPlaceholder").gameObject.GetComponent<Image>();
-        var skillIcon3 = skill3.transform.Find("SkillIcon").gameObject.GetComponent<Image>();
-        var skillLevelLabel3 = skill3.transform.Find("LevelLabel").GetComponent<TextMeshProUGUI>();
-        skillPlaceholder3.color = new Color(255, 255, 255, (skillData3 != null) ? 1f : 0.5f);
-        skillLevelPlaceholder3.color = new Color(255, 255, 255, (skillData3 != null) ? 1f : 0f);
-        skillIcon3.sprite = (skillData3 != null) ? skillData3.GetSkillIcon() : null;
-        skillIcon3.color = new Color(255, 255, 255, (skillData3 != null) ? 1f : 0f);
-        skillLevelLabel3.color = new Color(255, 255, 255, (skillData3 != null) ? 1f : 0f);
-        skillLevelLabel3.text = currentLevelSkill3.ToString();
+        for (var i = 0; i < 4; i++) {
+            var skillData = (attackSkills.Length > i) ? attackSkills[i] : null;
 
-        var skillPlaceholder4 = skill4.transform.Find("SkillPlaceholder").gameObject.GetComponent<Image>();
-        var skillLevelPlaceholder4 = skill4.transform.Find("LevelPlaceholder").gameObject.GetComponent<Image>();
-        var skillIcon4 = skill4.transform.Find("SkillIcon").gameObject.GetComponent<Image>();
-        var skillLevelLabel4 = skill4.transform.Find("LevelLabel").GetComponent<TextMeshProUGUI>();
-        skillPlaceholder4.color = new Color(255, 255, 255, (skillData4 != null) ? 1f : 0.5f);
-        skillLevelPlaceholder4.color = new Color(255, 255, 255, (skillData4 != null) ? 1f : 0f);
-        skillIcon4.sprite = (skillData4 != null) ? skillData4.GetSkillIcon() : null;
-        skillIcon4.color = new Color(255, 255, 255, (skillData4 != null) ? 1f : 0f);
-        skillLevelLabel4.color = new Color(255, 255, 255, (skillData4 != null) ? 1f : 0f);
-        skillLevelLabel4.text = currentLevelSkill4.ToString();
+            var currentSkill = i switch {
+                0 => skill1,
+                1 => skill2,
+                2 => skill3,
+                3 => skill4,
+                _ => skill1
+            };
+
+            var skillPlaceholder = currentSkill.transform.Find("SkillPlaceholder").gameObject.GetComponent<Image>();
+            var skillLevelPlaceholder = currentSkill.transform.Find("LevelPlaceholder").gameObject.GetComponent<Image>();
+            var skillIcon = currentSkill.transform.Find("SkillIcon").gameObject.GetComponent<Image>();
+            var skillLevelLabel = currentSkill.transform.Find("LevelLabel").GetComponent<TextMeshProUGUI>();
+            skillPlaceholder.color = new Color(255, 255, 255, (skillData != null) ? 1f : 0.5f);
+            skillLevelPlaceholder.color = new Color(255, 255, 255, (skillData != null) ? 1f : 0f);
+            skillIcon.sprite = (skillData != null) ? skillData.Sprite : null;
+            skillIcon.color = new Color(255, 255, 255, (skillData != null) ? 1f : 0f);
+            skillLevelLabel.color = new Color(255, 255, 255, (skillData != null) ? 1f : 0f);
+            if (skillData != null) skillLevelLabel.text = skillData.GetCurrentLevel().ToString();
+        }
     }
 
+    // TODO REMOVE
     public void LevelUpSkill(int playerSkill) {
         switch (playerSkill) {
             case 1 when currentLevelSkill1 < 5 && skillData1:
