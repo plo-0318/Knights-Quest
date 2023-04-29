@@ -20,7 +20,7 @@ MonoBehaviour:
   lv2Effect: Damage +50%
   lv3Effect: Cooldown -0.5s
   lv4Effect: Damage +25%
-  lv5Effect: Damage +25%\nCooldown -1s\nEnemies hit are slowed by 50% for 1s
+  lv5Effect: Damage +25%<br>Cooldown -1s<br>Enemies hit are slowed by 50% for 1s
   damage: 300
   cooldown: 3.5
   iconPath: skill icons/arrows

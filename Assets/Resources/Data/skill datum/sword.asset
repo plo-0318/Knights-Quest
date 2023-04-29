@@ -16,10 +16,10 @@ MonoBehaviour:
   skillName: sword
   type: ATTACK
   description: Your trusty sword
-  lv2Effect: Damage +25%\nCooldown -0.25s
+  lv2Effect: Damage +25%<br>Cooldown -0.25s
   lv3Effect: Sword strike size +50%
-  lv4Effect: Damage +25%\nCooldown -0.25s\nSword strike size +50%
-  lv5Effect: Damage +50%\nSword strike size +50%\nSword strike spawns sword waves
+  lv4Effect: Damage +25%<br>Cooldown -0.25s<br>Sword strike size +50%
+  lv5Effect: Damage +50%<br>Sword strike size +50%<br>Sword strike spawns sword waves
   damage: 250
   cooldown: 1.5
   iconPath: skill icons/icons

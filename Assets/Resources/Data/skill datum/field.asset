@@ -17,11 +17,11 @@ MonoBehaviour:
   type: ATTACK
   description: Spawns a magic field around the player. Enemies inside the field will
     take damage every second
-  lv2Effect: Damage +25%\nField size +25%
-  lv3Effect: Damage +25%\nField size +25%
-  lv4Effect: Damage +25%\nField size +25%
-  lv5Effect: Damage +25%\nField size +25%\nEnemies inside the field are slowed by
-    25%
+  lv2Effect: Damage +25%<br>Field size +25%
+  lv3Effect: Damage +25%<br>Field size +25%
+  lv4Effect: Damage +25%<br>Field size +25%
+  lv5Effect: Damage +25%<br>Field size +25%<br>Enemies inside the field are slowed
+    by 25%
   damage: 200
   cooldown: 1
   iconPath: skill icons/field

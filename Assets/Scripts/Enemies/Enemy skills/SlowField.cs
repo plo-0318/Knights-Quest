@@ -13,7 +13,7 @@ public class SlowField : MonoBehaviour
 
     private void Awake()
     {
-        speedMod = new Modifier(Stat.SPEED, "BossSlowField", -0.5f);
+        speedMod = new Modifier(Stat.SPEED, "BossSlowField", -0.75f);
     }
 
     private void Start()

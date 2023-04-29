@@ -163,6 +163,12 @@ public class AttackingTrollEnemy : TrollEnemy
         float blinkDuration = 1f;
         float radius = 3f;
 
+        if (_spawnHazard)
+        {
+            numSpikes = 8;
+            radius = 3.5f;
+        }
+
         Vector3[] positions = Util.GeneratePositionsAround(playerTrans.position, numSpikes, radius);
 
         EnemyBossAttackUtil.SpawnWaterSpike(playerTrans.position, blinkDuration);
@@ -208,7 +214,7 @@ public class AttackingTrollEnemy : TrollEnemy
 
     protected void SpawnFieldHazard()
     {
-        int numSlowFields = 10;
+        int numSlowFields = 14;
         float radius = 7.5f;
 
         Vector3[] positions = Util.GeneratePositionsAround(
@@ -231,11 +237,11 @@ public class AttackingTrollEnemy : TrollEnemy
         StartCoroutine(HandleSpawnLightning());
     }
 
-    protected void SpawnLightningFromPos(Vector3[] positions)
+    protected void SpawnLightningFromPos(Vector3[] positions, int lightningIndex = 0)
     {
         foreach (var pos in positions)
         {
-            EnemyBossAttackUtil.SpawnLightning(pos, 0.5f);
+            EnemyBossAttackUtil.SpawnLightning(pos, 0.35f, lightningIndex);
         }
 
         soundManager.PlayClip(soundManager.audioRefs.sfxLightning);
@@ -260,19 +266,19 @@ public class AttackingTrollEnemy : TrollEnemy
         Vector3[] pos3 = Util.GeneratePositionsAround(bossBorderPos, numLightnings3, radius3);
         Vector3[] pos4 = Util.GeneratePositionsAround(bossBorderPos, numLightnings4, radius4);
 
-        SpawnLightningFromPos(pos1);
+        SpawnLightningFromPos(pos1, 0);
 
         yield return new WaitForSeconds(1f);
 
-        SpawnLightningFromPos(pos2);
+        SpawnLightningFromPos(pos2, 1);
 
         yield return new WaitForSeconds(1f);
 
-        SpawnLightningFromPos(pos3);
+        SpawnLightningFromPos(pos3, 0);
 
         yield return new WaitForSeconds(1f);
 
-        SpawnLightningFromPos(pos4);
+        SpawnLightningFromPos(pos4, 1);
 
         yield return new WaitForSeconds(0.5f);
 

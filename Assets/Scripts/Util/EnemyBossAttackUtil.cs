@@ -73,13 +73,11 @@ public static class EnemyBossAttackUtil
         SpawnEnemySkillWithIndicator(slowFieldPrefab, spawnPos, blinkDuration);
     }
 
-    public static void SpawnLightning(Vector3 spawnPos, float blinkDuration)
+    public static void SpawnLightning(Vector3 spawnPos, float blinkDuration, int lightningIndex = 0)
     {
         DelayedHazard lightningToSpawn;
 
-        int rand = UnityEngine.Random.Range(0, 2);
-
-        if (rand == 0)
+        if (lightningIndex == 0)
         {
             lightningToSpawn = lightningPrefab;
         }

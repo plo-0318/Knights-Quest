@@ -120,7 +120,7 @@ public class GameSession : MonoBehaviour
         spawnerManager.InstantiateSpawners(maxEnemyPerWave);
 
         // TODO: delete
-        // BossBorder.Spawn();
+        BossBorder.Spawn();
     }
 
     private void Update()

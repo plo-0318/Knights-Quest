@@ -18,10 +18,10 @@ MonoBehaviour:
   description: Fires a magic bolt repeatedly at the closest enemy dealing damage
     to the first enemy hit
   lv2Effect: Damage +25%
-  lv3Effect: Damage +25%\nCooldown -0.1s
-  lv4Effect: Damage +25%\nCooldown -0.3s
-  lv5Effect: Damage +25%\bnCooldown -0.1s\nUpon hitting an enemy, the bolt will explode
-    causing damage to surrounding enemies
+  lv3Effect: Damage +25%<br>Cooldown -0.1s
+  lv4Effect: Damage +25%<br>Cooldown -0.3s
+  lv5Effect: Damage +25%<br>Cooldown -0.1s<br>Upon hitting an enemy, the bolt will
+    explode causing damage to surrounding enemies
   damage: 150
   cooldown: 1
   iconPath: skill icons/bolt
