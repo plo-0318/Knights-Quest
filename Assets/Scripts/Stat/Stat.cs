@@ -141,6 +141,11 @@ public class Stat
             return baseStat;
         }
 
+        if (statIndex == SPEED)
+        {
+            return CalculateSpeedModifier(statModifiers) * baseStat;
+        }
+
         return CalculateModifierDefault(statModifiers) * baseStat;
     }
 
@@ -151,32 +156,40 @@ public class Stat
         return multiplier > 0 ? multiplier : 0.01f;
     }
 
-    // Probably not using this
-    // protected float CalculateSpeedModifier(Dictionary<int, float> statModifiers)
-    // {
-    //     float max = statModifiers.Values.Max();
-    //     float min = statModifiers.Values.Min();
+    // Speed multipliers of the same type shouldn't stack
+    // When multiple speed modifiers are applied
+    // If all positive multipliers, use the max multiplier
+    // If all negative multipliers, use the min multiplier
+    // If mixed multipliers (positive and negative), use the sum of max and min as multiplier
+    protected float CalculateSpeedModifier(HashSet<Modifier> speedModifiers)
+    {
+        // No stacking speed multipliers, use the regular calculation
+        if (speedModifiers.Count <= 1)
+        {
+            return CalculateModifierDefault(speedModifiers);
+        }
 
-    //     if (max == min)
-    //     {
-    //         return max;
-    //     }
+        Modifier max = speedModifiers.OrderByDescending(mod => mod.multiplier).FirstOrDefault();
+        Modifier min = speedModifiers.OrderBy(mod => mod.multiplier).FirstOrDefault();
 
-    //     // max > 0, min > 0
-    //     if (max > 0 && min > 0)
-    //     {
-    //         return max;
-    //     }
+        float maxMultiplier = max.multiplier;
+        float minMultiplier = min.multiplier;
 
-    //     // max < 0, min < 0
-    //     if (max < 0 && min < 0)
-    //     {
-    //         return min;
-    //     }
+        // If both max and min are positive --> all multipliers are speed increase
+        if (maxMultiplier > 0 && minMultiplier > 0)
+        {
+            return 1f + maxMultiplier;
+        }
 
-    //     // max > 0, min < 0
-    //     return max + min;
-    // }
+        // If both max and min are negative --> all multipliers are speed decrease
+        if (maxMultiplier < 0 && minMultiplier < 0)
+        {
+            return 1f + minMultiplier;
+        }
+
+        // Mixed multipliers --> some speed increase multipliers and some speed decrease multipliers
+        return 1f + maxMultiplier + minMultiplier;
+    }
 
     public float ModifyHealth(float amount)
     {

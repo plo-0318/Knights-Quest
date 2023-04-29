@@ -69,33 +69,43 @@ public class SpawnerManager : MonoBehaviour
         }
     }
 
+    // Try to spawn an elite enemy at a random spawner's position
     public void SpawnEliteEnemy()
     {
+        // Get the spawners and save them to a temp list
         List<GameObject> tempSpawners = new List<GameObject>(spawners);
 
+        // Shuffle the list
         Util.ShuffleList<GameObject>(tempSpawners);
 
+        // If no spawners, abort
         if (tempSpawners.Count <= 0)
         {
             return;
         }
 
+        // Get the next elite enemy to spawn
+        Enemy enemy = EnemySpawnUtil.NextEliteEnemyToSpawn();
+
+        // If cannot get valid enemy, abort
+        if (enemy == null)
+        {
+            return;
+        }
+
+        // Iterate through the spawner, if the spawner is inside the map, spawn the elite enemy
         for (int i = 0; i < tempSpawners.Count; i++)
         {
+            // Get the current spawner
             GameObject spawner = tempSpawners[i];
 
+            // If spawner is not valid, skil this iteration
             if (spawner == null)
             {
-                return;
+                continue;
             }
 
-            Enemy enemy = EnemySpawnUtil.NextEliteEnemyToSpawn();
-
-            if (enemy == null)
-            {
-                return;
-            }
-
+            // If the spawner is valid AND inside the map, spawn the elite enemy
             if (spawner.GetComponent<EnemySpawner>().InsideMap())
             {
                 Instantiate(
@@ -105,14 +115,11 @@ public class SpawnerManager : MonoBehaviour
                     GameManager.GameSession().enemyParent
                 );
 
-                //TODO: delete log
-                // Debug.Log(
-                //     "spawning elite at: "
-                //         + Util.GetTimeString(GameManager.GameSession().CurrentTime)
-                // );
-
                 return;
             }
         }
+
+        // Not able to spawn an elite enemy, decrement the elite enemy index to its original value
+        EnemySpawnUtil.DecrementEliteEnemyIndex();
     }
 }

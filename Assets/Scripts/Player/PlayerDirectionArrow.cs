@@ -22,15 +22,12 @@ public class PlayerDirectionArrow : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Debug.Log("mouse pos: " + Camera.main.ScreenToWorldPoint(gatherInput.mousePos));
-        // Debug.Log("player pos: " + playerTrans.position);
+        if (GameManager.GameSession().IsGameOver)
+        {
+            return;
+        }
 
         Rotate();
-    }
-
-    private void Update()
-    {
-        // Debug.Log(AngleBetweenMouseAndPlayerNormalized());
     }
 
     public void Rotate()

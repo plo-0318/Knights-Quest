@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbc309ebbaadf346a975338cb1dd718, type: 3}
   m_Name: fireball
   m_EditorClassIdentifier: 
-  displayName: Fireball (TBD)
+  displayName: Inferno Rain
   skillName: fireball
   type: ATTACK
-  description: summon fireballs from the sky striking the enemies closest to the
+  description: Summon fireballs from the sky striking the enemies closest to the
     player
-  lv2Effect: lv2 effect
-  lv3Effect: lv3 effect
-  lv4Effect: lv4 effect
-  lv5Effect: lv5 effect
+  lv2Effect: Damage +25%
+  lv3Effect: Cooldown -1s\nSpawns an additional fireball
+  lv4Effect: Damage +50%
+  lv5Effect: Damage +25%\nCooldown -1s\nSpawns an additional firebal\nFireball leaves
+    a blazing field that burns the enemy
   damage: 400
   cooldown: 5
   iconPath: skill icons/fireball

@@ -8,12 +8,15 @@ public class DelayedHazard : MonoBehaviour
 
     [SerializeField]
     private float damage;
+    private bool canDamage;
 
     private void Awake()
     {
         col = GetComponent<Collider2D>();
 
         DisableCollider();
+
+        canDamage = true;
     }
 
     private void EnableCollider()
@@ -28,8 +31,16 @@ public class DelayedHazard : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        GameManager.PlayerStatus().Hurt(damage);
+        if (!canDamage)
+        {
+            return;
+        }
 
-        Destroy(gameObject);
+        if (other.GetComponent<PlayerCollider>() != null)
+        {
+            GameManager.PlayerStatus().Hurt(damage);
+
+            canDamage = false;
+        }
     }
 }

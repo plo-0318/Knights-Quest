@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class BossBorder
 {
     private static GameObject bossBorderPrefab;
-    private static GameObject bossBorder;
+    private static GameObject _bossBorder;
 
     private Tilemap tileMap;
     private float minXCor,
@@ -54,7 +54,7 @@ public class BossBorder
 
     public static void Spawn()
     {
-        if (bossBorder != null)
+        if (_bossBorder != null)
         {
             Remove();
         }
@@ -63,31 +63,31 @@ public class BossBorder
 
         Vector3 spawnPos = Instance.GetClampedPosition(player);
 
-        bossBorder = GameObject.Instantiate(bossBorderPrefab, spawnPos, Quaternion.identity);
+        _bossBorder = GameObject.Instantiate(bossBorderPrefab, spawnPos, Quaternion.identity);
 
         TeleportPlayerIntoBossBorder();
     }
 
     private static void TeleportPlayerIntoBossBorder()
     {
-        if (bossBorder == null)
+        if (_bossBorder == null)
         {
             return;
         }
 
         Transform player = GameManager.PlayerMovement().transform;
 
-        float radius = bossBorder.GetComponent<InvertedCircleCollider2D>().radius;
+        float radius = _bossBorder.GetComponent<InvertedCircleCollider2D>().radius;
 
         bool playerInBossBorder =
-            Vector2.Distance(player.position, bossBorder.transform.position) < radius;
+            Vector2.Distance(player.position, _bossBorder.transform.position) < radius;
 
         if (playerInBossBorder)
         {
             return;
         }
 
-        Vector3 newPos = bossBorder.transform.position - new Vector3(0, 6f, 0);
+        Vector3 newPos = _bossBorder.transform.position - new Vector3(0, 6f, 0);
 
         player.transform.position = newPos;
     }
@@ -182,7 +182,7 @@ public class BossBorder
 
     private static IEnumerator BossBorderFadeOut()
     {
-        var main = bossBorder.GetComponentInChildren<ParticleSystem>().main;
+        var main = _bossBorder.GetComponentInChildren<ParticleSystem>().main;
 
         main.startColor = new Color(
             main.startColor.color.r,
@@ -203,16 +203,18 @@ public class BossBorder
 
     public static void Remove()
     {
-        if (bossBorder == null)
+        if (_bossBorder == null)
         {
             return;
         }
 
-        GameObject.Destroy(bossBorder);
+        GameObject.Destroy(_bossBorder);
     }
 
-    public static Vector3 BossBorderPos()
+    public static Vector3 GetBossBorderPos()
     {
-        return bossBorder == null ? Vector3.zero : bossBorder.transform.position;
+        return _bossBorder == null ? Vector3.zero : _bossBorder.transform.position;
     }
+
+    public static GameObject bossBorder => _bossBorder;
 }

@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbc309ebbaadf346a975338cb1dd718, type: 3}
   m_Name: bolt
   m_EditorClassIdentifier: 
-  displayName: Bolt (TBD)
+  displayName: Arcane Barrage
   skillName: bolt
   type: ATTACK
-  description: Fires a bolt repeteadly in the target direction dealing damage to
-    the first enemy hit
-  lv2Effect: lv2 effect
-  lv3Effect: lv3 effect
-  lv4Effect: lv4 effect
-  lv5Effect: lv5 effect
+  description: Fires a magic bolt repeatedly at the closest enemy dealing damage
+    to the first enemy hit
+  lv2Effect: Damage +25%
+  lv3Effect: Damage +25%\nCooldown -0.1s
+  lv4Effect: Damage +25%\nCooldown -0.3s
+  lv5Effect: Damage +25%\bnCooldown -0.1s\nUpon hitting an enemy, the bolt will explode
+    causing damage to surrounding enemies
   damage: 150
   cooldown: 1
   iconPath: skill icons/bolt

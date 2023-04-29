@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbc309ebbaadf346a975338cb1dd718, type: 3}
   m_Name: sword
   m_EditorClassIdentifier: 
-  displayName: Sword (TBD)
+  displayName: Sword of Ace
   skillName: sword
   type: ATTACK
   description: Your trusty sword
-  lv2Effect: lv2 effect
-  lv3Effect: lv3 effect
-  lv4Effect: lv4 effect
-  lv5Effect: lv5 effect
+  lv2Effect: Damage +25%\nCooldown -0.25s
+  lv3Effect: Sword strike size +50%
+  lv4Effect: Damage +25%\nCooldown -0.25s\nSword strike size +50%
+  lv5Effect: Damage +50%\nSword strike size +50%\nSword strike spawns sword waves
   damage: 250
   cooldown: 1.5
   iconPath: skill icons/icons

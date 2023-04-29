@@ -132,7 +132,38 @@ public class Util
         }
     }
 
-    public static Vector3[] GenerateRandomPositions(
+    public static Vector3[] GeneratePositionsAround(Vector3 pos, int numPos, float radius)
+    {
+        List<Vector3> newPos = new List<Vector3>();
+
+        float angleOffset = 360f / numPos;
+        float currentAngle = 0;
+
+        for (int i = 0; i < numPos; i++)
+        {
+            Vector3 offset = new Vector2(
+                Mathf.Cos(currentAngle * Mathf.Deg2Rad) * radius,
+                Mathf.Sin(currentAngle * Mathf.Deg2Rad) * radius
+            );
+
+            newPos.Add(pos + offset);
+
+            currentAngle += angleOffset;
+        }
+
+        return newPos.ToArray();
+    }
+
+    public static Vector3 GenerateRandomPositionAround(
+        Vector3 pos,
+        float minDistance,
+        float maxDistance
+    )
+    {
+        return GenerateRandomPositionsAround(pos, 1, minDistance, maxDistance)[0];
+    }
+
+    public static Vector3[] GenerateRandomPositionsAround(
         Vector3 pos,
         int numPos,
         float minDistance,

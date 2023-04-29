@@ -57,4 +57,5 @@ public class AudioReferences : ScriptableObject
 
     [Header("SFX Skill")]
     public AudioClip sfxWaterSpike;
+    public AudioClip sfxLightning;
 }

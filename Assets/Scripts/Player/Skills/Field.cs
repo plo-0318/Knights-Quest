@@ -18,7 +18,7 @@ public class Field : MonoBehaviour
 
     private void Awake()
     {
-        speedMultiplier = -0.5f;
+        speedMultiplier = -0.25f;
 
         speedMod = new Modifier(Stat.SPEED, "SkillField", speedMultiplier);
 

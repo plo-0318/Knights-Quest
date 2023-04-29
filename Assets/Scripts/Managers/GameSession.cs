@@ -119,7 +119,8 @@ public class GameSession : MonoBehaviour
 
         spawnerManager.InstantiateSpawners(maxEnemyPerWave);
 
-        BossBorder.Spawn();
+        // TODO: delete
+        // BossBorder.Spawn();
     }
 
     private void Update()
@@ -138,7 +139,10 @@ public class GameSession : MonoBehaviour
         }
     }
 
-    private void OnDestroy() { }
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 
     ////////////////////////// HELPERS //////////////////////////
     public float CurrentTime => timer;
@@ -232,10 +236,7 @@ public class GameSession : MonoBehaviour
         tickTimer = false;
         gameOver = true;
 
-        soundManager.PlayClip(soundManager.audioRefs.sfxVictory);
-        soundManager.PlayMusic(soundManager.audioRefs.musicGameOver);
-
-        onGameWon?.Invoke();
+        StartCoroutine(DelayGameWonEvent(2.5f));
     }
 
     public void HandleBossFight()
@@ -249,6 +250,19 @@ public class GameSession : MonoBehaviour
         BossBorder.Spawn();
 
         onBossFight?.Invoke(OnBossEventEnd);
+    }
+
+    private IEnumerator DelayGameWonEvent(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        soundManager.PlayClip(soundManager.audioRefs.sfxVictory);
+
+        onGameWon?.Invoke();
+
+        yield return new WaitForSeconds(1f);
+
+        soundManager.PlayMusic(soundManager.audioRefs.musicGameOver);
     }
 
     public void OnBossEventEnd()
@@ -294,15 +308,18 @@ public class GameSession : MonoBehaviour
     {
         timedEvents = new TimedEvents();
 
-        timedEvents.AddTimedEvent(30, GenerateEnemySpawnAction(10, 20, 8));
-        timedEvents.AddTimedEvent(60, GenerateEnemySpawnAction(15, 30, 10));
+        timedEvents.AddTimedEvent(45, GenerateEnemySpawnAction(10, 20, 8));
+        timedEvents.AddTimedEvent(75, GenerateEnemySpawnAction(13, 25, 8));
         timedEvents.AddTimedEvent(61, GameManager.SpawnerManager().SpawnEliteEnemy);
-        timedEvents.AddTimedEvent(90, GenerateEnemySpawnAction(20, 35, 11));
+        timedEvents.AddTimedEvent(100, GenerateEnemySpawnAction(15, 30, 9));
         timedEvents.AddTimedEvent(120, HandleBossFight);
         timedEvents.AddTimedEvent(121, GameManager.SpawnerManager().SpawnEliteEnemy);
+        timedEvents.AddTimedEvent(145, GenerateEnemySpawnAction(20, 30, 10));
+        timedEvents.AddTimedEvent(180, GenerateEnemySpawnAction(22, 35, 10));
         timedEvents.AddTimedEvent(181, GameManager.SpawnerManager().SpawnEliteEnemy);
         timedEvents.AddTimedEvent(240, HandleBossFight);
         timedEvents.AddTimedEvent(241, GameManager.SpawnerManager().SpawnEliteEnemy);
+        timedEvents.AddTimedEvent(242, GenerateEnemySpawnAction(25, 35, 11));
         timedEvents.AddTimedEvent(301, GameManager.SpawnerManager().SpawnEliteEnemy);
         timedEvents.AddTimedEvent(
             360,
@@ -339,7 +356,7 @@ public class GameSession : MonoBehaviour
 
         // Instantiate(bossToSpawn, BossBorder.BossBorderPos(), Quaternion.identity, enemyParent);
 
-        EnemySpawnUtil.SpawnBossAt(BossBorder.BossBorderPos(), 3f);
+        EnemySpawnUtil.SpawnBossAt(BossBorder.GetBossBorderPos(), 3f);
     }
 
     private void SpawnEnemy()

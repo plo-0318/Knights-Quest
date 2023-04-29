@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbc309ebbaadf346a975338cb1dd718, type: 3}
   m_Name: arrow
   m_EditorClassIdentifier: 
-  displayName: Frost Arrow
+  displayName: Glacial Arrow
   skillName: arrow
   type: ATTACK
   description: Fires an arrow in the target direction dealing damage to any enemies
     it passes through
-  lv2Effect: lv2 effect
-  lv3Effect: lv3 effect
-  lv4Effect: lv4 effect
-  lv5Effect: lv5 effect
-  damage: 350
+  lv2Effect: Damage +50%
+  lv3Effect: Cooldown -0.5s
+  lv4Effect: Damage +25%
+  lv5Effect: Damage +25%\nCooldown -1s\nEnemies hit are slowed by 50% for 1s
+  damage: 300
   cooldown: 3.5
   iconPath: skill icons/arrows
   iconSubName: arrows_22

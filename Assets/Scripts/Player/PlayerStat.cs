@@ -63,7 +63,7 @@ public class PlayerStat : Stat
         _exp += amount;
 
         //TODO: DELETE
-        Debug.Log("exp: " + _exp + "/" + ExpNeededToLevelUp(_level + 1));
+        // Debug.Log("exp: " + _exp + "/" + ExpNeededToLevelUp(_level + 1));
 
         while (exp >= ExpNeededToLevelUp(_level + 1))
         {

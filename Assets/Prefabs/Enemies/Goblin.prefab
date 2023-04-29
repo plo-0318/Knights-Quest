@@ -206,7 +206,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 5382840518792563683}
   enemyBodyCollider: {fileID: 4549619414870157399}
   baseSpeed: 2.2
-  baseHealth: 250
+  baseHealth: 280
   baseDamage: 80
 --- !u!114 &2119190404135880818
 MonoBehaviour:
@@ -223,7 +223,7 @@ MonoBehaviour:
   collectablesLists:
   - collectables:
     - collectableType: 1
-      spawnChance: 3
+      spawnChance: 4
     - collectableType: 2
       spawnChance: 1
 --- !u!1 &4549619414870157393

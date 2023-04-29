@@ -20,6 +20,11 @@ public class TrollEnemy : BossEnemy, IAnimatableTroll
 
     [SerializeField]
     protected float chargeSpeedMultiplier;
+    protected float chargeIndicatorEndScale = 15f;
+    protected float chargeIndicatorExtendDuration = 0.5f;
+
+    [SerializeField]
+    protected float chargeIndicatorBlinkDuration;
 
     protected override void Awake()
     {
@@ -57,7 +62,7 @@ public class TrollEnemy : BossEnemy, IAnimatableTroll
 
     private void Move()
     {
-        if (!canMove)
+        if (!canMove || GameManager.PlayerMovement().IsDead())
         {
             return;
         }
@@ -95,8 +100,8 @@ public class TrollEnemy : BossEnemy, IAnimatableTroll
             Util.GetNormalizedAngle(transform.position, playerTrans.position)
         );
 
-        indicator.SetDurations(.5f, 2f);
-        indicator.SetEndScale(15f);
+        indicator.SetDurations(chargeIndicatorExtendDuration, chargeIndicatorBlinkDuration);
+        indicator.SetEndScale(chargeIndicatorEndScale);
         indicator.Follow(transform, playerTrans);
         indicator.Play();
 

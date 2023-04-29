@@ -57,7 +57,7 @@ public class SkillHammer : Skill
 
         if (level == 3)
         {
-            cooldownTime = BASE_COOLDOWN_TIME - .5f;
+            cooldownTime = BASE_COOLDOWN_TIME - 0.5f;
             degreeToRotate = BASE_DEGREE_TO_ROTATE * 1.3f;
             swingSpeed = BASE_SWING_SPEED * 1.15f;
         }
@@ -65,12 +65,12 @@ public class SkillHammer : Skill
         if (level == 4)
         {
             damage = BASE_DAMAGE * 1.6f;
+            cooldownTime = BASE_COOLDOWN_TIME - 1f;
         }
 
         if (level == 5)
         {
             damage = BASE_DAMAGE * 2f;
-            cooldownTime = BASE_COOLDOWN_TIME - 1f;
             degreeToRotate = BASE_DEGREE_TO_ROTATE * 1.6f;
             swingSpeed = BASE_SWING_SPEED * 1.25f;
 

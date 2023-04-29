@@ -17,19 +17,23 @@ public static class EnemySpawnUtil
 
     static EnemySpawnUtil()
     {
-        enemyLists = new List<List<Enemy>>();
-        enemyIndexes = new List<int>();
+        bossIndicator = Resources.Load<Indicator>("Misc/boss indicator");
+    }
 
+    private static void InitIndices()
+    {
         eliteEnemyIndex = 0;
         bossIndex = 0;
-
         currentBoss = null;
-
-        bossIndicator = Resources.Load<Indicator>("Misc/boss indicator");
     }
 
     public static void Init(LevelDetail levelDetail)
     {
+        InitIndices();
+
+        enemyLists = new List<List<Enemy>>();
+        enemyIndexes = new List<int>();
+
         _levelDetail = levelDetail;
 
         foreach (LevelEnemyDetail led in _levelDetail.levelEnemyDetails)
@@ -77,20 +81,21 @@ public static class EnemySpawnUtil
 
     public static Enemy NextEliteEnemyToSpawn()
     {
-        //TODO: delete log
-        Debug.Log("i: " + eliteEnemyIndex);
-
         if (eliteEnemyIndex >= _levelDetail.eliteEnemies.Length)
         {
             return null;
         }
 
+        Debug.Log("spawning elite [" + eliteEnemyIndex + "]");
+
         Enemy eliteEnemy = _levelDetail.eliteEnemies[eliteEnemyIndex++];
 
-        //TODO: delete log
-        Debug.Log(eliteEnemy);
-
         return eliteEnemy;
+    }
+
+    public static void DecrementEliteEnemyIndex()
+    {
+        eliteEnemyIndex--;
     }
 
     public static Enemy NextBossEnemyToSpawn()

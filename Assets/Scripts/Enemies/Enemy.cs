@@ -144,6 +144,11 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
 
     protected virtual void HandleForceKill(bool deathByPlayer)
     {
+        if (this is BossEnemy)
+        {
+            return;
+        }
+
         if (!deathByPlayer)
         {
             ProcessDeath();

@@ -9,7 +9,7 @@ public class Dagger : MonoBehaviour
     private bool piercing;
 
     [SerializeField]
-    GameObject onHitFx;
+    private GameObject onHitFx;
 
     private Rigidbody2D rb;
 

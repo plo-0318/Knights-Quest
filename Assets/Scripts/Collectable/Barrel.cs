@@ -27,7 +27,7 @@ public class Barrel : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (destroyed || other.GetComponent<PlayerMovement>() != null)
+        if (destroyed || other.GetComponent<PlayerCollider>() != null)
         {
             return;
         }

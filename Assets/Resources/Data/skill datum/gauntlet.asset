@@ -15,11 +15,11 @@ MonoBehaviour:
   displayName: Magnetic Gauntlet
   skillName: gauntlet
   type: UTILITY
-  description: Increase item pick up radius
-  lv2Effect: lv2 effect
-  lv3Effect: lv3 effect
-  lv4Effect: lv4 effect
-  lv5Effect: lv5 effect
+  description: Increase item pick up radius by 80%
+  lv2Effect: Increase item pick up radius by an additional 80%
+  lv3Effect: Increase item pick up radius by an additional 80%
+  lv4Effect: Increase item pick up radius by an additional 80%
+  lv5Effect: Increase item pick up radius by an additional 100%
   damage: 0
   cooldown: 0
   iconPath: skill icons/icons

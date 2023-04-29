@@ -23,8 +23,8 @@ public class SoundManager : MonoBehaviour
     [Range(0.01f, 1f)]
     public float sfxVolume = 0.05f;
 
-    private const float TIME_BETWEEN_GEM_SFX = 0.35f;
-    private const float TIME_BETWEEN_ENEMY_HURT_SFX = 0.05f;
+    private const float TIME_BETWEEN_GEM_SFX = 0.5f;
+    private const float TIME_BETWEEN_ENEMY_HURT_SFX = 0.1f;
 
     private float gemSFXTimer,
         enemyHurtSFXTimer;

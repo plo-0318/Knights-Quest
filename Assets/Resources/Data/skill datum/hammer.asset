@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbc309ebbaadf346a975338cb1dd718, type: 3}
   m_Name: hammer
   m_EditorClassIdentifier: 
-  displayName: Hammer (TBD)
+  displayName: Hammer Strike
   skillName: hammer
   type: ATTACK
-  description: Swing a hammer in the target direction damaging and knocking back
-    enemies hit
-  lv2Effect: lv2 effect
-  lv3Effect: lv3 effect
-  lv4Effect: lv4 effect
-  lv5Effect: lv5 effect
+  description: Swing a hammer at the closest enemy damaging and knocking back enemies
+    hit
+  lv2Effect: Damage +30%
+  lv3Effect: Cooldown -0.5s\nSwing distance +30%\nSwing speed +15%
+  lv4Effect: Damage +30%\nCooldown -0.5s
+  lv5Effect: Hammer now swings permanently around the player
   damage: 250
   cooldown: 3
   iconPath: skill icons/hammers

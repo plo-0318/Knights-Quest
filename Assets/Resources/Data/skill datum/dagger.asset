@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fbc309ebbaadf346a975338cb1dd718, type: 3}
   m_Name: dagger
   m_EditorClassIdentifier: 
-  displayName: Dagger (TBD)
+  displayName: Hail of Blades
   skillName: dagger
   type: ATTACK
   description: Throw daggers at surrounding enemies damaging the first enemy hit

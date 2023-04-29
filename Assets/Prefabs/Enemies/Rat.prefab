@@ -253,7 +253,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 6577379728914900299}
   enemyBodyCollider: {fileID: 3375239210090383103}
   baseSpeed: 2.5
-  baseHealth: 300
+  baseHealth: 350
   baseDamage: 100
 --- !u!114 &908843790247765722
 MonoBehaviour:

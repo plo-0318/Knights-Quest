@@ -15,11 +15,11 @@ MonoBehaviour:
   displayName: Boots of Ace
   skillName: boots
   type: UTILITY
-  description: Increase movement speed
-  lv2Effect: lv2 effect
-  lv3Effect: lv3 effect
-  lv4Effect: lv4 effect
-  lv5Effect: lv5 effect
+  description: Increase movement speed by 6%
+  lv2Effect: Increase movement speed by an additional 6%
+  lv3Effect: Increase movement speed by an additional 6%
+  lv4Effect: Increase movement speed by an additional 6%
+  lv5Effect: Increase movement speed by an additional 6%
   damage: 0
   cooldown: 0
   iconPath: skill icons/icons

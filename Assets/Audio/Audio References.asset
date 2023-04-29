@@ -53,3 +53,4 @@ MonoBehaviour:
   sfxFireballUse2: {fileID: 8300000, guid: 23ac445b7fb47c0469c5c7a4028adddb, type: 3}
   sfxFireballUse3: {fileID: 8300000, guid: 3d0e8a320f52d304985d6e7e06858fe6, type: 3}
   sfxWaterSpike: {fileID: 8300000, guid: 91315fd00a0c13943a0ef4923982433a, type: 3}
+  sfxLightning: {fileID: 8300000, guid: b072c1ffe35ade54f97bee29c3a939f0, type: 3}

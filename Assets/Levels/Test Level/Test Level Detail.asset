@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Test Level Detail
   m_EditorClassIdentifier: 
   levelEnemyDetails:
-  - spawnDuration: 45
+  - spawnDuration: 90
     levelEnemies:
     - enemy: {fileID: 3493714190664849845, guid: a72ea4aa0b776494fbbc940cf19d3a23, type: 3}
       proportion: 10
     - enemy: {fileID: 4549619414186141260, guid: e69252669040b8b4fa65a80fd79a5e70, type: 3}
       proportion: 1
-  - spawnDuration: 45
+  - spawnDuration: 90
     levelEnemies:
     - enemy: {fileID: 4549619414186141260, guid: e69252669040b8b4fa65a80fd79a5e70, type: 3}
       proportion: 10
@@ -37,9 +37,9 @@ MonoBehaviour:
       proportion: 2
   enemyModifiers: []
   bosses:
-  - {fileID: 3265954086334205709, guid: 71936f44da94f6747b129b7b2ada5853, type: 3}
-  - {fileID: 3265954086334205709, guid: 71936f44da94f6747b129b7b2ada5853, type: 3}
-  - {fileID: 3265954086334205709, guid: 71936f44da94f6747b129b7b2ada5853, type: 3}
+  - {fileID: 1325056260390343939, guid: 7ef6a71c6f61a2847a6cf038ff8d5af2, type: 3}
+  - {fileID: 7282185468599530361, guid: a03b921c1f1563e4291f6e2b9b303d4e, type: 3}
+  - {fileID: 3146867342425890354, guid: 7281a43625fa315478440a093efbb0bb, type: 3}
   eliteEnemies:
   - {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
   - {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
