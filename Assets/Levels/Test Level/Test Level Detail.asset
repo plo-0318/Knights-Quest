@@ -27,8 +27,18 @@ MonoBehaviour:
       proportion: 1
     - enemy: {fileID: 3493714190664849845, guid: a72ea4aa0b776494fbbc940cf19d3a23, type: 3}
       proportion: 3
-  - spawnDuration: 90
+  - spawnDuration: 60
     levelEnemies:
+    - enemy: {fileID: 3375239210774497508, guid: 5c63df86ab74b1e4a905517a7cf8a09a, type: 3}
+      proportion: 4
+    - enemy: {fileID: 4549619414186141260, guid: e69252669040b8b4fa65a80fd79a5e70, type: 3}
+      proportion: 2
+    - enemy: {fileID: 3493714190664849845, guid: a72ea4aa0b776494fbbc940cf19d3a23, type: 3}
+      proportion: 2
+  - spawnDuration: 45
+    levelEnemies:
+    - enemy: {fileID: 6455404618065320445, guid: adf7cbead1c22d14eab434971835dc42, type: 3}
+      proportion: 1
     - enemy: {fileID: 3375239210774497508, guid: 5c63df86ab74b1e4a905517a7cf8a09a, type: 3}
       proportion: 4
     - enemy: {fileID: 4549619414186141260, guid: e69252669040b8b4fa65a80fd79a5e70, type: 3}
