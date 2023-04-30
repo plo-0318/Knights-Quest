@@ -46,6 +46,11 @@ public class Hammer : MonoBehaviour
     private void OnDestroy()
     {
         spawnedHammers.Remove(hammerHolder.gameObject);
+
+        if (persist)
+        {
+            GameManager.GameSession().onGameLost -= OnGameLost;
+        }
     }
 
     private void Rotate()
@@ -84,6 +89,16 @@ public class Hammer : MonoBehaviour
         swingSpeed = rotateSpeed;
         rotateClockwise = clockwise;
         this.persist = persist;
+
+        if (persist)
+        {
+            GameManager.GameSession().onGameLost += OnGameLost;
+        }
+    }
+
+    private void OnGameLost()
+    {
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

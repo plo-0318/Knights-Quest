@@ -14,9 +14,6 @@ public class WalkingProjectileEnemy : WalkingEnemy, IAttackingAnimatable
     protected Transform projectileSpawnPos;
 
     [SerializeField]
-    protected float projectileDamage;
-
-    [SerializeField]
     protected float attackCooldownTime;
     protected float attackCooldownTimer;
 
@@ -27,7 +24,7 @@ public class WalkingProjectileEnemy : WalkingEnemy, IAttackingAnimatable
     protected override void Awake()
     {
         base.Awake();
-        attackCooldownTimer = attackCooldownTime;
+        attackCooldownTimer = 1f;
 
         animatorController = GetComponentInChildren<WalkingProjectileEnemyAnimatiorController>();
     }
@@ -67,24 +64,36 @@ public class WalkingProjectileEnemy : WalkingEnemy, IAttackingAnimatable
     {
         isAttacking = true;
 
-        SpawnProjectile();
-
-        handleAttackCoroutine = StartCoroutine(HandleAttackAnimation());
+        handleAttackCoroutine = StartCoroutine(HandleSpawnProjectile(0.2f));
     }
 
     protected virtual void SpawnProjectile()
     {
-        //TODO: add code for spawning the projectile here
         Instantiate(projectilePrefab, projectileSpawnPos.position, Quaternion.identity);
-        //GameObject spawnedProjectile = GameObject.Instantiate(projectilePrefab, projectileSpawnPos.position, Quaternion.identity);
-        //spawnedGameObject.Init(projectileDamage, direction * speed, speedModifier);
     }
 
-    protected virtual IEnumerator HandleAttackAnimation()
+    protected virtual IEnumerator HandleSpawnProjectile(float projectileSpawnDelay)
     {
-        float duration = animatorController.AttackAnimationLength;
+        float animationDuration = animatorController.AttackAnimationLength;
 
-        yield return new WaitForSeconds(duration);
+        // If the animation duration is less than projectile spawn delay duration
+        // Do not delay projectile spawn
+        if (animationDuration <= projectileSpawnDelay)
+        {
+            SpawnProjectile();
+
+            yield return new WaitForSeconds(animationDuration);
+        }
+        // Else, spawn the projectile after the delay duration
+        // and wait until the end of the animation duration
+        else
+        {
+            yield return new WaitForSeconds(projectileSpawnDelay);
+
+            SpawnProjectile();
+
+            yield return new WaitForSeconds(animationDuration - projectileSpawnDelay);
+        }
 
         isAttacking = false;
         attackCooldownTimer = attackCooldownTime;
@@ -102,8 +111,5 @@ public class WalkingProjectileEnemy : WalkingEnemy, IAttackingAnimatable
         base.ProcessDeath();
     }
 
-    public bool IsAttacking()
-    {
-        return isAttacking;
-    }
+    public bool IsAttacking() => isAttacking;
 }

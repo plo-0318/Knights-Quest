@@ -39,10 +39,7 @@ public class Field : MonoBehaviour
 
     private void Start()
     {
-        GameManager.GameSession().onGameLost += () =>
-        {
-            StartCoroutine(FadeOut());
-        };
+        GameManager.GameSession().onGameLost += FadeOut;
     }
 
     private void Update()
@@ -118,7 +115,12 @@ public class Field : MonoBehaviour
         }
     }
 
-    private IEnumerator FadeOut()
+    private void FadeOut()
+    {
+        StartCoroutine(HandleFadeOut());
+    }
+
+    private IEnumerator HandleFadeOut()
     {
         col.enabled = false;
 
@@ -139,6 +141,7 @@ public class Field : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.GameSession().RemoveModifierFromAllEnemies(speedMod);
+        GameManager.GameSession().onGameLost -= FadeOut;
     }
 
     //TODO: Delete this

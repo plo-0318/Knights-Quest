@@ -134,13 +134,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6455404618918856443}
   enemyBodyCollider: {fileID: 6455404617657122129}
-  baseSpeed: 0
-  baseHealth: 800
+  baseSpeed: 2.5
+  baseHealth: 400
   baseDamage: 100
   projectilePrefab: {fileID: 7274165490013760194, guid: 34f98927c54415c49a2b0b09a8609d02, type: 3}
   projectileSpawnPos: {fileID: 6455404619014931899}
-  projectileDamage: 100
-  attackCooldownTime: 5
+  attackCooldownTime: 3
 --- !u!114 &6455404618065320385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,11 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90992a038ac2ac14786aa28307f03385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectables:
-  - collectableType: 1
-    spawnChance: 50
-  - collectableType: 2
-    spawnChance: 50
+  collectablesLists:
+  - collectables:
+    - collectableType: 2
+      spawnChance: 1
 --- !u!1 &6455404618918856436
 GameObject:
   m_ObjectHideFlags: 0
