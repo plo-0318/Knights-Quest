@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     {
         canMove = false;
 
-        rb.velocity = direction * knockBackForce;
+        rb.velocity = direction.normalized * knockBackForce;
 
         StartCoroutine(RecoverFromKnockBack(knockBackDuration));
     }

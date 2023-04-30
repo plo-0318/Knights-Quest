@@ -37,6 +37,11 @@ public class WalkingEnemy : Enemy
 
     protected override void FixedUpdate()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         base.FixedUpdate();
 
         if (canMove)
@@ -45,7 +50,7 @@ public class WalkingEnemy : Enemy
         }
     }
 
-    private void Move()
+    protected virtual void Move()
     {
         Vector2 direction = playerTrans.position - transform.position;
 
