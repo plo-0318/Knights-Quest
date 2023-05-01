@@ -10,6 +10,8 @@ using UnityEngine.UI;
 enum HUD_ELEMENTS {
     HpBar,
     HpBarBuffer,
+    BossHpBar,
+    BossHpBarBuffer,
     ExpBar
 }
 
@@ -41,7 +43,6 @@ public class HUDManager : MonoBehaviour {
 
     [Header("Stopwatch")] 
     [SerializeField] private TextMeshProUGUI stopwatchLabel;
-    [SerializeField] private bool isStopwatchActive;
 
     [Header("Player Skills")]
     [SerializeField] private GameObject skill1;
@@ -61,14 +62,35 @@ public class HUDManager : MonoBehaviour {
     [SerializeField] private int currentLevelSkill4 = 1;
     private int currentNumberOfSkills = 0;
 
+    [Header("Boss Hp")] 
+    [SerializeField] private GameObject bossHpBar;
+    [SerializeField] private Image currentBossHpBar;
+    [SerializeField] private Image currentBossBufferHpBar;
+    [SerializeField] private TextMeshProUGUI bossHpLabel;
+    [SerializeField] private int currentBossHp;
+    [SerializeField] private int currentBossMaxHp;
+    [SerializeField] private int currentBossBufferHp;
+    [SerializeField] private float bossDamageTimeBuffer;
+    [SerializeField] private float bossHealingTimeBuffer;
+    private float currentBossDamageTimeBuffer;
+    private bool startBossDamageBuffer;
+    private float currentBossHealTimeBuffer;
+    private bool startBossHealBuffer;
+    public Enemy currentBoss;
+
+    private bool bossUIOnScreen = false;
+
     // Player Status
     private PlayerStatus playerStatus;
+    private GameSession gameSession;
 
     // Start is called before the first frame update
     void Start() 
     {
+        // Setup Game Managers
         playerStatus = GameManager.PlayerStatus();
-        
+        gameSession = GameManager.GameSession();
+
         // Enable HUD UI
         ShowHUD(startOffset: 1f);
 
@@ -109,9 +131,23 @@ public class HUDManager : MonoBehaviour {
         }
         
         // Check if Skill Count Changed
-        if (playerStatus.GetSkillDatum().Length > currentNumberOfSkills) {
-            UpdateSkillsUI();
-            currentNumberOfSkills = playerStatus.GetSkillDatum().Length;    
+        UpdateSkillsUI();
+        
+        // Check if the boss is spawned
+        currentBoss = EnemySpawnUtil.CurrentBoss;
+        
+        if (currentBoss != null) {
+            if (bossUIOnScreen == false) {
+                ShowBossUI();
+            }
+            
+            if (currentBoss.Health < currentBossHp) {
+                DecreaseBossHealth(Mathf.Abs(currentBossHp - (int)currentBoss.Health));
+            }
+
+            if (currentBossHp <= 0) {
+                HideBossUI();
+            }
         }
         
         // Damage Buffer Animation
@@ -140,6 +176,17 @@ public class HUDManager : MonoBehaviour {
             }
             
             currentHealTimeBuffer -= Time.deltaTime;
+        }
+        
+        // Boss Damage Buffer Animation
+        if (startBossDamageBuffer) {
+            if (currentBossDamageTimeBuffer <= 0) {
+                UpdateBarValue(currentBossBufferHpBar.gameObject, currentBossBufferHpBar.fillAmount, (float)currentBossHp/currentBossMaxHp, HUD_ELEMENTS.BossHpBarBuffer);
+                currentBossDamageTimeBuffer = bossDamageTimeBuffer;
+                startBossDamageBuffer = false;
+            }
+
+            currentBossDamageTimeBuffer -= Time.deltaTime;
         }
         
         // -- Timer --
@@ -288,6 +335,60 @@ public class HUDManager : MonoBehaviour {
 
         UpdateSkillsUI();
     }
+    
+    // -- BOSS --
+    private void ShowBossUI() 
+    {
+        bossHpBar.GetComponent<InAndOutAnimation>().MoveInAnimation();
+
+        currentBoss = EnemySpawnUtil.CurrentBoss;
+        currentBossHp = (int)currentBoss.Health;
+        currentBossMaxHp = (int)currentBoss.GetStat(Stat.MAX_HEALTH);
+        currentBossHpBar.fillAmount = 1f;
+        currentBossBufferHpBar.fillAmount = 1f;
+
+        bossUIOnScreen = true;
+    }
+
+    private void HideBossUI() {
+        bossHpBar.GetComponent<InAndOutAnimation>().MoveOutAnimation();
+        bossUIOnScreen = false;
+    }
+    
+    public void DecreaseBossHealth(int value) 
+    {
+        startBossDamageBuffer = true;
+        currentBossDamageTimeBuffer = bossDamageTimeBuffer;
+        
+        if (currentBossHp <= value) 
+        {
+            currentBossHp = 0;
+        }
+        else {
+            currentBossHp -= value;
+        }
+        
+        UpdateBarValue(currentBossHpBar.gameObject, currentBossHpBar.fillAmount, (float) currentBossHp/currentBossMaxHp, HUD_ELEMENTS.BossHpBar);
+    }
+
+    public void IncreaseBossHealth(int value) 
+    {
+        startHealBuffer = true;
+        currentHealTimeBuffer = healTimeBuffer;
+        
+        if (value >= maxHp || value + currentHp > maxHp) 
+        {
+            currentHp = maxHp;
+        }
+        else 
+        {
+            currentHp += value;
+        }
+        
+        // Update HP Bar Buffer
+        UpdateBarValue(bufferHpBar.gameObject, bufferHpBar.fillAmount, (float) currentHp/maxHp, HUD_ELEMENTS.HpBarBuffer);
+        UpdateHpLabel();
+    }
 
     // -- GENERAL FUNCTIONS --
 
@@ -319,6 +420,12 @@ public class HUDManager : MonoBehaviour {
                         break;
                     case HUD_ELEMENTS.ExpBar:
                         expBar.fillAmount = val;
+                        break;
+                    case HUD_ELEMENTS.BossHpBar:
+                        currentBossHpBar.fillAmount = val;
+                        break;
+                    case HUD_ELEMENTS.BossHpBarBuffer:
+                        currentBossBufferHpBar.fillAmount = val;
                         break;
                 }
             })
