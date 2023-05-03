@@ -19,6 +19,11 @@ public class AudioReferences : ScriptableObject
     public AudioClip sfxTick;
     public AudioClip sfxStart;
 
+    [Header("SFX UI")]
+    public AudioClip sfxMouseHover;
+    public AudioClip sfxLevelUpUIOpen;
+    public AudioClip sfxLevelUpUIConfirm;
+
     [Header("SFX Game")]
     public AudioClip sfxPlayerHurt;
     public AudioClip sfxPlayerShieldBreak;

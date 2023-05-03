@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private static LoadingScreen loadingScreenPrefab;
 
     // REFERENCES
+    private GatherInput gatherInput;
     private PlayerMovement playerMovement;
     private PlayerDirectionArrow playerDirectionArrow;
     private GameSession gameSession;
@@ -20,12 +21,20 @@ public class GameManager : MonoBehaviour
     private SpawnerManager spawnerManager;
     private SoundManager soundManager;
     private MapConfiner mapConfiner;
+    private HUDManager hudManager;
+    private PauseMenuUIManager pauseMenuUIManager;
+    private PauseManager pauseManager;
 
     // RESOURCES
     private Dictionary<string, SkillData> skillDatum;
     private GameObject damagePopupTextPrefab;
     private GameObject healPopupTextPrefab;
     private Dictionary<Collectable.Type, Collectable> collectablePrefabs;
+
+    // WINDOW UI
+    private List<string> availableScreenModes;
+    private List<Pair<int>> availableResolutions;
+    private List<int> availableRefreshRates;
 
     private void Awake()
     {
@@ -44,12 +53,30 @@ public class GameManager : MonoBehaviour
         LoadPopupTexts();
         LoadCollectables();
         loadingScreenPrefab = Resources.Load<LoadingScreen>("misc/Loading Screen");
+
+        InitWindowUIs();
+        WindowUIUtil.SetScreen();
     }
 
     ////////// REGISTER REFERENCES / REFERENCE GETTERS //////////
     public static GameManager GetGameManager()
     {
         return gameManager;
+    }
+
+    public static void RegisterGatherInput(GatherInput gi)
+    {
+        if (!gameManager)
+        {
+            return;
+        }
+
+        gameManager.gatherInput = gi;
+    }
+
+    public static GatherInput GatherInput()
+    {
+        return gameManager.gatherInput;
     }
 
     public static void RegisterPlayerMovement(PlayerMovement pm)
@@ -155,6 +182,51 @@ public class GameManager : MonoBehaviour
     public static MapConfiner MapConfiner()
     {
         return gameManager.mapConfiner;
+    }
+
+    public static void RegisterHUDManager(HUDManager hm)
+    {
+        if (!gameManager)
+        {
+            return;
+        }
+
+        gameManager.hudManager = hm;
+    }
+
+    public static HUDManager HUDManager()
+    {
+        return gameManager.hudManager;
+    }
+
+    public static void RegisterPauseMenuUIManager(PauseMenuUIManager pm)
+    {
+        if (!gameManager)
+        {
+            return;
+        }
+
+        gameManager.pauseMenuUIManager = pm;
+    }
+
+    public static PauseMenuUIManager PauseMenuUIManager()
+    {
+        return gameManager.pauseMenuUIManager;
+    }
+
+    public static void RegisterPauseManager(PauseManager pm)
+    {
+        if (!gameManager)
+        {
+            return;
+        }
+
+        gameManager.pauseManager = pm;
+    }
+
+    public static PauseManager PauseManager()
+    {
+        return gameManager.pauseManager;
     }
 
     ////////// ////////// ////////// ////////// ////////// //////////
@@ -279,6 +351,32 @@ public class GameManager : MonoBehaviour
     }
 
     ////////// ////////// ////////// ////////// ////////// //////////
+
+    /////////////////////////// WINDOW UI ///////////////////////////
+    private void InitWindowUIs()
+    {
+        availableScreenModes = WindowUIUtil.GetAvailableScreenModes();
+        availableResolutions = WindowUIUtil.GetAvailableResolutions();
+        availableRefreshRates = WindowUIUtil.GetAvailableRefreshRates();
+    }
+
+    public static List<string> GetAvailableScreenModes()
+    {
+        return new List<string>(gameManager.availableScreenModes);
+    }
+
+    public static List<Pair<int>> GetAvailableResolutions()
+    {
+        return new List<Pair<int>>(gameManager.availableResolutions);
+    }
+
+    public static List<int> GetAvailableRefreshRates()
+    {
+        return new List<int>(gameManager.availableRefreshRates);
+    }
+
+    ////////// ////////// ////////// ////////// ////////// //////////
+
 
     /////////////////////////// LOAD SCENE ///////////////////////////
     public static void ReloadScene(bool async = false, float delay = 0)

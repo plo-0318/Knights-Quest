@@ -215,7 +215,7 @@ public class AttackingTrollEnemy : TrollEnemy
     protected void SpawnFieldHazard()
     {
         int numSlowFields = 14;
-        float radius = 7.5f;
+        float radius = 8f;
 
         Vector3[] positions = Util.GeneratePositionsAround(
             BossBorder.GetBossBorderPos(),

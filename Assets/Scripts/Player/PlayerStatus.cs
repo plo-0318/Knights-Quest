@@ -521,16 +521,24 @@ public class PlayerStatus : MonoBehaviour
         gameSession.PauseGame();
         readyForLevelUp = false;
 
+        GameManager.HUDManager().ShowLevelUpUI();
+
+        Debug.Log("here 1");
+
         // Wait for level up UI to close
         while (!readyForLevelUp)
         {
             yield return null;
         }
 
+        Debug.Log("here 2");
+
         levelUps--;
 
         if (levelUps > 0 && !isDead)
         {
+            Debug.Log("here 3");
+
             gameSession.ResumeGame();
             yield return new WaitForSeconds(0.5f);
 
@@ -538,6 +546,8 @@ public class PlayerStatus : MonoBehaviour
         }
         else
         {
+            Debug.Log("here 4");
+
             gameSession.ResumeGame();
         }
     }
@@ -588,14 +598,12 @@ public class PlayerStatus : MonoBehaviour
     public float Health => _stat.health;
     public bool IsDead => isDead;
 
-    public float ExpForNextLevel(int level) {
+    public float ExpForNextLevel(int level)
+    {
         return _stat.ExpNeededToLevelUp(level);
     }
-    
-    // public bool HasSkill(string name)
-    // {
-    //     return skills.ContainsKey(name);
-    // }
+
+    public float ExpToNextLevel => _stat.ExpNeededToLevelUp(_stat.level + 1);
 
     //TODO: this is for testing level up ui, THIS IS TEMPORARY ! SHOULD DELETE
     public SkillData[] AvailableLevelUpSkillData()

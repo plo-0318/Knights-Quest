@@ -1,23 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ResolutionUITest : MonoBehaviour
 {
-    private void Start() { }
+    private TextMeshProUGUI text;
 
-    public void SetResolution1920()
+    private void Awake()
     {
-        Screen.SetResolution(1920, 1080, false);
+        text = GetComponent<TextMeshProUGUI>();
     }
 
-    public void SetResolution1280()
+    private void Update()
     {
-        Screen.SetResolution(1280, 720, false);
+        // text.text = Screen.currentResolution.refreshRate.ToString();
     }
 
-    public void SetResolution720()
+    private void Start()
     {
-        Screen.SetResolution(640, 360, false);
+        // string s = "";
+
+        // Resolution[] resolutions = Screen.resolutions;
+
+        // s += resolutions.Length.ToString();
+        // s += "<br>";
+
+        // foreach (var res in resolutions)
+        // {
+        //     s += (res.width.ToString() + ", " + res.height.ToString() + ", " + res.refreshRate);
+        //     s += "<br>";
+        // }
+
+        // text.text = s;
+
+        var list = WindowUIUtil.GetAvailableRefreshRates();
+
+        string s = "";
+
+        foreach (var i in list)
+        {
+            s += i.ToString() + "<br>";
+        }
+
+        text.text = s;
     }
 }

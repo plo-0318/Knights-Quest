@@ -9,10 +9,15 @@ public class SoundManager : MonoBehaviour
     {
         ENEMY_HURT,
         GEM,
+        MOUSE_HOVER,
         NONE
     }
 
-    private AudioSource audioSource;
+    [SerializeField]
+    private AudioSource musicAudioSource;
+
+    [SerializeField]
+    private AudioSource sfxAudioSource;
 
     [SerializeField]
     public AudioReferences audioRefs;
@@ -25,9 +30,11 @@ public class SoundManager : MonoBehaviour
 
     private const float TIME_BETWEEN_GEM_SFX = 0.5f;
     private const float TIME_BETWEEN_ENEMY_HURT_SFX = 0.1f;
+    private const float TIME_BETWEEN_MOUSE_HOVER_SFX = 0.25f;
 
     private float gemSFXTimer,
-        enemyHurtSFXTimer;
+        enemyHurtSFXTimer,
+        mouseHoverSFXTimer;
 
     private void Awake()
     {
@@ -44,22 +51,24 @@ public class SoundManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        audioSource = GetComponent<AudioSource>();
-        audioSource.clip = audioRefs.musicMainMenu;
+        musicAudioSource.clip = audioRefs.musicMainMenu;
 
-        gemSFXTimer = enemyHurtSFXTimer = 0f;
+        gemSFXTimer = enemyHurtSFXTimer = mouseHoverSFXTimer = 0f;
     }
 
     //TODO: UNCOMMENT THIS WHEN VOLUME UI IS IMPLEMENTED
     private void Start()
     {
-        musicVolume = .5f;
-        sfxVolume = .5f;
+        // musicVolume = .5f;
+        // sfxVolume = .5f;
 
-        // musicVolume = PlayerPrefsController.GetMusicVolume();
+        musicVolume = PlayerPrefsController.GetMusicVolume();
+        sfxVolume = PlayerPrefsController.GetSFXVolume();
 
-        audioSource.volume = musicVolume;
-        audioSource.Play();
+        musicAudioSource.volume = musicVolume;
+        musicAudioSource.Play();
+
+        sfxAudioSource.volume = sfxVolume;
 
         // Invoke("TEST_ChangeMusic", 0f);
     }
@@ -68,6 +77,7 @@ public class SoundManager : MonoBehaviour
     {
         gemSFXTimer -= Time.deltaTime;
         enemyHurtSFXTimer -= Time.deltaTime;
+        mouseHoverSFXTimer -= Time.unscaledDeltaTime;
     }
 
     public AudioClip GetRandomActionClip()
@@ -83,8 +93,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlayMusic(AudioClip audioClip)
     {
-        audioSource.clip = audioClip;
-        audioSource.Play();
+        musicAudioSource.clip = audioClip;
+        musicAudioSource.Play();
     }
 
     public void PlayClip(AudioClip audioClip, TimedSFX timed = TimedSFX.NONE)
@@ -92,22 +102,23 @@ public class SoundManager : MonoBehaviour
         // If not playing timed sfx
         if (timed == TimedSFX.NONE)
         {
-            AudioSource.PlayClipAtPoint(audioClip, Camera.main.transform.position, sfxVolume);
+            HandlePlaySFX(audioClip);
             return;
         }
 
         HandleTimedSFX(audioClip, timed);
     }
 
-    private void SetMusicVolume(float value)
+    public void SetMusicVolume(float value)
     {
         musicVolume = value;
-        audioSource.volume = musicVolume;
+        musicAudioSource.volume = musicVolume;
     }
 
-    private void SetSFXVolume(float value)
+    public void SetSFXVolume(float value)
     {
         sfxVolume = value;
+        sfxAudioSource.volume = sfxVolume;
     }
 
     public void UpdateVolume()
@@ -136,10 +147,26 @@ public class SoundManager : MonoBehaviour
 
             enemyHurtSFXTimer = TIME_BETWEEN_ENEMY_HURT_SFX;
         }
+        else if (timed == TimedSFX.MOUSE_HOVER)
+        {
+            if (mouseHoverSFXTimer > 0)
+            {
+                return;
+            }
 
-        AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, sfxVolume);
+            mouseHoverSFXTimer = TIME_BETWEEN_MOUSE_HOVER_SFX;
+        }
+
+        HandlePlaySFX(sfx);
     }
 
+    private void HandlePlaySFX(AudioClip sfx)
+    {
+        // AudioSource.PlayClipAtPoint(sfx, Camera.main.transform.position, sfxVolume);
+        sfxAudioSource.PlayOneShot(sfx);
+    }
+
+    //TODO: delete this test
     public void TEST_ChangeMusic()
     {
         PlayMusic(GetRandomActionClip());

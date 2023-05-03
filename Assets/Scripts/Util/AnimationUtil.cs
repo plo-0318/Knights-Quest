@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class AnimationUtil
@@ -144,5 +145,119 @@ public class AnimationUtil
         }
 
         sprite.color = originalColor;
+    }
+
+    public static void Fade(
+        Image image,
+        float duration,
+        float startAlpha,
+        float endAlpha,
+        bool scaledTime = true,
+        Action callback = null
+    )
+    {
+        image.StartCoroutine(
+            HandleFadingImage(image, duration, startAlpha, endAlpha, scaledTime, callback)
+        );
+    }
+
+    public static void Fade(
+        SpriteRenderer spriteRenderer,
+        float duration,
+        float startAlpha,
+        float endAlpha,
+        MonoBehaviour caller,
+        bool scaledTime = true,
+        Action callback = null
+    )
+    {
+        caller.StartCoroutine(
+            HandleFadingSpriteRenderer(
+                spriteRenderer,
+                duration,
+                startAlpha,
+                endAlpha,
+                scaledTime,
+                callback
+            )
+        );
+    }
+
+    private static IEnumerator HandleFadingImage(
+        Image image,
+        float duration,
+        float startAlpha,
+        float endAlpha,
+        bool scaled,
+        Action callback
+    )
+    {
+        float elapsedTime = 0;
+
+        Color endColor = new Color(image.color.r, image.color.g, image.color.b, endAlpha);
+
+        while (elapsedTime < duration)
+        {
+            float newAlpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
+
+            image.color = new Color(image.color.r, image.color.g, image.color.b, newAlpha);
+
+            if (scaled)
+            {
+                elapsedTime += Time.deltaTime;
+            }
+            else
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+            }
+
+            yield return null;
+        }
+
+        image.color = endColor;
+
+        if (callback != null)
+        {
+            callback();
+        }
+    }
+
+    private static IEnumerator HandleFadingSpriteRenderer(
+        SpriteRenderer image,
+        float duration,
+        float startAlpha,
+        float endAlpha,
+        bool scaled,
+        Action callback
+    )
+    {
+        float elapsedTime = 0;
+
+        Color endColor = new Color(image.color.r, image.color.g, image.color.b, endAlpha);
+
+        while (elapsedTime < duration)
+        {
+            float newAlpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
+
+            image.color = new Color(image.color.r, image.color.g, image.color.b, newAlpha);
+
+            if (scaled)
+            {
+                elapsedTime += Time.deltaTime;
+            }
+            else
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+            }
+
+            yield return null;
+        }
+
+        image.color = endColor;
+
+        if (callback != null)
+        {
+            callback();
+        }
     }
 }

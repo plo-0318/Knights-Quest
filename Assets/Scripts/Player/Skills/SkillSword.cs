@@ -181,7 +181,7 @@ public class SkillSword : Skill
 
             spanwedSwordWave
                 .GetComponent<SwordWave>()
-                .Init(damage / 2f, direction * swordWaveSpeed);
+                .Init(damage / 2.5f, direction * swordWaveSpeed);
         }
     }
 

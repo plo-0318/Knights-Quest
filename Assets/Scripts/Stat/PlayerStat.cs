@@ -13,8 +13,8 @@ public class PlayerStat : Stat
 
     ///////////////////// _EXP FORMULA /////////////////////
     private const int BASE_EXP = 100;
-    private const int LINEAR_INCREMENT = 75;
-    private const int EXPONENTIAL_INCREMENT = 100;
+    private const int LINEAR_INCREMENT = 50;
+    private const int EXPONENTIAL_INCREMENT = 20;
 
     /////////////////////////////////////////////////////
 
@@ -28,8 +28,7 @@ public class PlayerStat : Stat
         stats.Add(damage);
         stats.Add(speed);
         stats.Add(itemPickupRadius);
-        
-        
+
         BASE_STATS = new List<float>(stats);
 
         currentHealth = GetStat(MAX_HEALTH);
@@ -66,11 +65,20 @@ public class PlayerStat : Stat
         //TODO: DELETE
         // Debug.Log("exp: " + _exp + "/" + ExpNeededToLevelUp(_level + 1));
 
-        while (exp >= ExpNeededToLevelUp(_level + 1))
+        // If leveled up
+        while (_exp >= ExpNeededToLevelUp(_level + 1))
         {
+            // Set the exp to the leftover exp
+            _exp -= ExpNeededToLevelUp(_level + 1);
+
             _level++;
             levelUps++;
+
+            // Check if leftover exp is enough to level up
         }
+
+        //TODO: delete
+        // Debug.Log("exp: " + _exp + ", level: " + _level + ", levelups: " + levelUps);
 
         return levelUps;
     }

@@ -41,14 +41,6 @@ public class @Control : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""DestroyObj"",
-                    ""type"": ""Button"",
-                    ""id"": ""6b35dd9d-fff2-4736-a91a-73fa84518ba1"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -78,6 +70,39 @@ public class @Control : IInputActionCollection, IDisposable
                     ""name"": ""positive"",
                     ""id"": ""cf4fe406-59bb-416f-b159-b768a90f8873"",
                     ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""1fa58b44-e0d7-4566-a59a-1c15f9c9ba74"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveX"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""c44c5f46-65d9-468a-9432-393f5bc666fb"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""156dd3fe-fa36-409b-8b74-1edfac892101"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -119,6 +144,39 @@ public class @Control : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""3ad78546-e7ae-4d37-b6c8-15c02e497244"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveY"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""a755dcf9-377c-4b6a-8dff-b878177c050b"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""caf3531e-dcea-47ea-a4f8-19c77888f9f8"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""a15ab34c-b3da-4ff3-b133-893a0d539f60"",
                     ""path"": ""<Mouse>/position"",
@@ -128,15 +186,31 @@ public class @Control : IInputActionCollection, IDisposable
                     ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
+                }
+            ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""318fe7a1-50fd-4d7a-87a2-a81814c9c3c0"",
+            ""actions"": [
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""35ba217b-51d8-41e8-acbc-71f08727fa29"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""ad3ab7e4-7e8a-465d-a5a7-253f604e105a"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""eb58277b-c2c5-4fe3-89b7-0eb7be097a11"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""DestroyObj"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -150,7 +224,9 @@ public class @Control : IInputActionCollection, IDisposable
         m_Player_MoveX = m_Player.FindAction("MoveX", throwIfNotFound: true);
         m_Player_MoveY = m_Player.FindAction("MoveY", throwIfNotFound: true);
         m_Player_Mouse = m_Player.FindAction("Mouse", throwIfNotFound: true);
-        m_Player_DestroyObj = m_Player.FindAction("DestroyObj", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_Pause = m_UI.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -203,7 +279,6 @@ public class @Control : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_MoveX;
     private readonly InputAction m_Player_MoveY;
     private readonly InputAction m_Player_Mouse;
-    private readonly InputAction m_Player_DestroyObj;
     public struct PlayerActions
     {
         private @Control m_Wrapper;
@@ -211,7 +286,6 @@ public class @Control : IInputActionCollection, IDisposable
         public InputAction @MoveX => m_Wrapper.m_Player_MoveX;
         public InputAction @MoveY => m_Wrapper.m_Player_MoveY;
         public InputAction @Mouse => m_Wrapper.m_Player_Mouse;
-        public InputAction @DestroyObj => m_Wrapper.m_Player_DestroyObj;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,9 +304,6 @@ public class @Control : IInputActionCollection, IDisposable
                 @Mouse.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouse;
                 @Mouse.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouse;
                 @Mouse.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouse;
-                @DestroyObj.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDestroyObj;
-                @DestroyObj.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDestroyObj;
-                @DestroyObj.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDestroyObj;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -246,18 +317,51 @@ public class @Control : IInputActionCollection, IDisposable
                 @Mouse.started += instance.OnMouse;
                 @Mouse.performed += instance.OnMouse;
                 @Mouse.canceled += instance.OnMouse;
-                @DestroyObj.started += instance.OnDestroyObj;
-                @DestroyObj.performed += instance.OnDestroyObj;
-                @DestroyObj.canceled += instance.OnDestroyObj;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private IUIActions m_UIActionsCallbackInterface;
+    private readonly InputAction m_UI_Pause;
+    public struct UIActions
+    {
+        private @Control m_Wrapper;
+        public UIActions(@Control wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Pause => m_Wrapper.m_UI_Pause;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void SetCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterface != null)
+            {
+                @Pause.started -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnPause;
+            }
+            m_Wrapper.m_UIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+            }
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface IPlayerActions
     {
         void OnMoveX(InputAction.CallbackContext context);
         void OnMoveY(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
-        void OnDestroyObj(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnPause(InputAction.CallbackContext context);
     }
 }

@@ -43,5 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46c5b143db2525429f5c081f2e63147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerText: {fileID: 0}
   levelDetail: {fileID: 11400000, guid: ece8ce2f888c2c7479e0e74d5384963a, type: 2}

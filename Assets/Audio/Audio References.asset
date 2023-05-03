@@ -22,6 +22,9 @@ MonoBehaviour:
   sfxMenuClick: {fileID: 8300000, guid: 21b9d6b158297dd449863015c3ba08e3, type: 3}
   sfxTick: {fileID: 8300000, guid: cf74b46d8c33765419b365cd8750d1dc, type: 3}
   sfxStart: {fileID: 8300000, guid: 010ef40ab8bab6a4d8e8d5c031f81541, type: 3}
+  sfxMouseHover: {fileID: 8300000, guid: 87caeb1c9063b3b4d955aae03a8f2fe5, type: 3}
+  sfxLevelUpUIOpen: {fileID: 8300000, guid: 5e643f9a1b90ec94593292895ba3f9e2, type: 3}
+  sfxLevelUpUIConfirm: {fileID: 8300000, guid: 5cddb521b0b9aac4d9ae2f39bd3216d8, type: 3}
   sfxPlayerHurt: {fileID: 8300000, guid: 1c2ec734cba4aaa4b85f83cd7c12b881, type: 3}
   sfxPlayerShieldBreak: {fileID: 8300000, guid: 38da7875e09d4074c8e114aa8762d79e, type: 3}
   sfxEnemyHurt: {fileID: 8300000, guid: 5840bf9ce754c4945871b11b18cbaa3e, type: 3}

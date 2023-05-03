@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class GatherInput : MonoBehaviour
 {
@@ -12,10 +13,13 @@ public class GatherInput : MonoBehaviour
         moveValueY;
 
     public Vector2 mousePos;
+    public event Action onPausePressed;
 
     private void Awake()
     {
         myControl = new Control();
+
+        GameManager.RegisterGatherInput(this);
     }
 
     private void OnEnable()
@@ -28,12 +32,20 @@ public class GatherInput : MonoBehaviour
 
         myControl.Player.Mouse.performed += MouseMove;
 
+        myControl.UI.Pause.performed += HandlePause;
+
         myControl.Player.Enable();
+        myControl.UI.Enable();
     }
 
     private void OnDisable()
     {
         DisableControls();
+    }
+
+    private void HandlePause(InputAction.CallbackContext ctx)
+    {
+        onPausePressed?.Invoke();
     }
 
     private void StartMoveX(InputAction.CallbackContext ctx)
@@ -71,7 +83,10 @@ public class GatherInput : MonoBehaviour
 
         myControl.Player.Mouse.performed -= MouseMove;
 
+        myControl.UI.Pause.performed += HandlePause;
+
         myControl.Player.Disable();
+        myControl.UI.Disable();
 
         moveValueX = moveValueY = 0;
     }

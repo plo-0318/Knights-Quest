@@ -9,12 +9,10 @@ public class GameSession : MonoBehaviour
 {
     private float timer;
 
-    [SerializeField]
-    private TextMeshProUGUI timerText;
-
     private SpawnerManager spawnerManager;
     private PlayerStatus playerStatus;
     private SoundManager soundManager;
+    private HUDManager hudManager;
     private float bossBorderFadeOutTime = 3f;
 
     //////////////////// GAME STATE ////////////////////
@@ -116,6 +114,7 @@ public class GameSession : MonoBehaviour
         spawnerManager = GameManager.SpawnerManager();
         playerStatus = GameManager.PlayerStatus();
         soundManager = GameManager.SoundManager();
+        hudManager = GameManager.HUDManager();
 
         spawnerManager.InstantiateSpawners(maxEnemyPerWave);
 
@@ -128,15 +127,6 @@ public class GameSession : MonoBehaviour
         TickTimer();
         ExecTimedEvents();
         SpawnEnemy();
-    }
-
-    private void FixedUpdate()
-    {
-        // TODO: Delete this test
-        if (timerText)
-        {
-            timerText.text = Util.GetTimeString(timer);
-        }
     }
 
     private void OnDestroy()
@@ -194,6 +184,10 @@ public class GameSession : MonoBehaviour
     {
         canSpawnEnemy = true;
         tickTimer = true;
+
+        hudManager.ShowHUD();
+
+        GameManager.PlayerStatus().AssignSkill(new SkillSword());
     }
 
     public void PauseGame()
