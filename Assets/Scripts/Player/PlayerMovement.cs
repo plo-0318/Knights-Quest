@@ -12,7 +12,10 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
     private Vector3 BASE_LOCALSCALE;
 
     [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer bodySpriteRenderer;
+
+    [SerializeField]
+    private SpriteRenderer feetSpriteRender;
 
     [SerializeField]
     private Collider2D playerCollider;
@@ -92,10 +95,10 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
 
         if (hasHorizontalSpeed)
         {
-            spriteRenderer.gameObject.transform.localScale = new Vector2(
-                Mathf.Sign(rb.velocity.x) * BASE_LOCALSCALE.x,
-                1f
-            );
+            Vector2 newScale = new Vector2(Mathf.Sign(rb.velocity.x) * BASE_LOCALSCALE.x, 1f);
+
+            bodySpriteRenderer.gameObject.transform.localScale = newScale;
+            feetSpriteRender.gameObject.transform.localScale = newScale;
         }
     }
 
@@ -143,7 +146,7 @@ public class PlayerMovement : MonoBehaviour, IAnimatable
         return transform;
     }
 
-    public SpriteRenderer SpriteRender => spriteRenderer;
+    public SpriteRenderer SpriteRender => bodySpriteRenderer;
     public Collider2D PlayerCollider => playerCollider;
 
     public Vector3 MousePos => Camera.main.ScreenToWorldPoint(gatherInput.mousePos);

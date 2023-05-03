@@ -499,7 +499,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 695370509
   m_SortingLayer: 9
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 495214c9119854e4a974050040e6b699, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -789,7 +789,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c3f555f5c01e34b84a443d91c76f42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 6804288774159736818}
+  bodySpriteRenderer: {fileID: 6804288774159736818}
+  feetSpriteRender: {fileID: 6804288774138864153}
   playerCollider: {fileID: 6804288773954700386}
   knockBackForce: 10
   knockBackDuration: 0.15

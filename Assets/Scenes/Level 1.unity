@@ -32700,11 +32700,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4021424389501421777, guid: bebdf5494f346164baa78c6848c3d460, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: -0.00024414808
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4021424389501421777, guid: bebdf5494f346164baa78c6848c3d460, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1.0004883
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4021424389501421778, guid: bebdf5494f346164baa78c6848c3d460, type: 3}
       propertyPath: m_Name
