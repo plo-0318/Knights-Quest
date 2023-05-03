@@ -118,8 +118,7 @@ public class GameSession : MonoBehaviour
 
         spawnerManager.InstantiateSpawners(maxEnemyPerWave);
 
-        // TODO: delete
-        // BossBorder.Spawn();
+        Invoke(nameof(StartGame), 3f);
     }
 
     private void Update()
@@ -226,6 +225,12 @@ public class GameSession : MonoBehaviour
 
     public void HandleGameWon()
     {
+        // If the player kills the boss after death, do nothing
+        if (GameManager.PlayerStatus().IsDead)
+        {
+            return;
+        }
+
         canSpawnEnemy = false;
         tickTimer = false;
         gameOver = true;

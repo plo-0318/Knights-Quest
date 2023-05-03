@@ -49,10 +49,9 @@ public class UIGameOverEvent : UIGameEvent
         soundManager.PlayClip(soundManager.audioRefs.sfxMenuClick);
     }
 
-    //TODO: Update this code
     private void HandleMainMenu()
     {
         EndEvent();
-        GameManager.ReloadScene(true, 0.5f);
+        GameManager.LoadScene("Main Menu", true);
     }
 }

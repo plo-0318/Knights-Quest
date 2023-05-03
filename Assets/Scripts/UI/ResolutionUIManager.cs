@@ -59,16 +59,16 @@ public class ResolutionUIManager : MonoBehaviour
     {
         soundManager = GameManager.SoundManager();
 
-        InitButton(screenLeftButton, HandleScreenModePreviousButtonClick);
-        InitButton(screenRightButton, HandleScreenModeNextButtonClick);
+        UIUtil.InitButton(screenLeftButton, HandleScreenModePreviousButtonClick);
+        UIUtil.InitButton(screenRightButton, HandleScreenModeNextButtonClick);
 
-        InitButton(resLeftButton, HandleResPreviousButtonClick);
-        InitButton(resRightButton, HandleResNextButtonClick);
+        UIUtil.InitButton(resLeftButton, HandleResPreviousButtonClick);
+        UIUtil.InitButton(resRightButton, HandleResNextButtonClick);
 
-        InitButton(refreshLeftButton, HandleRefreshPreviousButtonClick);
-        InitButton(refreshRightButton, HandleRefreshNextButtonClick);
+        UIUtil.InitButton(refreshLeftButton, HandleRefreshPreviousButtonClick);
+        UIUtil.InitButton(refreshRightButton, HandleRefreshNextButtonClick);
 
-        InitButton(applyButton, HandleApplyButtonClick);
+        UIUtil.InitButton(applyButton, HandleApplyButtonClick);
     }
 
     public void Init()
@@ -239,51 +239,4 @@ public class ResolutionUIManager : MonoBehaviour
     }
 
     //////////////////////// RESOLUTION HANDLERS ////////////////////////
-
-
-    ////////////////////// INITIALIZING BUTTONS //////////////////////
-    private void InitButton(GameObject button, UnityAction onClick)
-    {
-        var btn = button.GetComponent<Button>();
-        var btnEvents = button.GetComponent<ButtonEventHandler>();
-        btn.onClick.AddListener(PlayClickSFX);
-        btn.onClick.AddListener(onClick);
-        btnEvents.onSelectAction.AddListener(
-            delegate
-            {
-                OnSelectButton(button);
-            }
-        );
-        btnEvents.onDeselectAction.AddListener(
-            delegate
-            {
-                OnDeselectButton(button);
-            }
-        );
-    }
-
-    private void OnSelectButton(GameObject target)
-    {
-        soundManager.PlayClip(
-            soundManager.audioRefs.sfxMouseHover,
-            SoundManager.TimedSFX.MOUSE_HOVER
-        );
-
-        LeanTween
-            .scale(target, new Vector3(1.3f, 1.3f, 1.3f), 0.3f)
-            .setEaseOutExpo()
-            .setIgnoreTimeScale(true);
-    }
-
-    //UI Animation based in button deselection
-    private void OnDeselectButton(GameObject target)
-    {
-        LeanTween.scale(target, Vector3.one, 0.3f).setEaseOutExpo().setIgnoreTimeScale(true);
-    }
-
-    private void PlayClickSFX()
-    {
-        soundManager.PlayClip(soundManager.audioRefs.sfxMenuClick);
-    }
-    ////////// ////////// ////////// ////////// ////////// //////////
 }

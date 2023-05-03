@@ -48,6 +48,7 @@ public class PlayerPrefsController : MonoBehaviour
     private const string RESOLUTION_H_KEY = "resolution height";
     private const string SCREEN_MODE_KEY = "screen mode";
     private const string REFRESH_RATE_KEY = "refresh rate";
+    private const string DIFFICULTY_KEY = "difficulty";
 
     private const float DEFAULT_VOLUME = 0.5f;
 
@@ -55,6 +56,7 @@ public class PlayerPrefsController : MonoBehaviour
     private const float MAX_VOLUME = 1f;
 
     private const string DEFAULT_SCREEN_MODE = "windowed";
+    private const string DEFAULT_DIFFICULTY = "normal";
 
     public static void SetMusicVolume(float volume)
     {
@@ -139,5 +141,27 @@ public class PlayerPrefsController : MonoBehaviour
         return availableRefreshRates.Count > 0
             ? availableRefreshRates[availableRefreshRates.Count - 1]
             : 60;
+    }
+
+    public static void SetDifficulty(string difficulty)
+    {
+        if (
+            difficulty != "noob"
+            && difficulty != "easy"
+            && difficulty != "normal"
+            && difficulty != "hard"
+        )
+        {
+            return;
+        }
+
+        PlayerPrefs.SetString(DIFFICULTY_KEY, difficulty);
+    }
+
+    public static string GetDifficulty()
+    {
+        return PlayerPrefs.HasKey(DIFFICULTY_KEY)
+            ? PlayerPrefs.GetString(DIFFICULTY_KEY)
+            : DEFAULT_DIFFICULTY;
     }
 }

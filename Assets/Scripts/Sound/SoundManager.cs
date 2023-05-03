@@ -56,12 +56,8 @@ public class SoundManager : MonoBehaviour
         gemSFXTimer = enemyHurtSFXTimer = mouseHoverSFXTimer = 0f;
     }
 
-    //TODO: UNCOMMENT THIS WHEN VOLUME UI IS IMPLEMENTED
     private void Start()
     {
-        // musicVolume = .5f;
-        // sfxVolume = .5f;
-
         musicVolume = PlayerPrefsController.GetMusicVolume();
         sfxVolume = PlayerPrefsController.GetSFXVolume();
 
@@ -69,8 +65,6 @@ public class SoundManager : MonoBehaviour
         musicAudioSource.Play();
 
         sfxAudioSource.volume = sfxVolume;
-
-        // Invoke("TEST_ChangeMusic", 0f);
     }
 
     private void Update()

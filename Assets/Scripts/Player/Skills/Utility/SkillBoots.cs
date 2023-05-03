@@ -14,7 +14,7 @@ public class SkillBoots : Skill
 
         level = 1;
 
-        speedModifier = new Modifier(Stat.SPEED, "SkillBoots", 0.06f);
+        speedModifier = new Modifier(Stat.SPEED, "SkillBoots", 0.08f);
 
         appliedModifier = false;
     }
@@ -23,25 +23,25 @@ public class SkillBoots : Skill
     {
         if (level == 2)
         {
-            speedModifier.multiplier = 0.12f;
+            speedModifier.multiplier = 0.16f;
             appliedModifier = false;
         }
 
         if (level == 3)
         {
-            speedModifier.multiplier = 0.18f;
+            speedModifier.multiplier = 0.24f;
             appliedModifier = false;
         }
 
         if (level == 4)
         {
-            speedModifier.multiplier = 0.24f;
+            speedModifier.multiplier = 0.32f;
             appliedModifier = false;
         }
 
         if (level == 5)
         {
-            speedModifier.multiplier = 0.3f;
+            speedModifier.multiplier = 0.4f;
             appliedModifier = false;
         }
     }

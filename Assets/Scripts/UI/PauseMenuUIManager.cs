@@ -25,6 +25,9 @@ public class PauseMenuUIManager : MonoBehaviour
     private GameObject resolutionScreen;
 
     [SerializeField]
+    private GameObject mainMenuWarningScreen;
+
+    [SerializeField]
     private GameObject volumeScreen;
 
     [Header("Pause Menu Buttons")]
@@ -61,6 +64,13 @@ public class PauseMenuUIManager : MonoBehaviour
     [SerializeField]
     private GameObject volumeBackButton;
 
+    [Header("Main Menu Warning Buttons")]
+    [SerializeField]
+    private GameObject mainMenuConfirmButton;
+
+    [SerializeField]
+    private GameObject mainMenuBackButton;
+
     [Header("Pause Menu Skills")]
     [SerializeField]
     private GameObject[] combatSkills;
@@ -86,63 +96,63 @@ public class PauseMenuUIManager : MonoBehaviour
 
         //////// Pause Menu - Listeners ////////
         // Continue button
-        InitButton(continueButton, GameManager.PauseManager().HidePauseMenu);
+        UIUtil.InitButton(continueButton, GameManager.PauseManager().HidePauseMenu);
 
         // Options button
-        InitButton(optionsButton, NavigateToOptions);
+        UIUtil.InitButton(optionsButton, NavigateToOptions);
 
         // Quit button
-        InitButton(
-            mainMenuButton,
-            () =>
-            {
-                Debug.Log("quit...");
-            }
-        );
+        UIUtil.InitButton(mainMenuButton, NavigateToMainMenuWarning);
         //////// //////// //////// //////// ////////
 
         //////// Options Menu - Listeners ////////
-        InitButton(optionsBackButton, NavigateToPause);
-        InitButton(optionsResolutionButton, NavigateToResolution);
-        InitButton(optionsVolumeButton, NavigateToVolume);
+        UIUtil.InitButton(optionsBackButton, NavigateToPause);
+        UIUtil.InitButton(optionsResolutionButton, NavigateToResolution);
+        UIUtil.InitButton(optionsVolumeButton, NavigateToVolume);
         //////// //////// //////// //////// ////////
 
 
         //////// Resolution Menu - Listeners ////////
-        InitButton(resolutionBackButton, NavigateToOptions);
+        UIUtil.InitButton(resolutionBackButton, NavigateToOptions);
         //////// //////// //////// //////// ////////
 
         //////// Resolution Menu - Listeners ////////
-        InitButton(volumeBackButton, NavigateToOptions);
+        UIUtil.InitButton(volumeBackButton, NavigateToOptions);
+        //////// //////// //////// //////// ////////
+
+        //////// Main Menu - Listeners ////////
+        UIUtil.InitButton(mainMenuConfirmButton, NavigateToPause);
+        UIUtil.InitButton(mainMenuBackButton, NavigateToPause);
         //////// //////// //////// //////// ////////
     }
 
-    private void NavigateToPause()
+    private void CloseAllSubMenus()
     {
         EventSystem.current.SetSelectedGameObject(null);
         optionsScreen.SetActive(false);
         resolutionScreen.SetActive(false);
         volumeScreen.SetActive(false);
+        pauseMenuScreen.SetActive(false);
+        mainMenuWarningScreen.SetActive(false);
+    }
+
+    private void NavigateToPause()
+    {
+        CloseAllSubMenus();
 
         pauseMenuScreen.SetActive(true);
     }
 
     private void NavigateToOptions()
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        pauseMenuScreen.SetActive(false);
-        resolutionScreen.SetActive(false);
-        volumeScreen.SetActive(false);
+        CloseAllSubMenus();
 
         optionsScreen.SetActive(true);
     }
 
     private void NavigateToResolution()
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        pauseMenuScreen.SetActive(false);
-        optionsScreen.SetActive(false);
-        volumeScreen.SetActive(false);
+        CloseAllSubMenus();
 
         resolutionScreen.SetActive(true);
         resolutionScreen.GetComponent<ResolutionUIManager>().Init();
@@ -150,12 +160,16 @@ public class PauseMenuUIManager : MonoBehaviour
 
     private void NavigateToVolume()
     {
-        EventSystem.current.SetSelectedGameObject(null);
-        pauseMenuScreen.SetActive(false);
-        resolutionScreen.SetActive(false);
-        optionsScreen.SetActive(false);
+        CloseAllSubMenus();
 
         volumeScreen.SetActive(true);
+    }
+
+    private void NavigateToMainMenuWarning()
+    {
+        CloseAllSubMenus();
+
+        mainMenuWarningScreen.SetActive(true);
     }
 
     private void UpdateSkillUI()
@@ -264,50 +278,5 @@ public class PauseMenuUIManager : MonoBehaviour
                 backdrop.gameObject.SetActive(false);
             }
         );
-    }
-
-    // General Tween Animations
-    private void OnSelectButton(GameObject target)
-    {
-        soundManager.PlayClip(
-            soundManager.audioRefs.sfxMouseHover,
-            SoundManager.TimedSFX.MOUSE_HOVER
-        );
-
-        LeanTween
-            .scale(target, new Vector3(1.3f, 1.3f, 1.3f), 0.3f)
-            .setEaseOutExpo()
-            .setIgnoreTimeScale(true);
-    }
-
-    //UI Animation based in button deselection
-    private void OnDeselectButton(GameObject target)
-    {
-        LeanTween.scale(target, Vector3.one, 0.3f).setEaseOutExpo().setIgnoreTimeScale(true);
-    }
-
-    private void InitButton(GameObject button, UnityAction onClick)
-    {
-        var btn = button.GetComponent<Button>();
-        var btnEvents = button.GetComponent<ButtonEventHandler>();
-        btn.onClick.AddListener(PlayClickSFX);
-        btn.onClick.AddListener(onClick);
-        btnEvents.onSelectAction.AddListener(
-            delegate
-            {
-                OnSelectButton(button);
-            }
-        );
-        btnEvents.onDeselectAction.AddListener(
-            delegate
-            {
-                OnDeselectButton(button);
-            }
-        );
-    }
-
-    private void PlayClickSFX()
-    {
-        soundManager.PlayClip(soundManager.audioRefs.sfxMenuClick);
     }
 }

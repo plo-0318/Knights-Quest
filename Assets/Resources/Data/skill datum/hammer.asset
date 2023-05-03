@@ -17,12 +17,12 @@ MonoBehaviour:
   type: ATTACK
   description: Swing a hammer at the closest enemy damaging and knocking back enemies
     hit
-  lv2Effect: Damage +30%
+  lv2Effect: Damage +30%<br>Cooldown -0.5s
   lv3Effect: Cooldown -0.5s<br>Swing distance +30%<br>Swing speed +15%
   lv4Effect: Damage +30%<br>Cooldown -0.5s
   lv5Effect: Hammer now swings permanently around the player
   damage: 250
-  cooldown: 3
+  cooldown: 2.5
   iconPath: skill icons/hammers
   iconSubName: hammers_35
   sprite: {fileID: 8414190229883720008, guid: e39799c79cfe0f941a6d6d12c701de79, type: 3}

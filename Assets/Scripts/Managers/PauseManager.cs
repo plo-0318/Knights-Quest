@@ -8,12 +8,14 @@ public class PauseManager : MonoBehaviour
     private bool pauseMenuOpen;
     private GameSession gameSession;
     private SoundManager soundManager;
+    private bool allowPause;
 
     private void Awake()
     {
         GameManager.RegisterPauseManager(this);
 
         pauseMenuOpen = false;
+        allowPause = true;
     }
 
     private void Start()
@@ -26,6 +28,11 @@ public class PauseManager : MonoBehaviour
 
     private void TogglePauseMenu()
     {
+        if (!allowPause)
+        {
+            return;
+        }
+
         // If pause menu is not open, open it
         if (!pauseMenuOpen)
         {
@@ -51,5 +58,15 @@ public class PauseManager : MonoBehaviour
 
         GameManager.PauseMenuUIManager().HidePauseMenu(gameSession.ResumeGame);
         pauseMenuOpen = false;
+    }
+
+    public void EnablePause()
+    {
+        allowPause = true;
+    }
+
+    public void DisablePause()
+    {
+        allowPause = false;
     }
 }

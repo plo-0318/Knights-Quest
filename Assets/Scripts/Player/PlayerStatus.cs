@@ -267,7 +267,7 @@ public class PlayerStatus : MonoBehaviour
         {
             AssignSkill(skill);
             readyForLevelUp = true;
-            // FindObjectOfType<LevelUpUITest>().Hide();
+            GameManager.PauseManager().EnablePause();
         };
     }
 
@@ -371,159 +371,17 @@ public class PlayerStatus : MonoBehaviour
         return SkillData.GetSkills(availableSkills.Keys);
     }
 
-    //TODO: this is for testing level up ui, THIS IS TEMPORARY ! SHOULD DELETE
-    // public LevelUpUISkillCardData[] AvailableLevelUpSkills()
-    // {
-    //     // var skills = new Dictionary<string, Skill>();
-    //     // var skillSword = new SkillSword();
-    //     // var skillDagger = new SkillDagger();
-    //     // var skillFIeld = new SkillField();
-    //     // var skillArrow = new SkillArrow();
-    //     // var skillFireball = new SkillFireball();
-    //     // var skillHammer = new SkillHammer();
-
-    //     // var skillBoots = new SkillBoots();
-    //     // var skillShield = new SkillShield();
-    //     // var skillCrystal = new SkillCrystal();
-    //     // var skillGauntlet = new SkillGauntlet();
-
-    //     // skills.Add(skillArrow.name, skillArrow);
-    //     // skillArrow.Upgrade();
-    //     // skillArrow.Upgrade();
-    //     // skillArrow.Upgrade();
-    //     // skills.Add(skillDagger.name, skillDagger);
-    //     // skillDagger.Upgrade();
-    //     // skillDagger.Upgrade();
-    //     // skillDagger.Upgrade();
-    //     // skills.Add(skillShield.name, skillShield);
-    //     // skills.Add(skillGauntlet.name, skillGauntlet);
-
-    //     var availableSkills = GenerateLevelUpSkills();
-
-    //     List<Skill> levelUpSkills = new List<Skill>();
-
-    //     Func<List<Skill>, List<Skill>> getThreeRandomSkills = availSkills =>
-    //     {
-    //         if (availSkills.Count <= 3)
-    //         {
-    //             return availSkills;
-    //         }
-
-    //         List<Skill> tempSkills = new List<Skill>();
-
-    //         while (tempSkills.Count < 3)
-    //         {
-    //             int rand = UnityEngine.Random.Range(0, availSkills.Count);
-
-    //             if (!tempSkills.Contains(availSkills[rand]))
-    //             {
-    //                 tempSkills.Add(availSkills[rand]);
-    //             }
-    //         }
-
-    //         return tempSkills;
-    //     };
-
-    //     levelUpSkills = getThreeRandomSkills(availableSkills);
-
-    //     while (levelUpSkills.Count < 3)
-    //     {
-    //         levelUpSkills.Add(SkillConsumable.GenerateRandomConsumable());
-    //     }
-
-    //     List<LevelUpUISkillCardData> skillCardDatum = new List<LevelUpUISkillCardData>();
-
-    //     foreach (var skill in levelUpSkills)
-    //     {
-    //         string displayName;
-    //         Sprite sprite;
-    //         string description;
-    //         int level;
-
-    //         if (skill is SkillConsumable)
-    //         {
-    //             var skillCon = (SkillConsumable)skill;
-    //             displayName = skillCon.displayName;
-    //             sprite = skillCon.sprite;
-    //             description = skillCon.description;
-    //             level = 0;
-    //         }
-    //         else
-    //         {
-    //             string skillName = skill.name.ToLower();
-    //             displayName = GameManager.GetSkillData(skillName).displayName;
-    //             sprite = GameManager.GetSkillData(skillName).sprite;
-    //             description = GameManager.GetSkillData(skillName).description;
-    //             level = 1;
-
-    //             if (skills.TryGetValue(skillName, out Skill s))
-    //             {
-    //                 displayName += " Lv" + (s.Level() + 1).ToString();
-    //                 level = s.Level() + 1;
-
-    //                 switch (s.Level() + 1)
-    //                 {
-    //                     case 2:
-    //                         description = GameManager.GetSkillData(skillName).lv2Effect;
-    //                         break;
-    //                     case 3:
-    //                         description = GameManager.GetSkillData(skillName).lv3Effect;
-    //                         break;
-    //                     case 4:
-    //                         description = GameManager.GetSkillData(skillName).lv4Effect;
-    //                         break;
-    //                     case 5:
-    //                         description = GameManager.GetSkillData(skillName).lv5Effect;
-    //                         break;
-    //                     default:
-    //                         break;
-    //                 }
-    //             }
-    //         }
-
-    //         skillCardDatum.Add(
-    //             new LevelUpUISkillCardData(
-    //                 displayName,
-    //                 sprite,
-    //                 description,
-    //                 level,
-    //                 () =>
-    //                 {
-    //                     AssignSkill(skill);
-    //                     readyForLevelUp = true;
-    //                     FindObjectOfType<LevelUpUITest>().Hide();
-    //                 }
-    //             )
-    //         );
-    //     }
-
-    //     // foreach (var card in skillCardDatum)
-    //     // {
-    //     //     Debug.Log(
-    //     //         card.nameText
-    //     //             + " | "
-    //     //             + card.iconSprite
-    //     //             + " | "
-    //     //             + card.descriptionText
-    //     //             + " | "
-    //     //             + card.onSelect
-    //     //     );
-    //     // }
-
-    //     return skillCardDatum.ToArray<LevelUpUISkillCardData>();
-    // }
-
     private IEnumerator HandleLevelUp(int levelUps)
     {
+        // Disable pause control
+        GameManager.PauseManager().DisablePause();
+
         // Show level up UI
-        // onLevelUp?.Invoke(AvailableLevelUpSkills());
         onLevelUp?.Invoke(AvailableLevelUpSkillData());
         gameSession.PauseGame();
         readyForLevelUp = false;
 
         GameManager.HUDManager().ShowLevelUpUI();
-
-        Debug.Log("here 1");
 
         // Wait for level up UI to close
         while (!readyForLevelUp)
@@ -531,14 +389,10 @@ public class PlayerStatus : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("here 2");
-
         levelUps--;
 
         if (levelUps > 0 && !isDead)
         {
-            Debug.Log("here 3");
-
             gameSession.ResumeGame();
             yield return new WaitForSeconds(0.5f);
 
@@ -546,8 +400,6 @@ public class PlayerStatus : MonoBehaviour
         }
         else
         {
-            Debug.Log("here 4");
-
             gameSession.ResumeGame();
         }
     }
@@ -605,20 +457,23 @@ public class PlayerStatus : MonoBehaviour
 
     public float ExpToNextLevel => _stat.ExpNeededToLevelUp(_stat.level + 1);
 
-    //TODO: this is for testing level up ui, THIS IS TEMPORARY ! SHOULD DELETE
     public SkillData[] AvailableLevelUpSkillData()
     {
-        var availableSkills = GenerateLevelUpSkills();
+        // Get the all the available level up skills
+        List<Skill> availableSkills = GenerateLevelUpSkills();
 
+        // Create a list for storing the skills that will be displayed
         List<Skill> levelUpSkills = new List<Skill>();
 
-        Func<List<Skill>, List<Skill>> getThreeRandomSkills = availSkills =>
+        Func<List<Skill>, List<Skill>> GetThreeRandomSkills = availSkills =>
         {
+            // If there are 3 or less available level up skills, just use them
             if (availSkills.Count <= 3)
             {
                 return availSkills;
             }
 
+            // Else, pick 3 random skills from the available level up skills
             List<Skill> tempSkills = new List<Skill>();
 
             while (tempSkills.Count < 3)
@@ -634,29 +489,35 @@ public class PlayerStatus : MonoBehaviour
             return tempSkills;
         };
 
-        levelUpSkills = getThreeRandomSkills(availableSkills);
+        // Generate 3 random level up skills
+        levelUpSkills = GetThreeRandomSkills(availableSkills);
 
+        // While there are less than 3 level up skills
         while (levelUpSkills.Count < 3)
         {
+            // Add random consumable skill
             levelUpSkills.Add(SkillConsumable.GenerateRandomConsumable());
         }
 
+        // Create a list of skill data
         List<SkillData> skillDatum = new List<SkillData>();
 
+        // Convert the level up skill to skill data format
         foreach (var skill in levelUpSkills)
         {
+            // If the skill is a regular skill
             if (!(skill is SkillConsumable))
             {
                 skillDatum.Add(GameManager.GetSkillData(skill.name.ToLower()));
             }
+            // If the skill is a consumable skill
             else
             {
                 skillDatum.Add(SkillData.FromSkillConsumable((SkillConsumable)skill));
             }
         }
 
-        foreach (var s in skillDatum) { }
-
+        // Return the skill data list
         return skillDatum.ToArray();
     }
 }
