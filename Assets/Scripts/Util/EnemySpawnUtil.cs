@@ -59,6 +59,18 @@ public static class EnemySpawnUtil
         }
     }
 
+    public static void ApplyGlobalModifiers(Enemy enemy)
+    {
+        GameSession gameSession = GameManager.GameSession();
+
+        Modifier[] enemyModifiers = gameSession.enemyModifiers;
+
+        if (enemyModifiers != null && enemyModifiers.Length > 0)
+        {
+            enemy.Init(enemyModifiers);
+        }
+    }
+
     public static Enemy NextEnemyToSpawn(int enemyListIndex)
     {
         // Get the current enemy list
@@ -81,14 +93,15 @@ public static class EnemySpawnUtil
 
     public static Enemy NextEliteEnemyToSpawn()
     {
-        if (eliteEnemyIndex >= _levelDetail.eliteEnemies.Length)
+        if (eliteEnemyIndex >= _levelDetail.eliteEnemyEvents.Length)
         {
             return null;
         }
 
+        // TODO: delete this log
         Debug.Log("spawning elite [" + eliteEnemyIndex + "]");
 
-        Enemy eliteEnemy = _levelDetail.eliteEnemies[eliteEnemyIndex++];
+        Enemy eliteEnemy = _levelDetail.eliteEnemyEvents[eliteEnemyIndex++].enemy;
 
         return eliteEnemy;
     }
@@ -112,8 +125,10 @@ public static class EnemySpawnUtil
 
     public static void SpawnBossAt(Vector3 spawnPos, float blinkDuration)
     {
+        // Spawn a boss indicator
         Indicator indicator = GameObject.Instantiate(bossIndicator, spawnPos, Quaternion.identity);
 
+        // Start the boss indicator, after indicator finishes, spawn the boss
         indicator.StartBlink(
             blinkDuration,
             () =>
@@ -124,6 +139,9 @@ public static class EnemySpawnUtil
                     Quaternion.identity,
                     GameManager.GameSession().enemyParent
                 );
+
+                // If there is a global enemy modifier, apply it
+                ApplyGlobalModifiers(currentBoss);
             }
         );
     }

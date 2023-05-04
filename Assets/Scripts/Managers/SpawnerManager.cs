@@ -5,8 +5,6 @@ using System;
 
 public class SpawnerManager : MonoBehaviour
 {
-    private GameSession gameSession;
-
     [SerializeField]
     private GameObject enemySpawner;
 
@@ -99,7 +97,7 @@ public class SpawnerManager : MonoBehaviour
             // Get the current spawner
             GameObject spawner = tempSpawners[i];
 
-            // If spawner is not valid, skil this iteration
+            // If spawner is not valid, skip this iteration
             if (spawner == null)
             {
                 continue;
@@ -108,12 +106,15 @@ public class SpawnerManager : MonoBehaviour
             // If the spawner is valid AND inside the map, spawn the elite enemy
             if (spawner.GetComponent<EnemySpawner>().InsideMap())
             {
-                Instantiate(
+                Enemy eliteEnemy = Instantiate(
                     enemy,
                     spawner.transform.position,
                     Quaternion.identity,
                     GameManager.GameSession().enemyParent
                 );
+
+                // If there is a global enemy modifier, apply it
+                EnemySpawnUtil.ApplyGlobalModifiers(eliteEnemy);
 
                 return;
             }

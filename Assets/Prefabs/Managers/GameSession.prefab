@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c46c5b143db2525429f5c081f2e63147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelDetail: {fileID: 11400000, guid: ece8ce2f888c2c7479e0e74d5384963a, type: 2}
+  gameLevelDetail: {fileID: 11400000, guid: 737f385eaf322434780d2d27f48d2ce2, type: 2}

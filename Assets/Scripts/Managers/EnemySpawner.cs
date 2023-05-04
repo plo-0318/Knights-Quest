@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
         gameSession.onSpawnEnemy -= Spawn;
     }
 
-    private void Spawn(EnemySpawnUtil.EnemyToSpawn enemyToSpawn, Modifier[] enemyModifiers)
+    private void Spawn(EnemySpawnUtil.EnemyToSpawn enemyToSpawn)
     {
         // If spawn is on cooldown, return
         if (spawnCooldownTimer < spawnCooldownTime + spawnTimeOffset)
@@ -53,10 +53,7 @@ public class EnemySpawner : MonoBehaviour
         Enemy newEnemy = Instantiate(enemyToSpawn(), transform.position, Quaternion.identity);
 
         // If there is a global enemy modifier, apply it
-        if (enemyModifiers != null && enemyModifiers.Length > 0)
-        {
-            newEnemy.Init(enemyModifiers);
-        }
+        EnemySpawnUtil.ApplyGlobalModifiers(newEnemy);
 
         // Setting the enemy parent
         newEnemy.transform.parent = gameSession.enemyParent;

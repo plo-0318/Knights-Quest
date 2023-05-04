@@ -16,7 +16,12 @@ public class LevelDetail : ScriptableObject
     public Enemy[] bosses;
 
     [Tooltip("The elite enemies of that will be spawning in this level")]
-    public Enemy[] eliteEnemies;
+    public EnemySpawnEvent[] eliteEnemyEvents;
+
+    [Tooltip(
+        "Events that trigger at certain time which change the number of enemies that will be spawned"
+    )]
+    public EnemySpawnerEvent[] enemySpawnerEvents;
 }
 
 [System.Serializable]
@@ -40,4 +45,40 @@ public class LevelEnemy
     )]
     [Range(1, 100)]
     public int proportion = 1;
+}
+
+[System.Serializable]
+public class EnemySpawnEvent
+{
+    [Tooltip("The time that this event will happen")]
+    public int time;
+
+    [Tooltip("The enemy that will be spawned at this time")]
+    public Enemy enemy;
+
+    public TimedEvent ToTimedEvent()
+    {
+        return new TimedEvent(time, GameManager.SpawnerManager().SpawnEliteEnemy);
+    }
+}
+
+[System.Serializable]
+public class EnemySpawnerEvent
+{
+    [Tooltip("The time that this event will happen")]
+    public int time;
+
+    [Tooltip("The maximum number of enemies allowed per wave")]
+    public int maxEnemyPerWave;
+
+    [Tooltip("The maximum total number of enemies allowed at any given point")]
+    public int maxEnemyTotal;
+
+    [Tooltip("The number of spawners around the enemy")]
+    public int numSpawners;
+
+    public TimedEvent ToTimedEvent(Func<int, int, int, Action> toCallBack)
+    {
+        return new TimedEvent(time, toCallBack(maxEnemyPerWave, maxEnemyTotal, numSpawners));
+    }
 }

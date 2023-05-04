@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8138ac1a78effb147a75701ce3e0bc10, type: 3}
-  m_Name: Test Level Detail
+  m_Name: Level 1 Hard
   m_EditorClassIdentifier: 
   levelEnemyDetails:
   - spawnDuration: 90
@@ -57,14 +57,53 @@ MonoBehaviour:
       proportion: 2
     - enemy: {fileID: 3493714190664849845, guid: a72ea4aa0b776494fbbc940cf19d3a23, type: 3}
       proportion: 1
-  enemyModifiers: []
+  enemyModifiers:
+  - type: 2
+    multiplier: 0.2
+    duration: 0
+  - type: 0
+    multiplier: 0.2
+    duration: 0
+  - type: 1
+    multiplier: 0.15
+    duration: 0
   bosses:
   - {fileID: 1325056260390343939, guid: 7ef6a71c6f61a2847a6cf038ff8d5af2, type: 3}
   - {fileID: 7282185468599530361, guid: a03b921c1f1563e4291f6e2b9b303d4e, type: 3}
   - {fileID: 3146867342425890354, guid: 7281a43625fa315478440a093efbb0bb, type: 3}
-  eliteEnemies:
-  - {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
-  - {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
-  - {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
-  - {fileID: 7254005985922067701, guid: c3d78cb3abf2b8b459851677516b5a93, type: 3}
-  - {fileID: 7254005985922067701, guid: c3d78cb3abf2b8b459851677516b5a93, type: 3}
+  eliteEnemyEvents:
+  - time: 61
+    enemy: {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
+  - time: 121
+    enemy: {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
+  - time: 181
+    enemy: {fileID: 9212311367981404791, guid: ce59b7188c10862439e59ef2712ff1cf, type: 3}
+  - time: 241
+    enemy: {fileID: 7254005985922067701, guid: c3d78cb3abf2b8b459851677516b5a93, type: 3}
+  - time: 301
+    enemy: {fileID: 7254005985922067701, guid: c3d78cb3abf2b8b459851677516b5a93, type: 3}
+  enemySpawnerEvents:
+  - time: 45
+    maxEnemyPerWave: 10
+    maxEnemyTotal: 20
+    numSpawners: 8
+  - time: 75
+    maxEnemyPerWave: 13
+    maxEnemyTotal: 25
+    numSpawners: 8
+  - time: 100
+    maxEnemyPerWave: 15
+    maxEnemyTotal: 30
+    numSpawners: 9
+  - time: 145
+    maxEnemyPerWave: 20
+    maxEnemyTotal: 30
+    numSpawners: 10
+  - time: 180
+    maxEnemyPerWave: 22
+    maxEnemyTotal: 35
+    numSpawners: 10
+  - time: 242
+    maxEnemyPerWave: 25
+    maxEnemyTotal: 35
+    numSpawners: 11

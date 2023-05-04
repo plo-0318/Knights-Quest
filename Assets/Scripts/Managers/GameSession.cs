@@ -28,17 +28,20 @@ public class GameSession : MonoBehaviour
 
     [Header("Level")]
     [SerializeField]
+    private GameLevelDetail gameLevelDetail;
     private LevelDetail levelDetail;
-    private Modifier[] enemyModifiers;
+
+    [System.NonSerialized]
+    public Modifier[] enemyModifiers;
 
     /////////////////////////////////////////////////////
 
 
     ////////////////// SPAWNING ENEMY //////////////////
-    private int maxEnemyPerWave = 5;
-    private int maxEnemyTotal = 10;
-    private float timeBetweenWaves = 15f;
-    public event Action<EnemySpawnUtil.EnemyToSpawn, Modifier[]> onSpawnEnemy;
+    private int maxEnemyPerWave;
+    private int maxEnemyTotal;
+    private float timeBetweenWaves;
+    public event Action<EnemySpawnUtil.EnemyToSpawn> onSpawnEnemy;
     public event Action<bool> onKillAllEnemies;
     public event Action<Modifier> onRemoveModifier;
     private HashSet<Enemy> enemyRefs;
@@ -79,6 +82,8 @@ public class GameSession : MonoBehaviour
     {
         GameManager.RegisterGameSession(this);
 
+        levelDetail = gameLevelDetail.GetCurrentLevelDetail();
+
         timer = enemySpawnTimer = 0f;
         tickTimer = false;
 
@@ -92,17 +97,8 @@ public class GameSession : MonoBehaviour
         canSpawnEnemy = false;
         currentEnemyListIndex = 0;
 
-        enemyModifiers = null;
-        if (levelDetail.enemyModifiers.Length > 0)
-        {
-            enemyModifiers = levelDetail.enemyModifiers;
-
-            for (int i = 0; i < enemyModifiers.Length; i++)
-            {
-                enemyModifiers[i].name = gameObject.name;
-            }
-        }
-
+        SetupInitialEnemySpawner();
+        InitLevelEnemyModifiers();
         CreateObjectHolders();
         InitTimedEvents();
 
@@ -141,6 +137,21 @@ public class GameSession : MonoBehaviour
         if (tickTimer)
         {
             timer += Time.deltaTime;
+        }
+    }
+
+    public void InitLevelEnemyModifiers()
+    {
+        enemyModifiers = null;
+
+        if (levelDetail.enemyModifiers.Length > 0)
+        {
+            enemyModifiers = levelDetail.enemyModifiers;
+
+            for (int i = 0; i < enemyModifiers.Length; i++)
+            {
+                enemyModifiers[i].name = gameObject.name;
+            }
         }
     }
 
@@ -307,27 +318,35 @@ public class GameSession : MonoBehaviour
     {
         timedEvents = new TimedEvents();
 
-        timedEvents.AddTimedEvent(45, GenerateEnemySpawnAction(10, 20, 8));
-        timedEvents.AddTimedEvent(75, GenerateEnemySpawnAction(13, 25, 8));
-        timedEvents.AddTimedEvent(61, GameManager.SpawnerManager().SpawnEliteEnemy);
-        timedEvents.AddTimedEvent(100, GenerateEnemySpawnAction(15, 30, 9));
-        timedEvents.AddTimedEvent(120, HandleBossFight);
-        timedEvents.AddTimedEvent(121, GameManager.SpawnerManager().SpawnEliteEnemy);
-        timedEvents.AddTimedEvent(145, GenerateEnemySpawnAction(20, 30, 10));
-        timedEvents.AddTimedEvent(180, GenerateEnemySpawnAction(22, 35, 10));
-        timedEvents.AddTimedEvent(181, GameManager.SpawnerManager().SpawnEliteEnemy);
-        timedEvents.AddTimedEvent(240, HandleBossFight);
-        timedEvents.AddTimedEvent(241, GameManager.SpawnerManager().SpawnEliteEnemy);
-        timedEvents.AddTimedEvent(242, GenerateEnemySpawnAction(25, 35, 11));
-        timedEvents.AddTimedEvent(301, GameManager.SpawnerManager().SpawnEliteEnemy);
-        timedEvents.AddTimedEvent(
-            360,
-            () =>
-            {
-                HandleBossFight();
-                lastBossFight = true;
-            }
+        List<TimedEvent> timedEventsToAdd = new List<TimedEvent>();
+
+        // Add the boss events
+        timedEventsToAdd.Add(new TimedEvent(120, HandleBossFight));
+        timedEventsToAdd.Add(new TimedEvent(240, HandleBossFight));
+        timedEventsToAdd.Add(
+            new TimedEvent(
+                360,
+                () =>
+                {
+                    HandleBossFight();
+                    lastBossFight = true;
+                }
+            )
         );
+
+        // Add the elite enemy events
+        foreach (EnemySpawnEvent e in levelDetail.eliteEnemyEvents)
+        {
+            timedEventsToAdd.Add(e.ToTimedEvent());
+        }
+
+        // Add the spawner events
+        foreach (EnemySpawnerEvent e in levelDetail.enemySpawnerEvents)
+        {
+            timedEventsToAdd.Add(e.ToTimedEvent(GenerateEnemySpawnAction));
+        }
+
+        timedEvents.AddTimedEvents(timedEventsToAdd.ToArray());
     }
 
     private void ExecTimedEvents()
@@ -341,6 +360,9 @@ public class GameSession : MonoBehaviour
 
         if (reachedTime)
         {
+            // TODO: delete this log
+            // Debug.Log("executing event at: " + timer + " / " + Util.GetTimeString(timer));
+
             timedEvents.NextEvent()();
             timedEvents.Shift();
         }
@@ -358,6 +380,13 @@ public class GameSession : MonoBehaviour
         EnemySpawnUtil.SpawnBossAt(BossBorder.GetBossBorderPos(), 3f);
     }
 
+    private void SetupInitialEnemySpawner()
+    {
+        maxEnemyPerWave = 5;
+        maxEnemyTotal = 10;
+        timeBetweenWaves = 15f;
+    }
+
     private void SpawnEnemy()
     {
         if (!canSpawnEnemy)
@@ -370,12 +399,12 @@ public class GameSession : MonoBehaviour
 
         if (enemyRefs.Count < maxEnemyPerWave)
         {
-            onSpawnEnemy?.Invoke(_EnemyToSpawn, enemyModifiers);
+            onSpawnEnemy?.Invoke(_EnemyToSpawn);
         }
 
         if (spawnWaveTimer <= 0 && enemyRefs.Count <= maxEnemyTotal - maxEnemyPerWave)
         {
-            onSpawnEnemy?.Invoke(_EnemyToSpawn, enemyModifiers);
+            onSpawnEnemy?.Invoke(_EnemyToSpawn);
 
             spawnWaveTimer = timeBetweenWaves;
         }

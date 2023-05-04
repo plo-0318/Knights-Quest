@@ -121,7 +121,7 @@ public class PauseMenuUIManager : MonoBehaviour
         //////// //////// //////// //////// ////////
 
         //////// Main Menu - Listeners ////////
-        UIUtil.InitButton(mainMenuConfirmButton, NavigateToPause);
+        UIUtil.InitButton(mainMenuConfirmButton, NavigateToMainMenu);
         UIUtil.InitButton(mainMenuBackButton, NavigateToPause);
         //////// //////// //////// //////// ////////
     }
@@ -134,6 +134,11 @@ public class PauseMenuUIManager : MonoBehaviour
         volumeScreen.SetActive(false);
         pauseMenuScreen.SetActive(false);
         mainMenuWarningScreen.SetActive(false);
+    }
+
+    private void NavigateToMainMenu()
+    {
+        GameManager.LoadScene("Main Menu", true);
     }
 
     private void NavigateToPause()

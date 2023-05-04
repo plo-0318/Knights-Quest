@@ -6,16 +6,27 @@ using System.Linq;
 
 public class TimedEvents
 {
-    private SortedDictionary<int, Action> _timedEvents;
+    private List<TimedEvent> _timedEvents;
 
     public TimedEvents()
     {
-        _timedEvents = new SortedDictionary<int, Action>();
+        _timedEvents = new List<TimedEvent>();
     }
 
-    public void AddTimedEvent(int time, Action e)
+    public void AddTimedEvents(TimedEvent[] timedEvents)
     {
-        _timedEvents.Add(time, e);
+        foreach (var e in timedEvents)
+        {
+            _timedEvents.Add(e);
+        }
+
+        _timedEvents.Sort();
+    }
+
+    public void AddTimedEvent(TimedEvent timedEvent)
+    {
+        _timedEvents.Add(timedEvent);
+        _timedEvents.Sort();
     }
 
     public bool Empty()
@@ -30,7 +41,7 @@ public class TimedEvents
             return null;
         }
 
-        return _timedEvents.First().Value;
+        return _timedEvents[0].Callback;
     }
 
     public int NextEventTime()
@@ -40,14 +51,34 @@ public class TimedEvents
             return -1;
         }
 
-        return _timedEvents.First().Key;
+        return _timedEvents[0].Time;
     }
 
     public void Shift()
     {
         if (!Empty())
         {
-            _timedEvents.Remove(_timedEvents.First().Key);
+            _timedEvents.RemoveAt(0);
         }
     }
+}
+
+public class TimedEvent : IComparable<TimedEvent>
+{
+    private int time;
+    private Action callback;
+
+    public TimedEvent(int time, Action callback)
+    {
+        this.time = time;
+        this.callback = callback;
+    }
+
+    public int CompareTo(TimedEvent other)
+    {
+        return time.CompareTo(other.time);
+    }
+
+    public int Time => time;
+    public Action Callback => callback;
 }

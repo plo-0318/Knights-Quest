@@ -19,6 +19,9 @@ public class Modifier
     )]
     public float multiplier;
     public float duration;
+
+    [System.NonSerialized]
+    public bool useStatType;
     public Coroutine removeModifierCoroutine;
 
     public static implicit operator bool(Modifier modifier)
@@ -50,6 +53,7 @@ public class Modifier
         this.multiplier = multiplier;
         this.duration = duration;
         this.removeModifierCoroutine = null;
+        useStatType = true;
     }
 
     public Modifier(int type, string name, float multiplier, float duration = 0)
@@ -60,5 +64,6 @@ public class Modifier
         this.multiplier = multiplier;
         this.duration = duration;
         this.removeModifierCoroutine = null;
+        useStatType = true;
     }
 }

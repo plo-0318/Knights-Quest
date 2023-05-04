@@ -71,8 +71,15 @@ public class Stat
             return 0;
         }
 
+        // Modifiers created in the inspector will not have the field "statType" initialized
+        // If the modifier is created in the inspector, use the field "type" to generate the stat index
+        // If the modifier is created with code, use the field "statType" for the stat index
+        int modifierStatIndex = newModifier.useStatType
+            ? newModifier.statType
+            : (int)newModifier.type;
+
         // Get the list of modifiers for this stat type
-        HashSet<Modifier> statModifiers = modifierList[newModifier.statType];
+        HashSet<Modifier> statModifiers = modifierList[modifierStatIndex];
 
         // See if the modifier already exists
         Modifier existingModifier = statModifiers.FirstOrDefault(mod => mod.Equals(newModifier));
@@ -80,7 +87,7 @@ public class Stat
         // Already have this modifier, and replacing is false
         if (existingModifier && !replaceIfExits)
         {
-            return stats[newModifier.statType];
+            return stats[modifierStatIndex];
         }
 
         // If there is an exisiting modifier
@@ -99,9 +106,9 @@ public class Stat
         statModifiers.Add(newModifier);
 
         // Recaculate the stat
-        stats[newModifier.statType] = CalculateStat(newModifier.statType);
+        stats[modifierStatIndex] = CalculateStat(modifierStatIndex);
 
-        // Remove the modifier if it is timed
+        // Start a remove timer if the modifier is timed
         if (newModifier.duration > 0)
         {
             newModifier.removeModifierCoroutine = GameManager
@@ -109,7 +116,7 @@ public class Stat
                 .StartCoroutine(RemoveModifierAfter(newModifier, newModifier.duration));
         }
 
-        return stats[newModifier.statType];
+        return stats[modifierStatIndex];
     }
 
     public void RemoveModifier(Modifier modifier)
@@ -146,6 +153,11 @@ public class Stat
             return CalculateSpeedModifier(statModifiers) * baseStat;
         }
 
+        if (statIndex == MAX_HEALTH)
+        {
+            return CalculateMaxHealthModifier(statModifiers) * baseStat;
+        }
+
         return CalculateModifierDefault(statModifiers) * baseStat;
     }
 
@@ -154,6 +166,16 @@ public class Stat
         float multiplier = 1f + statModifiers.Sum(mod => mod.multiplier);
 
         return multiplier > 0 ? multiplier : 0.01f;
+    }
+
+    // Use the default modifier calculator but also sets the health = max health
+    protected float CalculateMaxHealthModifier(HashSet<Modifier> maxHealthModifiers)
+    {
+        float multiplier = CalculateModifierDefault(maxHealthModifiers);
+
+        currentHealth = multiplier * BASE_STATS[MAX_HEALTH];
+
+        return multiplier;
     }
 
     // Speed multipliers of the same type shouldn't stack
