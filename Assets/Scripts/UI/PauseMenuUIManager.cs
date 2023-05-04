@@ -138,6 +138,7 @@ public class PauseMenuUIManager : MonoBehaviour
 
     private void NavigateToMainMenu()
     {
+        GameManager.GameSession().ResumeGame();
         GameManager.LoadScene("Main Menu", true);
     }
 
