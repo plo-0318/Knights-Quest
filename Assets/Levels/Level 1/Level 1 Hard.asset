@@ -61,12 +61,19 @@ MonoBehaviour:
   - type: 2
     multiplier: 0.2
     duration: 0
+    applyTo: 1
   - type: 0
     multiplier: 0.2
     duration: 0
+    applyTo: 0
   - type: 1
     multiplier: 0.15
     duration: 0
+    applyTo: 0
+  - type: 2
+    multiplier: 0.1
+    duration: 0
+    applyTo: 2
   bosses:
   - {fileID: 1325056260390343939, guid: 7ef6a71c6f61a2847a6cf038ff8d5af2, type: 3}
   - {fileID: 7282185468599530361, guid: a03b921c1f1563e4291f6e2b9b303d4e, type: 3}

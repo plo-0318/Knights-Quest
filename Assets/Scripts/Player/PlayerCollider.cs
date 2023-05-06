@@ -11,7 +11,7 @@ public class PlayerCollider : MonoBehaviour
             float damage = enemy.GetStat(Stat.DAMAGE);
             Vector2 direction = transform.position - enemy.transform.position;
 
-            GameManager.PlayerStatus().Hurt(damage, direction);
+            GameManager.PlayerStatus().Hurt(damage, direction, enemy);
         }
     }
 }

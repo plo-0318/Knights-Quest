@@ -36,8 +36,8 @@ public abstract class Collectable : MonoBehaviour
         pickedUp = false;
         deflect = false;
 
-        deflectDuration = 0.25f;
-        deflectSpeed = 5f;
+        deflectDuration = 0.15f;
+        deflectSpeed = 5.5f;
 
         collectables.Add(this);
     }

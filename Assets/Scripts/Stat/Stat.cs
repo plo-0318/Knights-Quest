@@ -238,4 +238,37 @@ public class Stat
             stat.AddModifier(mod);
         }
     }
+
+    public static void ApplyEnemyModifiers(
+        Stat stat,
+        EnemyModifier[] enemyModifiersToAdd,
+        Enemy enemy
+    )
+    {
+        foreach (EnemyModifier mod in enemyModifiersToAdd)
+        {
+            switch (mod.applyTo)
+            {
+                case EnemyModifier.ApplyTo.NormalEnemyOnly:
+                {
+                    if (!(enemy is BossEnemy))
+                        stat.AddModifier(mod);
+
+                    break;
+                }
+
+                case EnemyModifier.ApplyTo.BossEnemyOnly:
+                {
+                    if (enemy is BossEnemy)
+                        stat.AddModifier(mod);
+
+                    break;
+                }
+
+                default:
+                    stat.AddModifier(mod);
+                    break;
+            }
+        }
+    }
 }

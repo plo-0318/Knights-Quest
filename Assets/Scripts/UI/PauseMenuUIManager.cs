@@ -14,6 +14,10 @@ public class PauseMenuUIManager : MonoBehaviour
     [SerializeField]
     private Image backdrop;
 
+    [Header("Difficulty")]
+    [SerializeField]
+    private TextMeshProUGUI difficultyText;
+
     [Header("Pause Screens")]
     [SerializeField]
     private GameObject pauseMenuScreen;
@@ -25,26 +29,26 @@ public class PauseMenuUIManager : MonoBehaviour
     private GameObject resolutionScreen;
 
     [SerializeField]
-    private GameObject mainMenuWarningScreen;
+    private GameObject volumeScreen;
 
     [SerializeField]
-    private GameObject volumeScreen;
+    private GameObject gameSettingScreen;
+
+    [SerializeField]
+    private GameObject mainMenuWarningScreen;
 
     [Header("Pause Menu Buttons")]
     [SerializeField]
     private GameObject continueButton;
 
     [SerializeField]
-    private UnityEvent onClickContinue;
-
-    [SerializeField]
     private GameObject optionsButton;
 
     [SerializeField]
-    private GameObject mainMenuButton;
+    private GameObject gameSettingButton;
 
     [SerializeField]
-    private UnityEvent onClickQuit;
+    private GameObject mainMenuButton;
 
     [Header("Options Menu Buttons")]
     [SerializeField]
@@ -63,6 +67,10 @@ public class PauseMenuUIManager : MonoBehaviour
     [Header("Volume Menu Buttons")]
     [SerializeField]
     private GameObject volumeBackButton;
+
+    [Header("Game setting Buttons")]
+    [SerializeField]
+    private GameObject gameSettingBackButton;
 
     [Header("Main Menu Warning Buttons")]
     [SerializeField]
@@ -94,12 +102,17 @@ public class PauseMenuUIManager : MonoBehaviour
         playerStatus = GameManager.PlayerStatus();
         soundManager = GameManager.SoundManager();
 
+        InitDifficultyText();
+
         //////// Pause Menu - Listeners ////////
         // Continue button
         UIUtil.InitButton(continueButton, GameManager.PauseManager().HidePauseMenu);
 
         // Options button
         UIUtil.InitButton(optionsButton, NavigateToOptions);
+
+        // Game settings button
+        UIUtil.InitButton(gameSettingButton, NavgiateToGameSetting);
 
         // Quit button
         UIUtil.InitButton(mainMenuButton, NavigateToMainMenuWarning);
@@ -120,10 +133,22 @@ public class PauseMenuUIManager : MonoBehaviour
         UIUtil.InitButton(volumeBackButton, NavigateToOptions);
         //////// //////// //////// //////// ////////
 
+        //////// Game Setting Menu - Listeners ////////
+        UIUtil.InitButton(gameSettingBackButton, NavigateToPause);
+        //////// //////// //////// //////// ////////
+
         //////// Main Menu - Listeners ////////
         UIUtil.InitButton(mainMenuConfirmButton, NavigateToMainMenu);
         UIUtil.InitButton(mainMenuBackButton, NavigateToPause);
         //////// //////// //////// //////// ////////
+    }
+
+    private void InitDifficultyText()
+    {
+        string currentDifficulty = PlayerPrefsController.GetDifficulty();
+        currentDifficulty = char.ToUpper(currentDifficulty[0]) + currentDifficulty.Substring(1);
+
+        difficultyText.text = currentDifficulty + " Mode";
     }
 
     private void CloseAllSubMenus()
@@ -132,6 +157,7 @@ public class PauseMenuUIManager : MonoBehaviour
         optionsScreen.SetActive(false);
         resolutionScreen.SetActive(false);
         volumeScreen.SetActive(false);
+        gameSettingScreen.SetActive(false);
         pauseMenuScreen.SetActive(false);
         mainMenuWarningScreen.SetActive(false);
     }
@@ -169,6 +195,13 @@ public class PauseMenuUIManager : MonoBehaviour
         CloseAllSubMenus();
 
         volumeScreen.SetActive(true);
+    }
+
+    private void NavgiateToGameSetting()
+    {
+        CloseAllSubMenus();
+
+        gameSettingScreen.SetActive(true);
     }
 
     private void NavigateToMainMenuWarning()

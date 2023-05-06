@@ -13,7 +13,7 @@ public class PlayerStat : Stat
 
     ///////////////////// _EXP FORMULA /////////////////////
     private const int BASE_EXP = 100;
-    private const int LINEAR_INCREMENT = 50;
+    private const int LINEAR_INCREMENT = 45;
     private const int EXPONENTIAL_INCREMENT = 20;
 
     /////////////////////////////////////////////////////

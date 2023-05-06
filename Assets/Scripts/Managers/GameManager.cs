@@ -16,14 +16,15 @@ public class GameManager : MonoBehaviour
     private GatherInput gatherInput;
     private PlayerMovement playerMovement;
     private PlayerDirectionArrow playerDirectionArrow;
-    private GameSession gameSession;
     private PlayerStatus playerStatus;
+    private GameSession gameSession;
     private SpawnerManager spawnerManager;
     private SoundManager soundManager;
     private MapConfiner mapConfiner;
     private HUDManager hudManager;
     private PauseMenuUIManager pauseMenuUIManager;
     private PauseManager pauseManager;
+    private ItemIndicatorManager itemIndicatorManager;
 
     // RESOURCES
     private Dictionary<string, SkillData> skillDatum;
@@ -109,21 +110,6 @@ public class GameManager : MonoBehaviour
         return gameManager.playerDirectionArrow;
     }
 
-    public static void RegisterGameSession(GameSession gs)
-    {
-        if (!gameManager)
-        {
-            return;
-        }
-
-        gameManager.gameSession = gs;
-    }
-
-    public static GameSession GameSession()
-    {
-        return gameManager.gameSession;
-    }
-
     public static void RegisterPlayerStatus(PlayerStatus ps)
     {
         if (!gameManager)
@@ -137,6 +123,21 @@ public class GameManager : MonoBehaviour
     public static PlayerStatus PlayerStatus()
     {
         return gameManager.playerStatus;
+    }
+
+    public static void RegisterGameSession(GameSession gs)
+    {
+        if (!gameManager)
+        {
+            return;
+        }
+
+        gameManager.gameSession = gs;
+    }
+
+    public static GameSession GameSession()
+    {
+        return gameManager.gameSession;
     }
 
     public static void RegisterSpawnerManager(SpawnerManager sm)
@@ -227,6 +228,21 @@ public class GameManager : MonoBehaviour
     public static PauseManager PauseManager()
     {
         return gameManager.pauseManager;
+    }
+
+    public static void RegisterItemIndicatorManager(ItemIndicatorManager im)
+    {
+        if (!gameManager)
+        {
+            return;
+        }
+
+        gameManager.itemIndicatorManager = im;
+    }
+
+    public static ItemIndicatorManager ItemIndicatorManager()
+    {
+        return gameManager.itemIndicatorManager;
     }
 
     ////////// ////////// ////////// ////////// ////////// //////////

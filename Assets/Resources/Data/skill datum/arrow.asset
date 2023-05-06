@@ -22,7 +22,7 @@ MonoBehaviour:
   lv4Effect: Damage +25%
   lv5Effect: Damage +25%<br>Cooldown -1s<br>Enemies hit are slowed by 50% for 1s
   damage: 300
-  cooldown: 3.5
+  cooldown: 4
   iconPath: skill icons/arrows
   iconSubName: arrows_22
   sprite: {fileID: 6448409413672538627, guid: f613b0dc6c04d0544a693bfd0ef28eac, type: 3}

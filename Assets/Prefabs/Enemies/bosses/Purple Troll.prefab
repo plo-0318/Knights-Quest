@@ -275,7 +275,7 @@ MonoBehaviour:
   baseDamage: 150
   specialMoveCoolDownTime: 3.5
   chargeDuration: 2.5
-  chargeSpeedMultiplier: 1.75
+  chargeSpeedMultiplier: 1.7
   chargeIndicatorBlinkDuration: 1
   projectileSpawnPos: {fileID: 3146867342570099467}
   _spawnHazard: 1

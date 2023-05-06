@@ -78,9 +78,9 @@ public abstract class Enemy : MonoBehaviour, IAnimatable
         spriteRenderer.transform.localScale = newScale;
     }
 
-    public virtual void Init(Modifier[] modifiers)
+    public virtual void Init(EnemyModifier[] modifiers)
     {
-        Stat.ApplyModifiers(_stat, modifiers);
+        Stat.ApplyEnemyModifiers(_stat, modifiers, this);
     }
 
     public float GetStat(int statType)

@@ -49,6 +49,7 @@ public class PlayerPrefsController : MonoBehaviour
     private const string SCREEN_MODE_KEY = "screen mode";
     private const string REFRESH_RATE_KEY = "refresh rate";
     private const string DIFFICULTY_KEY = "difficulty";
+    private const string SHOW_INDICATORS_KEY = "show indicators";
 
     private const float DEFAULT_VOLUME = 0.5f;
 
@@ -57,6 +58,7 @@ public class PlayerPrefsController : MonoBehaviour
 
     private const string DEFAULT_SCREEN_MODE = "windowed";
     private const string DEFAULT_DIFFICULTY = "normal";
+    private const int DEFAULT_SHOW_INDICATORS = 1;
 
     public static void SetMusicVolume(float volume)
     {
@@ -163,5 +165,19 @@ public class PlayerPrefsController : MonoBehaviour
         return PlayerPrefs.HasKey(DIFFICULTY_KEY)
             ? PlayerPrefs.GetString(DIFFICULTY_KEY)
             : DEFAULT_DIFFICULTY;
+    }
+
+    public static void SetShowIndicators(bool show)
+    {
+        PlayerPrefs.SetInt(SHOW_INDICATORS_KEY, show ? 1 : 0);
+    }
+
+    public static bool GetShowIndicators()
+    {
+        int value = PlayerPrefs.HasKey(SHOW_INDICATORS_KEY)
+            ? PlayerPrefs.GetInt(SHOW_INDICATORS_KEY)
+            : DEFAULT_SHOW_INDICATORS;
+
+        return value == 1 ? true : false;
     }
 }

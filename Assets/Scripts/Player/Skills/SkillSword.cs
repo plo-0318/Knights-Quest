@@ -12,6 +12,7 @@ public class SkillSword : Skill
     private readonly float BASE_DAMAGE;
     private readonly float BASE_COOLDOWN_TIME;
     private float spawnRadius;
+    private float spawnRadiusMultiplier;
     private const float SPAWN_RADIUS_OFFSET = 1.6f;
 
     private float damage;
@@ -48,6 +49,8 @@ public class SkillSword : Skill
 
         PlayerMovement playerMovement = GameManager.PlayerMovement();
 
+        spawnRadiusMultiplier = 1.25f;
+
         if (GameManager.PlayerMovement().PlayerCollider != null)
         {
             spawnRadius = Mathf.Max(
@@ -59,6 +62,8 @@ public class SkillSword : Skill
         {
             spawnRadius = 0.5f;
         }
+
+        spawnRadius *= spawnRadiusMultiplier;
 
         playerAnimatorController =
             playerMovement.GetComponentInChildren<PlayerBodyAnimatorController>();

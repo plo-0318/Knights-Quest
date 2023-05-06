@@ -13,7 +13,7 @@ public class GameSession : MonoBehaviour
     private PlayerStatus playerStatus;
     private SoundManager soundManager;
     private HUDManager hudManager;
-    private float bossBorderFadeOutTime = 3f;
+    private float bossBorderFadeOutTime;
 
     //////////////////// GAME STATE ////////////////////
     private bool tickTimer;
@@ -32,7 +32,7 @@ public class GameSession : MonoBehaviour
     private LevelDetail levelDetail;
 
     [System.NonSerialized]
-    public Modifier[] enemyModifiers;
+    public EnemyModifier[] enemyModifiers;
 
     /////////////////////////////////////////////////////
 
@@ -97,6 +97,8 @@ public class GameSession : MonoBehaviour
         canSpawnEnemy = false;
         currentEnemyListIndex = 0;
 
+        bossBorderFadeOutTime = 3f;
+
         SetupInitialEnemySpawner();
         InitLevelEnemyModifiers();
         CreateObjectHolders();
@@ -115,6 +117,9 @@ public class GameSession : MonoBehaviour
         spawnerManager.InstantiateSpawners(maxEnemyPerWave);
 
         Invoke(nameof(StartGame), 3f);
+
+        // TODO: delete this test
+        // BossBorder.Spawn();
     }
 
     private void Update()
@@ -254,8 +259,6 @@ public class GameSession : MonoBehaviour
         tickTimer = false;
         canSpawnEnemy = false;
         KillAllEnemies(false);
-
-        // TODO: display boss ui?
 
         BossBorder.Spawn();
 

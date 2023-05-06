@@ -18,7 +18,10 @@ public class MainMenuOptionsUIManager : MonoBehaviour
     private GameObject volumeScreen;
 
     [SerializeField]
-    private GameObject gameScreen;
+    private GameObject difficultyScreen;
+
+    [SerializeField]
+    private GameObject gameSettingsScreen;
 
     [Header("Option Buttons")]
     [SerializeField]
@@ -28,7 +31,10 @@ public class MainMenuOptionsUIManager : MonoBehaviour
     private GameObject volumeButton;
 
     [SerializeField]
-    private GameObject gameButton;
+    private GameObject difficultyButton;
+
+    [SerializeField]
+    private GameObject gameSettingsButton;
 
     [Header("Back Buttons")]
     [SerializeField]
@@ -41,18 +47,23 @@ public class MainMenuOptionsUIManager : MonoBehaviour
     private GameObject volumeBackButton;
 
     [SerializeField]
-    private GameObject gameBackButton;
+    private GameObject difficultyBackButton;
+
+    [SerializeField]
+    private GameObject gameSettingsBackButton;
 
     private void Start()
     {
         UIUtil.InitButton(resolutionButton, NavigateToResolution, 1.1f);
         UIUtil.InitButton(volumeButton, NavigateToVolume, 1.1f);
-        UIUtil.InitButton(gameButton, NavigateToGame, 1.1f);
+        UIUtil.InitButton(difficultyButton, NavigateToDifficulty, 1.1f);
+        UIUtil.InitButton(gameSettingsButton, NavigateToGameSettings, 1.1f);
 
         UIUtil.InitButton(optionsBackButton, Close, 1.1f);
         UIUtil.InitButton(resolutionBackButton, NavigateToOptions, 1.1f);
         UIUtil.InitButton(volumeBackButton, NavigateToOptions, 1.1f);
-        UIUtil.InitButton(gameBackButton, NavigateToOptions, 1.1f);
+        UIUtil.InitButton(difficultyBackButton, NavigateToOptions, 1.1f);
+        UIUtil.InitButton(gameSettingsBackButton, NavigateToOptions, 1.1f);
     }
 
     public void Show()
@@ -74,7 +85,8 @@ public class MainMenuOptionsUIManager : MonoBehaviour
         optionsScreen.SetActive(false);
         resolutionScreen.SetActive(false);
         volumeScreen.SetActive(false);
-        gameScreen.SetActive(false);
+        difficultyScreen.SetActive(false);
+        gameSettingsScreen.SetActive(false);
     }
 
     private void NavigateToOptions()
@@ -99,10 +111,17 @@ public class MainMenuOptionsUIManager : MonoBehaviour
         volumeScreen.SetActive(true);
     }
 
-    private void NavigateToGame()
+    private void NavigateToDifficulty()
     {
         CloseAllSubMenus();
 
-        gameScreen.SetActive(true);
+        difficultyScreen.SetActive(true);
+    }
+
+    private void NavigateToGameSettings()
+    {
+        CloseAllSubMenus();
+
+        gameSettingsScreen.SetActive(true);
     }
 }

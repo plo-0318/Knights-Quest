@@ -38,7 +38,7 @@ public class SkillDagger : Skill
 
         damage = BASE_DAMAGE;
         speed = BASE_SPEED;
-        numDaggers = 4;
+        numDaggers = 6;
         piercing = false;
 
         if (GameManager.PlayerMovement().PlayerCollider != null)

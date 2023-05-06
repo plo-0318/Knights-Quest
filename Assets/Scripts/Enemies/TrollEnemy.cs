@@ -13,6 +13,7 @@ public class TrollEnemy : BossEnemy, IAnimatableTroll
 
     // CHARGING
     protected bool isCharging;
+    protected Coroutine handleChargeCoroutine;
 
     [Header("Charging")]
     [SerializeField]
@@ -35,6 +36,8 @@ public class TrollEnemy : BossEnemy, IAnimatableTroll
         specialMoveCoolDownTimer = specialMoveCoolDownTime / 2;
 
         isCharging = false;
+
+        GameManager.PlayerStatus().onPlayerHurt += HandleChargeHitPlayer;
     }
 
     protected virtual void Update()
@@ -58,6 +61,13 @@ public class TrollEnemy : BossEnemy, IAnimatableTroll
 
         PerformSpecialMove();
         Move();
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        GameManager.PlayerStatus().onPlayerHurt -= HandleChargeHitPlayer;
     }
 
     private void Move()
@@ -105,7 +115,15 @@ public class TrollEnemy : BossEnemy, IAnimatableTroll
         indicator.Follow(transform, playerTrans);
         indicator.Play();
 
-        StartCoroutine(HandleCharge(indicator.TotalDuration));
+        handleChargeCoroutine = StartCoroutine(HandleCharge(indicator.TotalDuration));
+    }
+
+    protected void HandleChargeEnd()
+    {
+        isCharging = false;
+        canMove = true;
+
+        specialMoveCoolDownTimer = specialMoveCoolDownTime;
     }
 
     protected virtual IEnumerator HandleCharge(float delay)
@@ -116,10 +134,17 @@ public class TrollEnemy : BossEnemy, IAnimatableTroll
 
         yield return new WaitForSeconds(chargeDuration);
 
-        isCharging = false;
-        canMove = true;
+        HandleChargeEnd();
+    }
 
-        specialMoveCoolDownTimer = specialMoveCoolDownTime;
+    protected virtual void HandleChargeHitPlayer(Enemy enemy)
+    {
+        // If the troll hit the player during a charge, stop charging
+        if (isCharging && enemy == this && handleChargeCoroutine != null)
+        {
+            StopCoroutine(handleChargeCoroutine);
+            HandleChargeEnd();
+        }
     }
 
     public override bool IsDead() => isDead;

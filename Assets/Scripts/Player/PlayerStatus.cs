@@ -23,6 +23,7 @@ public class PlayerStatus : MonoBehaviour
     private const float DEFAULT_MOVE_SPEED_MULTIPLYER = 35f;
 
     private PlayerStat _stat;
+    public event Action<Enemy> onPlayerHurt;
 
     /////////////////////////////////////////////////////
 
@@ -40,7 +41,7 @@ public class PlayerStatus : MonoBehaviour
     private bool isDead,
         isInvincible;
 
-    private float invincibleTime = .75f;
+    private float invincibleTime = 1f;
 
     /////////////////////////////////////////////////////
 
@@ -184,16 +185,22 @@ public class PlayerStatus : MonoBehaviour
         return skillShield.BreakShield();
     }
 
-    public void Hurt(float damage)
+    public void Hurt(float damage, Enemy byEnemy = null)
     {
-        Hurt(damage, Vector2.zero);
+        Hurt(damage, Vector2.zero, byEnemy);
     }
 
-    public void Hurt(float damage, Vector2 knockBackDirection)
+    public void Hurt(float damage, Vector2 knockBackDirection, Enemy byEnemy = null)
     {
         if (isInvincible)
         {
             return;
+        }
+
+        // If the palyer is hurt by the enemy, call any subscribed events
+        if (byEnemy != null)
+        {
+            onPlayerHurt?.Invoke(byEnemy);
         }
 
         // If shield breaks successfully, do not take damage
@@ -251,6 +258,11 @@ public class PlayerStatus : MonoBehaviour
 
     public void IncreaseExp(float amount)
     {
+        if (gameSession.IsGameOver)
+        {
+            return;
+        }
+
         int levelUps = _stat.IncreaseExp(amount);
 
         if (levelUps > 0)

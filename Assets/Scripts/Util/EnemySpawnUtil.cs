@@ -63,7 +63,7 @@ public static class EnemySpawnUtil
     {
         GameSession gameSession = GameManager.GameSession();
 
-        Modifier[] enemyModifiers = gameSession.enemyModifiers;
+        EnemyModifier[] enemyModifiers = gameSession.enemyModifiers;
 
         if (enemyModifiers != null && enemyModifiers.Length > 0)
         {

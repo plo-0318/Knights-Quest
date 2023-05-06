@@ -84,7 +84,7 @@ public class GameDifficultyUIManager : MonoBehaviour
     {
         if (difficulty == "noob")
         {
-            return "Enemies are siginificantly slower and weaker. Enemies will spawn less frequent. This is for noobs.";
+            return "Enemies are significantly slower and weaker. Enemies will spawn less frequent. This is for noobs.";
         }
 
         if (difficulty == "easy")

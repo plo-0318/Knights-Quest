@@ -10,7 +10,7 @@ public class LevelDetail : ScriptableObject
     public LevelEnemyDetail[] levelEnemyDetails;
 
     [Tooltip("Apply a global modifier to all the enemies in this level (Optional)")]
-    public Modifier[] enemyModifiers;
+    public EnemyModifier[] enemyModifiers;
 
     [Tooltip("The bosses of that will be spawning in this level")]
     public Enemy[] bosses;

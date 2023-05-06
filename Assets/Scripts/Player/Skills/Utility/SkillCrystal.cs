@@ -8,7 +8,8 @@ public class SkillCrystal : Skill
 
     private float cooldownTime,
         cooldownTimer;
-    private float healPercentage;
+    private float flatHealPerentage;
+    private float missingHealthHealPercetange;
     private PlayerStatus playerStatus;
 
     private SoundManager soundManager;
@@ -25,7 +26,8 @@ public class SkillCrystal : Skill
         cooldownTimer = 0.5f;
         cooldownTime = BASE_COOLDOWN_TIME;
 
-        healPercentage = 0.05f;
+        flatHealPerentage = 0.025f;
+        missingHealthHealPercetange = 0.05f;
 
         playerStatus = GameManager.PlayerStatus();
         soundManager = GameManager.SoundManager();
@@ -35,23 +37,26 @@ public class SkillCrystal : Skill
     {
         if (level == 2)
         {
-            healPercentage = 0.075f;
+            flatHealPerentage = 0.03f;
+            missingHealthHealPercetange = 0.075f;
         }
 
         if (level == 3)
         {
-            healPercentage = 0.1f;
+            flatHealPerentage = 0.035f;
+            missingHealthHealPercetange = 0.1f;
         }
 
         if (level == 4)
         {
-            healPercentage = 0.125f;
+            flatHealPerentage = 0.04f;
+            missingHealthHealPercetange = 0.125f;
         }
 
         if (level == 5)
         {
-            healPercentage = 0.15f;
-            cooldownTime -= 2f;
+            flatHealPerentage = 0.045f;
+            missingHealthHealPercetange = 0.15f;
         }
     }
 
@@ -69,9 +74,12 @@ public class SkillCrystal : Skill
 
     private void HealPlayer()
     {
-        float amount = healPercentage * playerStatus.GetStat(Stat.MAX_HEALTH);
+        float missingHealth = playerStatus.GetStat(Stat.MAX_HEALTH) - playerStatus.Health;
 
-        playerStatus.Heal(amount);
+        float missingHealthAmount = missingHealth * missingHealthHealPercetange;
+        float flatAmount = flatHealPerentage * playerStatus.GetStat(Stat.MAX_HEALTH);
+
+        playerStatus.Heal(flatAmount + missingHealthAmount);
 
         cooldownTimer = cooldownTime;
     }
