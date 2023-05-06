@@ -19,7 +19,7 @@ MonoBehaviour:
   lv2Effect: Shield now regenerates every 9 seconds
   lv3Effect: Shield now regenerates every 8 seconds
   lv4Effect: Shield now regenerates every 7 seconds
-  lv5Effect: Shield now regenerates every 6 seconds\nShield can now block 2 attacks
+  lv5Effect: Shield now regenerates every 6 seconds<br>Shield can now block 2 attacks
   damage: 0
   cooldown: 10
   iconPath: skill icons/icons
