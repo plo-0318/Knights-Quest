@@ -116,7 +116,7 @@ public class GameSession : MonoBehaviour
 
         spawnerManager.InstantiateSpawners(maxEnemyPerWave);
 
-        Invoke(nameof(StartGame), 3f);
+        // Invoke(nameof(StartGame), 3f);
 
         // TODO: delete this test
         // BossBorder.Spawn();

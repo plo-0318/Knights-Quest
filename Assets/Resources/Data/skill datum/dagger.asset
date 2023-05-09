@@ -22,7 +22,7 @@ MonoBehaviour:
   lv4Effect: Damage +25%<br>Number of daggers +2
   lv5Effect: Damage +25%<br>Number of daggers +2<br>Cooldown -1s<br>Daggers can pierce
     through multiple enemies
-  damage: 350
+  damage: 300
   cooldown: 3
   iconPath: skill icons/dagger
   iconSubName: dagger_10

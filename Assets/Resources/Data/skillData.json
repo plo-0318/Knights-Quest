@@ -23,7 +23,7 @@
       "lv3Effect": "Cooldown -0.5s<br>Number of daggers +2",
       "lv4Effect": "Damage +25%<br>Number of daggers +2",
       "lv5Effect": "Damage +25%<br>Number of daggers +2<br>Cooldown -1s<br>Daggers can pierce through multiple enemies",
-      "damage": 350.0,
+      "damage": 300.0,
       "cooldown": 3.0,
       "iconPath": "skill icons/dagger",
       "iconSubName": "dagger_10"
@@ -79,7 +79,7 @@
       "lv3Effect": "Cooldown -0.5s<br>Swing distance +30%<br>Swing speed +15%",
       "lv4Effect": "Damage +30%<br>Cooldown -0.5s",
       "lv5Effect": "Hammer now swings permanently around the player",
-      "damage": 250.0,
+      "damage": 300.0,
       "cooldown": 3.0,
       "iconPath": "skill icons/hammers",
       "iconSubName": "hammers_35"

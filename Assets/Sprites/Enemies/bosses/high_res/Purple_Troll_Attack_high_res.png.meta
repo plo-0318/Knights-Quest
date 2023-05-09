@@ -1,0 +1,396 @@
+fileFormatVersion: 2
+guid: 7d640e762421415468da98f5e6727dfa
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5896753021105645272
+    second: Purple_Troll_Attack_high_res_0
+  - first:
+      213: -2222113232755715768
+    second: Purple_Troll_Attack_high_res_1
+  - first:
+      213: 5348285941001952301
+    second: Purple_Troll_Attack_high_res_2
+  - first:
+      213: 4469595101481134335
+    second: Purple_Troll_Attack_high_res_3
+  - first:
+      213: 7075950553407159280
+    second: Purple_Troll_Attack_high_res_4
+  - first:
+      213: 1184240456529505261
+    second: Purple_Troll_Attack_high_res_5
+  - first:
+      213: 8379245439799888232
+    second: Purple_Troll_Attack_high_res_6
+  - first:
+      213: 9189931506368192936
+    second: Purple_Troll_Attack_high_res_7
+  - first:
+      213: 4706635334551623535
+    second: Purple_Troll_Attack_high_res_8
+  - first:
+      213: -3443626856631600425
+    second: Purple_Troll_Attack_high_res_9
+  - first:
+      213: 375023576483497967
+    second: Purple_Troll_Attack_high_res_10
+  - first:
+      213: -6406884521642040052
+    second: Purple_Troll_Attack_high_res_11
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 40
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_0
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 555
+        width: 101
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d6a63f51a975d150800000000000000
+      internalID: 5896753021105645272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_1
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 555
+        width: 101
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84196eeb9c77921e0800000000000000
+      internalID: -2222113232755715768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_2
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 555
+        width: 101
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2c13a61abde83a40800000000000000
+      internalID: 5348285941001952301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_3
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 556
+        width: 101
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff8eb995011370e30800000000000000
+      internalID: 4469595101481134335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_4
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 338
+        width: 100
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fbff00d983d23260800000000000000
+      internalID: 7075950553407159280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_5
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 354
+        width: 134
+        height: 124
+      alignment: 9
+      pivot: {x: 0.4, y: 0.45}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: deb661cbb644f6010800000000000000
+      internalID: 1184240456529505261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_6
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 354
+        width: 97
+        height: 199
+      alignment: 9
+      pivot: {x: 0.44, y: 0.28}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8698515155f094470800000000000000
+      internalID: 8379245439799888232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_7
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 354
+        width: 116
+        height: 123
+      alignment: 9
+      pivot: {x: 0.4, y: 0.47}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a12f33c302398f70800000000000000
+      internalID: 9189931506368192936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_8
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 129
+        width: 107
+        height: 132
+      alignment: 9
+      pivot: {x: 0.41, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f67504366e3515140800000000000000
+      internalID: 4706635334551623535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_9
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 129
+        width: 107
+        height: 132
+      alignment: 9
+      pivot: {x: 0.41, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7da7a777e97c530d0800000000000000
+      internalID: -3443626856631600425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_10
+      rect:
+        serializedVersion: 2
+        x: 377
+        y: 121
+        width: 92
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe702b2b4f9543500800000000000000
+      internalID: 375023576483497967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_Troll_Attack_high_res_11
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 121
+        width: 100
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c05e392097c2617a0800000000000000
+      internalID: -6406884521642040052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -38,7 +38,7 @@ public class SkillDagger : Skill
 
         damage = BASE_DAMAGE;
         speed = BASE_SPEED;
-        numDaggers = 6;
+        numDaggers = 5;
         piercing = false;
 
         if (GameManager.PlayerMovement().PlayerCollider != null)
@@ -100,7 +100,7 @@ public class SkillDagger : Skill
     private void Fire()
     {
         float degBetweenSpawner = 360f / numDaggers;
-        float currentDeg = 0f;
+        float currentDeg = 90f - degBetweenSpawner;
 
         for (int i = 0; i < numDaggers; i++)
         {

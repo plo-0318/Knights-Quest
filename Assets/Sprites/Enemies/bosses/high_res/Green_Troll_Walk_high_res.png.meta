@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 2ab06ad72f818ed44833878069bee926
+guid: bf3ee9699cca79c40a76fc11445aba6e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2940682782049648770
-    second: purple_troll_walk_high_res2_0
+      213: -7609108194378276966
+    second: Green_Troll_Walk_high_res_0
   - first:
-      213: -1347308316593171033
-    second: purple_troll_walk_high_res2_1
+      213: 3234576533364595164
+    second: Green_Troll_Walk_high_res_1
   - first:
-      213: -6283891480819834030
-    second: purple_troll_walk_high_res2_2
+      213: -5481350111006073541
+    second: Green_Troll_Walk_high_res_2
   - first:
-      213: -1167035952671815728
-    second: purple_troll_walk_high_res2_3
+      213: -5155022695301966511
+    second: Green_Troll_Walk_high_res_3
   - first:
-      213: -3756838419997343011
-    second: purple_troll_walk_high_res2_4
+      213: -3477398718568006189
+    second: Green_Troll_Walk_high_res_4
   - first:
-      213: -8957903718457442185
-    second: purple_troll_walk_high_res2_5
+      213: 8797234983766791854
+    second: Green_Troll_Walk_high_res_5
   - first:
-      213: -4774450716426779408
-    second: purple_troll_walk_high_res2_6
+      213: -7544620738703649301
+    second: Green_Troll_Walk_high_res_6
   - first:
-      213: -2615738141719662006
-    second: purple_troll_walk_high_res2_7
+      213: -3045557514755656124
+    second: Green_Troll_Walk_high_res_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -70,7 +70,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 46
+  spritePixelsToUnits: 82
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -115,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: purple_troll_walk_high_res2_0
+      name: Green_Troll_Walk_high_res_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 240
-        height: 257
+        y: 473
+        width: 282
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,20 +129,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e7fb2d217989037d0800000000000000
-      internalID: -2940682782049648770
+      spriteID: a9f91987964076690800000000000000
+      internalID: -7609108194378276966
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: purple_troll_walk_high_res2_1
+      name: Green_Troll_Walk_high_res_1
       rect:
         serializedVersion: 2
-        x: 240
-        y: 0
-        width: 240
-        height: 257
+        x: 282
+        y: 473
+        width: 282
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7a5d88279366d4de0800000000000000
-      internalID: -1347308316593171033
+      spriteID: cd9d206383683ec20800000000000000
+      internalID: 3234576533364595164
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: purple_troll_walk_high_res2_2
+      name: Green_Troll_Walk_high_res_2
       rect:
         serializedVersion: 2
-        x: 480
-        y: 0
-        width: 240
-        height: 257
+        x: 564
+        y: 473
+        width: 282
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25361aeddf12bc8a0800000000000000
-      internalID: -6283891480819834030
+      spriteID: b3d5fef8d155ee3b0800000000000000
+      internalID: -5481350111006073541
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: purple_troll_walk_high_res2_3
+      name: Green_Troll_Walk_high_res_3
       rect:
         serializedVersion: 2
-        x: 720
-        y: 0
-        width: 240
-        height: 257
+        x: 846
+        y: 473
+        width: 282
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0d703e8fbfaddcfe0800000000000000
-      internalID: -1167035952671815728
+      spriteID: 155137dcb2ea578b0800000000000000
+      internalID: -5155022695301966511
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: purple_troll_walk_high_res2_4
+      name: Green_Troll_Walk_high_res_4
       rect:
         serializedVersion: 2
-        x: 960
-        y: 0
-        width: 240
-        height: 257
+        x: 1128
+        y: 473
+        width: 282
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dd2c4819c570ddbc0800000000000000
-      internalID: -3756838419997343011
+      spriteID: 3ddfa5d1a4ccdbfc0800000000000000
+      internalID: -3477398718568006189
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: purple_troll_walk_high_res2_5
+      name: Green_Troll_Walk_high_res_5
       rect:
         serializedVersion: 2
-        x: 1200
-        y: 0
-        width: 240
-        height: 257
+        x: 0
+        y: 173
+        width: 282
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 770813177022fa380800000000000000
-      internalID: -8957903718457442185
+      spriteID: ea61f05ab9e061a70800000000000000
+      internalID: 8797234983766791854
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: purple_troll_walk_high_res2_6
+      name: Green_Troll_Walk_high_res_6
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 0
-        width: 240
-        height: 257
+        x: 282
+        y: 173
+        width: 282
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -255,20 +255,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0f4c5c99e5ebdbdb0800000000000000
-      internalID: -4774450716426779408
+      spriteID: be51688496f1c4790800000000000000
+      internalID: -7544620738703649301
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: purple_troll_walk_high_res2_7
+      name: Green_Troll_Walk_high_res_7
       rect:
         serializedVersion: 2
-        x: 1680
-        y: 0
-        width: 240
-        height: 257
+        x: 564
+        y: 173
+        width: 282
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,8 +276,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a42fb55d40803bbd0800000000000000
-      internalID: -2615738141719662006
+      spriteID: 446b7fd83910cb5d0800000000000000
+      internalID: -3045557514755656124
       vertices: []
       indices: 
       edges: []
