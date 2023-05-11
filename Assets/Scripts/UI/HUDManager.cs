@@ -193,11 +193,11 @@ public class HUDManager : MonoBehaviour
     void Update()
     {
         // Check if HP Changed
-        if (playerStatus.Health < currentHp)
+        if (playerStatus.Health < currentHp && !startDamageBuffer)
         {
             DecreaseHealth(Mathf.Abs(currentHp - (int)playerStatus.Health));
         }
-        else if (playerStatus.Health > currentHp)
+        else if (playerStatus.Health > currentHp && !startHealBuffer)
         {
             IncreaseHealth(Mathf.Abs(currentHp - (int)playerStatus.Health));
         }

@@ -68,7 +68,7 @@ public class ResolutionUIManager : MonoBehaviour
         UIUtil.InitButton(refreshLeftButton, HandleRefreshPreviousButtonClick);
         UIUtil.InitButton(refreshRightButton, HandleRefreshNextButtonClick);
 
-        UIUtil.InitButton(applyButton, HandleApplyButtonClick);
+        UIUtil.InitButton(applyButton, HandleApplyButtonClick, 1.1f);
     }
 
     public void Init()

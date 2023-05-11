@@ -27,10 +27,12 @@ public static class UIUtil
 
         if (buttonGameObject.TryGetComponent<ButtonEventHandler>(out var btnEvents))
         {
+            float sign = Mathf.Sign(buttonGameObject.transform.localScale.x);
+
             btnEvents.onSelectAction.AddListener(
                 delegate
                 {
-                    OnSelectButton(buttonGameObject, onSelectScale, onSelectScaleDuration);
+                    OnSelectButton(buttonGameObject, onSelectScale * sign, onSelectScaleDuration);
                 }
             );
             btnEvents.onDeselectAction.AddListener(
@@ -50,7 +52,7 @@ public static class UIUtil
         );
 
         LeanTween
-            .scale(target, new Vector3(scale, scale, scale), duration)
+            .scale(target, new Vector3(scale, Mathf.Abs(scale), Mathf.Abs(scale)), duration)
             .setEaseOutExpo()
             .setIgnoreTimeScale(true);
     }
@@ -58,7 +60,14 @@ public static class UIUtil
     //UI Animation based in button deselection
     private static void OnDeselectButton(GameObject target, float duration)
     {
-        LeanTween.scale(target, Vector3.one, duration).setEaseOutExpo().setIgnoreTimeScale(true);
+        Vector3 newScale = Vector3.one;
+
+        if (target.transform.localScale.x < 0)
+        {
+            newScale.x = -1f;
+        }
+
+        LeanTween.scale(target, newScale, duration).setEaseOutExpo().setIgnoreTimeScale(true);
     }
 
     private static void PlayClickSFX()

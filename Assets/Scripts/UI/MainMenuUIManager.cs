@@ -72,7 +72,10 @@ public class MainMenuUIManager : MonoBehaviour
         GameManager.LoadScene("Level 1", true);
     }
 
-    private void HandleCredits() { }
+    private void HandleCredits()
+    {
+        GameManager.LoadScene("Credits", true);
+    }
 
     private void HandleExit()
     {

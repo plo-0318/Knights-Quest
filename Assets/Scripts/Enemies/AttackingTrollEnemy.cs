@@ -215,7 +215,7 @@ public class AttackingTrollEnemy : TrollEnemy
     protected void SpawnFieldHazard()
     {
         int numSlowFields = 14;
-        float radius = 8f;
+        float radius = 9f;
 
         Vector3[] positions = Util.GeneratePositionsAround(
             BossBorder.GetBossBorderPos(),
@@ -249,15 +249,15 @@ public class AttackingTrollEnemy : TrollEnemy
 
     protected IEnumerator HandleSpawnLightning()
     {
-        int numLightnings1 = 6;
-        int numLightnings2 = 10;
-        int numLightnings3 = 14;
-        int numLightnings4 = 18;
+        int numLightnings1 = 8;
+        int numLightnings2 = 12;
+        int numLightnings3 = 16;
+        int numLightnings4 = 20;
 
-        float radius1 = 3f;
-        float radius2 = 4.5f;
-        float radius3 = 6f;
-        float radius4 = 7.5f;
+        float radius1 = 3.5f;
+        float radius2 = 5f;
+        float radius3 = 6.5f;
+        float radius4 = 8f;
 
         Vector3 bossBorderPos = BossBorder.GetBossBorderPos();
 

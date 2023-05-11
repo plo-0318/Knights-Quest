@@ -628,7 +628,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 27414960}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.9279737, y: -9.796245, z: 0}
+  m_LocalPosition: {x: 3.96, y: -9.796245, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children:
   - {fileID: 251133837}
@@ -1933,8 +1933,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286246560
-  m_fontColor: {r: 0.6269911, g: 0.9339623, b: 0.47931647, a: 1}
+    rgba: 4284480767
+  m_fontColor: {r: 1, g: 0.9882353, b: 0.37254903, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3474,8 +3474,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291480266
-  m_fontColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+    rgba: 4280141874
+  m_fontColor: {r: 0.19607843, g: 0.78431374, b: 0.11372549, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -22385,8 +22385,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286246560
-  m_fontColor: {r: 0.6269911, g: 0.9339623, b: 0.47931647, a: 1}
+    rgba: 4284480767
+  m_fontColor: {r: 1, g: 0.9882353, b: 0.37254903, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -23989,6 +23989,9 @@ Transform:
   - {fileID: 348364402}
   - {fileID: 1741412869}
   - {fileID: 417467292}
+  - {fileID: 992306641}
+  - {fileID: 937776650}
+  - {fileID: 1165285121}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -28911,6 +28914,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697803644}
   m_CullTransparentMesh: 1
+--- !u!1001 &699576905
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 398469150}
+    m_Modifications:
+    - target: {fileID: 6639900500300274371, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_Name
+      value: potion (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274371, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12.374933
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
 --- !u!1 &708357754
 GameObject:
   m_ObjectHideFlags: 0
@@ -28977,8 +29041,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291480266
-  m_fontColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+    rgba: 4280141874
+  m_fontColor: {r: 0.19607843, g: 0.78431374, b: 0.11372549, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -29872,6 +29936,67 @@ MonoBehaviour:
   skillIcon: {fileID: 1668542992}
   descriptionText: {fileID: 1617725820}
   selectButton: {fileID: 848416204}
+--- !u!1001 &764728121
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 398469150}
+    m_Modifications:
+    - target: {fileID: 6639900500300274371, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_Name
+      value: potion (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274371, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12.374933
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
 --- !u!1 &768204214
 GameObject:
   m_ObjectHideFlags: 0
@@ -29973,8 +30098,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291480266
-  m_fontColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+    rgba: 4289572269
+  m_fontColor: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -31103,8 +31228,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3699672204
-  m_fontColor: {r: 0.5471698, g: 0.51826274, b: 0.51826274, a: 0.8627451}
+    rgba: 4289572269
+  m_fontColor: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -32127,8 +32252,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278650836
+  m_fontColor: {r: 0.83137256, g: 0.02745098, b: 0.02745098, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -32329,6 +32454,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929567310}
   m_CullTransparentMesh: 1
+--- !u!4 &937776650 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+  m_PrefabInstance: {fileID: 699576905}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963826657
 GameObject:
   m_ObjectHideFlags: 0
@@ -32459,8 +32589,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278650836
+  m_fontColor: {r: 0.83137256, g: 0.02745098, b: 0.02745098, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -32637,6 +32767,11 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!4 &992306641 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+  m_PrefabInstance: {fileID: 1922094573}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1021078876
 GameObject:
   m_ObjectHideFlags: 0
@@ -33859,7 +33994,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281135937
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -35081,6 +35216,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1161091427}
   m_CullTransparentMesh: 1
+--- !u!4 &1165285121 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+  m_PrefabInstance: {fileID: 764728121}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1173058125
 GameObject:
   m_ObjectHideFlags: 0
@@ -35545,8 +35685,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291480266
-  m_fontColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+    rgba: 4289572269
+  m_fontColor: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -38172,8 +38312,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291480266
-  m_fontColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+    rgba: 4289572269
+  m_fontColor: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -44024,7 +44164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1546812336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46243,11 +46383,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7151880711739845110, guid: c8e7a0e285264ac43bf8ae3b804577d0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.34
+      value: 10.21
       objectReference: {fileID: 0}
     - target: {fileID: 7151880711739845110, guid: c8e7a0e285264ac43bf8ae3b804577d0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -10.486
+      value: -10.59
       objectReference: {fileID: 0}
     - target: {fileID: 7151880711739845110, guid: c8e7a0e285264ac43bf8ae3b804577d0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -49963,8 +50103,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278650836
+  m_fontColor: {r: 0.83137256, g: 0.02745098, b: 0.02745098, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -50914,6 +51054,67 @@ MonoBehaviour:
   skillIcon: {fileID: 1981331193}
   descriptionText: {fileID: 718994668}
   selectButton: {fileID: 147287584}
+--- !u!1001 &1922094573
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 398469150}
+    m_Modifications:
+    - target: {fileID: 6639900500300274371, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_Name
+      value: potion
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274371, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.520134
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12.374933
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639900500300274383, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7cb3b519dd9565b4baafc58c1549f306, type: 3}
 --- !u!1 &1924945022
 GameObject:
   m_ObjectHideFlags: 0
@@ -51477,7 +51678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4599210843773511230, guid: bc416ec2c6c55464987f68bfd5b8e216, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc416ec2c6c55464987f68bfd5b8e216, type: 3}
@@ -54242,8 +54443,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286246560
-  m_fontColor: {r: 0.6269911, g: 0.9339623, b: 0.47931647, a: 1}
+    rgba: 4284480767
+  m_fontColor: {r: 1, g: 0.9882353, b: 0.37254903, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -54632,8 +54833,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280141874
+  m_fontColor: {r: 0.19607843, g: 0.78431374, b: 0.11372549, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -54830,8 +55031,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278650836
+  m_fontColor: {r: 0.83137256, g: 0.02745098, b: 0.02745098, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

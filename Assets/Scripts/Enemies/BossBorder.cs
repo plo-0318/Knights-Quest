@@ -6,7 +6,14 @@ using UnityEngine.Tilemaps;
 public class BossBorder
 {
     private static GameObject bossBorderPrefab;
+    private static GameObject bossBorderBigPrefab;
     private static GameObject _bossBorder;
+
+    static BossBorder()
+    {
+        bossBorderPrefab = Resources.Load<GameObject>("Misc/Boss Border");
+        bossBorderBigPrefab = Resources.Load<GameObject>("Misc/Boss Border Big");
+    }
 
     private Tilemap tileMap;
     private float minXCor,
@@ -31,8 +38,6 @@ public class BossBorder
 
     private BossBorder()
     {
-        bossBorderPrefab = Resources.Load<GameObject>("Misc/Boss Border");
-
         //Get tilemap
         GameObject tileMapObject = GameObject.Find("Ground2");
 
@@ -52,18 +57,20 @@ public class BossBorder
         maxYCor = maxWorldPos.y;
     }
 
-    public static void Spawn()
+    public static void Spawn(bool big = false)
     {
         if (_bossBorder != null)
         {
             Remove();
         }
 
+        GameObject prefabToSpawn = big ? bossBorderBigPrefab : bossBorderPrefab;
+
         Transform player = GameManager.PlayerMovement().transform;
 
         Vector3 spawnPos = Instance.GetClampedPosition(player);
 
-        _bossBorder = GameObject.Instantiate(bossBorderPrefab, spawnPos, Quaternion.identity);
+        _bossBorder = GameObject.Instantiate(prefabToSpawn, spawnPos, Quaternion.identity);
 
         TeleportPlayerIntoBossBorder();
     }

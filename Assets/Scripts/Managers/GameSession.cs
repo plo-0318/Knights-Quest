@@ -116,10 +116,10 @@ public class GameSession : MonoBehaviour
 
         spawnerManager.InstantiateSpawners(maxEnemyPerWave);
 
-        // Invoke(nameof(StartGame), 3f);
+        Invoke(nameof(StartGame), 3f);
 
         // TODO: delete this test
-        // BossBorder.Spawn();
+        // BossBorder.Spawn(true);
     }
 
     private void Update()
@@ -260,7 +260,9 @@ public class GameSession : MonoBehaviour
         canSpawnEnemy = false;
         KillAllEnemies(false);
 
-        BossBorder.Spawn();
+        bool biggerBossBorder = lastBossFight;
+
+        BossBorder.Spawn(biggerBossBorder);
 
         onBossFight?.Invoke(OnBossEventEnd);
     }
@@ -331,8 +333,8 @@ public class GameSession : MonoBehaviour
                 360,
                 () =>
                 {
-                    HandleBossFight();
                     lastBossFight = true;
+                    HandleBossFight();
                 }
             )
         );
